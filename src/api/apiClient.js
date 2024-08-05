@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000'; // Your Rails API URL
+const API_URL = 'http://localhost:3001'; // Your Rails API URL
 
 const apiClient = axios.create({
   baseURL: API_URL,
