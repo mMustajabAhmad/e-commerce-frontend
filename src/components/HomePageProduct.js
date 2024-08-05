@@ -6,7 +6,8 @@ function ProductOptions(){
             <span className='flex justify-center font-bold hover:text-purple-700' style={{paddingTop: "40%"}}>Lorem ipsum accessories one</span>
             <span className='flex justify-center font-bold'>$ 100</span>
             <div className='flex justify-center mt-2'>
-                <button className='bg-purple-600 text-white' style={{width:"60px", height: "60px", borderRadius: "30px"}}><i className="fas fa-shopping-cart" style={{ color: 'white', fontSize: '24px'}} ></i></button>
+                <button className='bg-purple-600 text-white hover:bg-fuchsia-500' style={{width:"50px", height: "50px", borderRadius: "25px"}}><i className="fas fa-shopping-cart" style={{ color: 'white', fontSize: '20px'}} ></i></button>
+                <button className='bg-purple-600 text-white ml-2 hover:bg-fuchsia-500' style={{width:"50px", height: "50px", borderRadius: "25px"}}><i className="fas fa-eye" style={{ color: 'white', fontSize: '20px'}} ></i></button>
             </div>
         </div>
     );
