@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { signup } from '../api/apiClient';
+import { signup } from '../api/authApi';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
@@ -145,7 +145,7 @@ export default function SignUp() {
             </div>
           </form>
 
-          {errors.length > 0 && (
+          {errors && errors.length > 0 && (
             <div className="mt-4 text-red-500">
               {errors.map((error, index) => (
                 <p key={index}>{error}</p>
