@@ -7,7 +7,7 @@ function Header(){
         <header>
             <nav className='bg-black h-20'>
                 <div className='flex flex-row'>
-                    <a className='text-white pt-6 font-bold' style={{paddingLeft: "100px"}}><span>Home</span></a>
+                    <a className='text-white pt-6 font-bold' style={{paddingLeft: "80px"}}><span>Home</span></a>
                     <a className='text-white pt-6 font-bold pl-10'><span>Shop</span></a>
                     <div className='relative'>
                         <Menu>
@@ -41,7 +41,7 @@ function Header(){
                     
                     <span className='text-white font-bold pt-3 text-5xl pl-14'>Flone.</span>
                     <div className=' items-center'>
-                        <input className='flex flex-row-reverse px-2 py-1 rounded' type='text' style={{marginLeft: "150px", marginTop: "20px"}} ></input>
+                        <input className='flex flex-row-reverse px-2 py-1 rounded' type='text' style={{marginLeft: "150px", marginTop: "20px"}} placeholder='Search...' ></input>
                     </div>
                     <div className='items-center pt-6 pl-4'>
                         <i className="fas fa-search" style={{ color: 'white', fontSize: '24px' ,paddingLeft: "10px"}} ></i>
