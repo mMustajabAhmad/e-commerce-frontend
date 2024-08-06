@@ -15,7 +15,7 @@ export default function Signin() {
     try {
       const { token } = await login(email, password); // Use the login function
       localStorage.setItem("token", token); // Store token in localStorage or handle accordingly
-      navigate("/"); // Redirect to home page or desired route after login
+      navigate("/home"); // Redirect to home page or desired route after login
     } catch (err) {
       setError("Invalid email or password."); // Handle error
     }
