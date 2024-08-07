@@ -6,6 +6,7 @@ import Home from './components/Home';
 import MyProfile from './components/userProfile/MyProfile'
 import HomePage from './components/home/HomePage';
 import Shop from './components/shop/Shop'
+import Product from './components/product/Product';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/myProfile" element={<MyProfile />} />
+        <Route path="/product" element={<Product />} />
       </Routes>
     </Router>
   );
