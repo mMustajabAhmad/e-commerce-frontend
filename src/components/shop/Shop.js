@@ -1,6 +1,7 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import LeftPanel from "./LeftPanel";
+import RightPanel from "./RightPanel";
 
 
 function Shop(){
@@ -15,6 +16,9 @@ function Shop(){
                     <div className="flex flex-row">
                         <div className="flex flex-col w-1/3">
                             <LeftPanel />
+                        </div>
+                        <div className="flex flex-col">
+                            <RightPanel />
                         </div>
                     </div>
                 </main>

@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { login } from "../api/apiClient"
+import { useNavigate, useLocation } from "react-router-dom";
+import { login } from "../api/authApi";
 
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || '/home';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const { token } = await login(email, password); // Use the login function
-      localStorage.setItem("token", token); // Store token in localStorage or handle accordingly
-      navigate("/home"); // Redirect to home page or desired route after login
+      const { token } = await login(email, password);
+      localStorage.setItem("token", token); 
+      navigate(from); //redirect to previous route
     } catch (err) {
-      setError("Invalid email or password."); // Handle error
+      setError("Invalid email or password.");
     }
   };
 
