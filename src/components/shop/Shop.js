@@ -2,6 +2,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import LeftPanel from "./LeftPanel";
 
+
 function Shop(){
     return (
         <>
