@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom";
+
 function Header(){
     return (
         <header>
             <nav className='bg-white h-20'>
                 <span className="font-bold text-5xl ml-20" style={{marginTop: "20%"}}>Flone.</span>
-                <a href="#" className="ml-20 hover:text-purple-700">Home</a>
-                <a href="#" className="ml-10 hover:text-purple-700">Shop</a>
+                <Link to="/home" className="ml-20 hover:text-purple-700">Home</Link>
+                <Link to="/shop" className="ml-10 hover:text-purple-700">Shop</Link>
                 <a href="#" className="ml-10 hover:text-purple-700">Categories</a>
                 <a href="#" className="ml-10 hover:text-purple-700">About Us</a>
                 <a href="#" className="ml-10 hover:text-purple-700">Contact Us</a>

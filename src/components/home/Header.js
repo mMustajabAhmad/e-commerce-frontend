@@ -8,14 +8,14 @@ function Header() {
             <nav className='bg-black h-20'>
                 <div className='flex flex-row'>
                     {/* <a className='text-white pt-6 font-bold' style={{ paddingLeft: "80px" }}><span>Home</span></a> */}
-                    <Link to="/home" className='text-white pt-6 font-bold' style={{ paddingLeft: "80px" }}>
+                    <Link to="/home" className='text-white pt-6 font-bold hover:text-purple-500' style={{ paddingLeft: "80px" }}>
                         <span>Home</span>
                     </Link>
-                    <a className='text-white pt-6 font-bold pl-10'><span>Shop</span></a>
+                    <Link to="/shop" className='text-white pt-6 font-bold pl-10 hover:text-purple-500'><span>Shop</span></Link>
                     <div className='relative'>
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
-                                <MenuButton className='text-white pt-6 font-bold pl-10'>
+                                <MenuButton className='text-white pt-6 font-bold pl-10 hover:text-purple-500'>
                                     Categories <i className='fa fa-angle-down'></i>
                                 </MenuButton>
                             </div>
@@ -25,7 +25,7 @@ function Header() {
                                         {({ active }) => (
                                             <a
                                                 href="#"
-                                                className={`block px-4 py-2 text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
                                             >
                                                 Category 1
                                             </a>
@@ -36,7 +36,7 @@ function Header() {
                                         {({ active }) => (
                                             <a
                                                 href="#"
-                                                className={`block px-4 py-2 text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
                                             >
                                                 Category 2
                                             </a>
@@ -47,7 +47,7 @@ function Header() {
                                         {({ active }) => (
                                             <a
                                                 href="#"
-                                                className={`block px-4 py-2 text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
                                             >
                                                 Category 3
                                             </a>
@@ -57,8 +57,8 @@ function Header() {
                             </MenuItems>
                         </Menu>
                     </div>
-                    <a className='text-white pt-6 font-bold pl-10'><span>About Us</span></a>
-                    <a className='text-white pt-6 font-bold pl-10'><span>Contact Us</span></a>
+                    <a className='text-white pt-6 font-bold pl-10 hover:text-purple-500'><span>About Us</span></a>
+                    <a className='text-white pt-6 font-bold pl-10 hover:text-purple-500'><span>Contact Us</span></a>
                     
                     <span className='text-white font-bold pt-3 text-5xl pl-14'>Flone.</span>
                     <div className='items-center'>
@@ -78,7 +78,7 @@ function Header() {
                                         {({ active }) => (
                                             <a
                                                 href="/signin"
-                                                className={`block px-4 py-2 text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
                                             >
                                                 Sign In
                                             </a>
@@ -88,7 +88,7 @@ function Header() {
                                         {({ active }) => (
                                             <a
                                                 href="/signup"
-                                                className={`block px-4 py-2 text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
                                             >
                                                 Sign Up
                                             </a>
@@ -98,7 +98,7 @@ function Header() {
                                         {({ active }) => (
                                             <a
                                                 href="/myProfile"
-                                                className={`block px-4 py-2 text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
                                             >
                                                 My Profile
                                             </a>
