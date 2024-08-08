@@ -25,7 +25,7 @@ function getChildCategories(parentCategory, categories){
 
 function Header(){
     const [categories, setCategories] = useState(null);
-    const [parentCategories, setParentCategories] = useState(null)
+    const [parentCategories, setParentCategories] = useState(null);
 
     useEffect(()=>{
         const fetchCategories = async ()=>{
