@@ -15,7 +15,7 @@ function Header(){
                 setCategories(response.data);
                 setParentCategories(getParentCategories(response.data));
             }catch (error){
-                console.error("Error: ", error)
+                console.error("Error: ", error);
             }
         };
         fetchCategories();

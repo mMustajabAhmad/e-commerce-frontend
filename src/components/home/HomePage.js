@@ -3,8 +3,39 @@ import Footer from "./Footer";
 import EmailSubscription from "./EmailSubsription";
 import ProductGridRow from "./ProductGridRow";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import apiClient from '../../api/authApi';
+import { makeListOfEightProducts } from '../../utils/HomeProductsUtils'
 
 function HomePage(){
+    const [products, setProducts] = useState(null)
+    useEffect(()=>{
+        const fetchProducts = async ()=>{
+            try{
+                const response = await apiClient.get('/products');
+                setProducts(response.data);
+                //console.log(products)
+                setProducts(makeListOfEightProducts(response.data));
+            }catch(error){
+                console.error("Error: ", error);
+            }
+        };
+        fetchProducts();
+    },[]
+    );
+
+    let productList1 = [];
+    let productList2 = [];
+
+    if(products){
+        productList1 = products.slice(0,4);
+        productList2 = products.slice(4,8);
+        // console.log("length of products: ", products.length)
+        // console.log("List1: ", productList1);
+        // console.log("List2: ", productList2);
+    }
+    
+
     return (
         <>
             <div className="wrapper mt-6 ml-6 mr-6">
@@ -22,8 +53,12 @@ function HomePage(){
                         </div>
                     </div>
                     <div className="mb-12">
-                        <ProductGridRow />
-                        <ProductGridRow />
+                        {products &&
+                            <>
+                                <ProductGridRow data={productList1}/>
+                                <ProductGridRow data={productList2}/>
+                            </>
+                        }
                     </div>
                     <EmailSubscription />
                 </main>
