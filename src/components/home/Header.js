@@ -1,13 +1,49 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import apiClient from '../../api/authApi';
+
+function getParentCategories(categories){
+    const parentCategories = [];
+    for (const category of categories){
+        if (category.parent_category_id == null){
+            parentCategories.push(category);
+        }
+    }
+    return parentCategories;
+}
+
+function getChildCategories(parentCategory, categories){
+    const childCategories = [];
+    for (const category of categories){
+        if (category.parent_category_id == parentCategory.id){
+            childCategories.push(category);
+        }
+    }
+    return childCategories;
+}
 
 function Header() {
+    const [categories, setCategories] = useState(null);
+    const [parentCategories, setParentCategories] = useState(null)
+    useEffect(()=>{
+        const fetchCategories = async () => {
+            try{
+                const response = await apiClient.get('/categories');
+                setCategories(response.data);
+                setParentCategories(getParentCategories(response.data));
+            }catch (error){
+                console.error("Error: ", error)
+            }
+        };
+        fetchCategories();
+    },[]  
+    );
+
     return (
         <header>
             <nav className='bg-black h-20'>
                 <div className='flex flex-row'>
-                    {/* <a className='text-white pt-6 font-bold' style={{ paddingLeft: "80px" }}><span>Home</span></a> */}
                     <Link to="/home" className='text-white pt-6 font-bold hover:text-purple-500' style={{ paddingLeft: "80px" }}>
                         <span>Home</span>
                     </Link>
@@ -21,38 +57,49 @@ function Header() {
                             </div>
                             <MenuItems className="absolute bg-white text-black rounded shadow-lg ring-1 ring-black ring-opacity-5 mt-2 w-48 z-50">
                                 <div className="p-1">
-                                    <MenuItem as={Fragment}>
-                                        {({ active }) => (
-                                            <a
-                                                href="#"
-                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
-                                            >
-                                                Category 1
-                                            </a>
-                                        )}
-                                    </MenuItem>
-                                    <hr />
-                                    <MenuItem as={Fragment}>
-                                        {({ active }) => (
-                                            <a
-                                                href="#"
-                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
-                                            >
-                                                Category 2
-                                            </a>
-                                        )}
-                                    </MenuItem>
-                                    <hr />
-                                    <MenuItem as={Fragment}>
-                                        {({ active }) => (
-                                            <a
-                                                href="#"
-                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
-                                            >
-                                                Category 3
-                                            </a>
-                                        )}
-                                    </MenuItem>
+                                
+                                {categories && (
+                                    categories.map((category) => {
+                                        if (parentCategories.includes(category)) {
+                                            const childCategories = getChildCategories(category, categories)
+                                            return (
+                                                <>
+                                                    <MenuItem key={category.id} as={Fragment}>
+                                                        {({ active }) => (
+                                                            <a
+                                                                href="#"
+                                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white font-bold text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                            >
+                                                                {category.name}
+                                                            </a>
+                                                        )}
+                                                    </MenuItem>
+
+                                                    {childCategories && (
+                                                        childCategories.map((child)=>{
+                                                            console.log("child", child);
+                                                            return(
+                                                                <MenuItem key={child.id} as={Fragment} className="ml-3">
+                                                                    {({ active }) => (
+                                                                        <a
+                                                                            href="#"
+                                                                            className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                                        >
+                                                                            {child.name}
+                                                                        </a>
+                                                                    )}
+                                                                </MenuItem>
+                                                            );
+                                                        })
+                                                    )
+                                                    }
+                                                    
+                                                </>
+                                            );
+                                        }
+                                    })
+                                )
+                                }   
                                 </div>
                             </MenuItems>
                         </Menu>
