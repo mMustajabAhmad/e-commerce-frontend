@@ -2,26 +2,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import apiClient from '../../api/authApi';
-
-function getParentCategories(categories){
-    const parentCategories = [];
-    for (const category of categories){
-        if (category.parent_category_id == null){
-            parentCategories.push(category);
-        }
-    }
-    return parentCategories;
-}
-
-function getChildCategories(parentCategory, categories){
-    const childCategories = [];
-    for (const category of categories){
-        if (category.parent_category_id == parentCategory.id){
-            childCategories.push(category);
-        }
-    }
-    return childCategories;
-}
+import {getParentCategories, getChildCategories} from '../../utils/CategoryUtils'
 
 function Header(){
     const [categories, setCategories] = useState(null);
@@ -66,7 +47,7 @@ function Header(){
                                                             {({ active }) => (
                                                                 <a
                                                                     href="#"
-                                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white font-bold text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                                    className={`block px-4 py-2 hover:bg-purple-700 hover:text-white font-bold text-sm ${active ? 'bg-gray-200' : ''}`}
                                                                 >
                                                                     {category.name}
                                                                 </a>
@@ -81,7 +62,7 @@ function Header(){
                                                                         {({ active }) => (
                                                                             <a
                                                                                 href="#"
-                                                                                className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                                                className={`block px-4 py-2 hover:bg-purple-700 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
                                                                             >
                                                                                 {child.name}
                                                                             </a>
