@@ -1,17 +1,36 @@
 import ProductGridRow from "./ProductGridRow";
 
-function ProductGrid(){
+function calculateNumberOfRows(products){
+    const numberOfProducts = products.length;
+    const numberOfRows= numberOfProducts/3;
+    return numberOfRows;
+};
+
+function ProductGrid(props){
+    const numberOfRows = calculateNumberOfRows(props.data);
+    const rows=[];
+
+    for(let i=0;i<numberOfRows;i++){
+        rows.push(
+            <>
+                <ProductGridRow />
+                <br/>
+            </>
+        );
+    }
+
     return (
         <>
-            <ProductGridRow />
+            {/* <ProductGridRow />
             <br></br>
             <ProductGridRow />
             <br></br>
             <ProductGridRow />
-            <br></br>
+            <br></br> */}
+            {rows}
+            
         </>
     );
-
-}
+};
 
 export default ProductGrid;

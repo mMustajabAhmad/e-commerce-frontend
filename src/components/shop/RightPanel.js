@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ProductGrid from "./ProductGrid";
 
-function RightPanel(){
+function RightPanel(props){
     const [menuClicked, setMenuClicked] = useState(false);
 
     const handleClick = () => {
@@ -38,7 +38,7 @@ function RightPanel(){
              </div>
             }
             <div className="mb-12">
-                <ProductGrid />
+                <ProductGrid data={props.data} />
             </div>
             
         </div>

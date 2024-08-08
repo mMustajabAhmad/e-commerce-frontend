@@ -2,9 +2,24 @@ import Header from "./Header";
 import Footer from "./Footer";
 import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
+import { useEffect, useState } from "react";
+import apiClient from "../../api/authApi";
 
 
 function Shop(){
+    const [products, setProducts] = useState(null);
+    useEffect(()=>{
+        const fetchProducts = async ()=>{
+            try{
+                const response = await apiClient.get('/products');
+                setProducts(response.data)
+            } catch(error){
+                console.log(error);
+            }
+        };
+        fetchProducts();
+    }, []
+    );
     return (
         <>
             <div className="wrapper mt-3">
@@ -18,7 +33,7 @@ function Shop(){
                             <LeftPanel />
                         </div>
                         <div className="flex flex-col">
-                            <RightPanel />
+                            <RightPanel data={products ? products : []}/>
                         </div>
                     </div>
                 </main>
