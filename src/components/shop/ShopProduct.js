@@ -10,7 +10,6 @@ function ShopProduct(props){
                 <div className="mt-3 flex justify-center">
                     <div>
                         <Link to={`/products/${product.id}`} className="ml-2 hover:text-purple-700 text-1xl">{product.title}</Link>
-                    
                         <br></br>
                         {/* <p className="flex justify-center font-bold">$ 500</p> */}
                     </div>
