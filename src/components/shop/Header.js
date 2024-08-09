@@ -31,7 +31,7 @@ function Header(){
                     <Link to="/shop" className="ml-10 hover:text-purple-700 mt-4">Shop</Link>
                     <div className='relative mt-4 bg-white mt-2'>
                         <Menu as="div" className="relative inline-block text-left">
-                            <MenuButton className="ml-10">
+                            <MenuButton className="ml-10 hover:text-purple-700">
                                 Categories
                                 <i className='fa fa-angle-down pl-2'></i>
                             </MenuButton>
