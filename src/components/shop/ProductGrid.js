@@ -3,16 +3,14 @@ import ProductGridRow from "./ProductGridRow";
 function calculateNumberOfRows(products){
     const numberOfProducts = products.length;
     const numberOfRows= numberOfProducts / 3;
-    if(numberOfProducts % 2 == 0 ){
-        numberOfRows +=1;
-    }
+    
     return numberOfRows;
 };
 
 function ProductGrid(props){
     const numberOfRows = calculateNumberOfRows(props.data);
     const products = props.data;
-    const startingIndexOfProducts = 0;
+    var startingIndexOfProducts = 0;
     const endingIndexOfProducts = products.length;
     const start = [];
     const end = [];
