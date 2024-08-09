@@ -14,7 +14,6 @@ function HomePage(){
             try{
                 const response = await apiClient.get('/products');
                 setProducts(response.data);
-                //console.log(products)
                 setProducts(makeListOfEightProducts(response.data));
             }catch(error){
                 console.error("Error: ", error);
@@ -30,9 +29,6 @@ function HomePage(){
     if(products){
         productList1 = products.slice(0,4);
         productList2 = products.slice(4,8);
-        // console.log("length of products: ", products.length)
-        // console.log("List1: ", productList1);
-        // console.log("List2: ", productList2);
     }
     
 

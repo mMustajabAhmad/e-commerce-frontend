@@ -20,17 +20,6 @@ function ProductGridRow(props){
         <>
             <div className="flex flex-row mt-4">
                 {rows}
-                {/* <div className="flex flex-col ">
-                    <ShopProduct />
-                </div>
-
-                <div className="flex flex-col ml-4">
-                    <ShopProduct />
-                </div>
-
-                <div className="flex flex-col ml-4">
-                    <ShopProduct />
-                </div> */}
             </div>
         </>
     );

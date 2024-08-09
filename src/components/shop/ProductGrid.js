@@ -1,30 +1,12 @@
 import ProductGridRow from "./ProductGridRow";
-
-function calculateNumberOfRows(products){
-    const numberOfProducts = products.length;
-    const numberOfRows= numberOfProducts / 3;
-    
-    return numberOfRows;
-};
+import { calculateNumberOfRows, calculateNumberOfProducts } from "../../utils/ShopUtils"
 
 function ProductGrid(props){
-    const numberOfRows = calculateNumberOfRows(props.data);
     const products = props.data;
-    var startingIndexOfProducts = 0;
-    const endingIndexOfProducts = products.length;
-    const start = [];
-    const end = [];
-
-    for (let i = 0; i < numberOfRows; i++){
-        start.push(startingIndexOfProducts);
-        if (endingIndexOfProducts % 3 == 0 || i != numberOfRows - 1){
-            end.push(startingIndexOfProducts + 3);
-            startingIndexOfProducts += 3;
-        }
-        else {
-            end.push(startingIndexOfProducts + (endingIndexOfProducts % 3));
-        }
-    }
+    const numberOfRows = calculateNumberOfRows(products);
+    const indexesForSlicing =  calculateNumberOfProducts(products);
+    const start = indexesForSlicing["start"];
+    const end = indexesForSlicing["end"];
 
     const rows = [];
 
@@ -39,12 +21,6 @@ function ProductGrid(props){
 
     return (
         <>
-            {/* <ProductGridRow />
-            <br></br>
-            <ProductGridRow />
-            <br></br>
-            <ProductGridRow />
-            <br></br> */}
             {rows}
             
         </>
