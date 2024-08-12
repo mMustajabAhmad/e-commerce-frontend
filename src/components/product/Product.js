@@ -55,7 +55,7 @@ function Product(){
             );
         }    
     }
-    function changeImage() {
+    function changeImageRight() {
         if (product && product.product_images && product.product_images.length > 0) {
             let nextImageIndex = currentImage + 1;
             if (nextImageIndex >= product.product_images.length) {
@@ -67,6 +67,33 @@ function Product(){
         }
     }
 
+    function changeImageLeft() {
+        if (product && product.product_images && product.product_images.length > 0) {
+            let previousImageIndex = currentImage - 1;
+            if (previousImageIndex < 0) {
+                previousImageIndex = product.product_images.length - 1;
+            }
+            setCurrentImage(previousImageIndex);
+            setImageURL(`http://localhost:3001/${product.product_images[previousImageIndex].url}`);
+            console.log("current image", previousImageIndex);
+        }
+    }
+
+    
+    const product_images_row = []
+    if(product){
+        let product_images = product.product_images
+        if (product_images.length > 4){
+            product_images = product_images.slice(0,4)
+        }
+        
+        for(let i=0; i<product_images.length;i++){
+            product_images_row.push(
+                <div style={{backgroundImage: `url(http://localhost:3001/${product_images[i].url})`, width: "100px", height: "100px", backgroundSize: "cover" }} className = "ml-1"></div>
+            );
+        }
+        console.log("product images", product_images_row)
+    }
     
     return(
         <>
@@ -79,7 +106,24 @@ function Product(){
 
                     <div className="flex flex-row" style={{marginLeft: "10%", marginRight: "10%", marginTop: "8%", marginBottom: "4%"}}>
                         <div className="flex flex-col">
-                            <div className="rounded" onClick={()=> changeImage()} style={{backgroundImage: `url(${imageURL})`, width: "470px", height: "550px", backgroundSize: "cover"}}></div>
+                            <div className="flex flex-row">
+                                <button onClick={()=> changeImageLeft()} className="mt-2 mr-2">
+                                    <i className="fa fa-angle-double-left text-3xl"></i>
+                                </button>
+                                <div className="rounded" style={{backgroundImage: `url(${imageURL})`, width: "470px", height: "550px", backgroundSize: "cover"}}>
+                                </div>
+                                <button onClick={()=> changeImageRight()} className="mt-2 ml-2">
+                                    <i className="fa fa-angle-double-right text-3xl"></i>
+                                </button>
+                            </div>
+                            <div className="flex flex-row mt-2 ml-9">
+                                {/* <div style={{backgroundImage: `url(${imageURL})`, width: "100px", height: "100px", backgroundSize: "cover"}} className="ml-1"></div>
+                                <div style={{backgroundImage: `url(${imageURL})`, width: "100px", height: "100px", backgroundSize: "cover"}} className="ml-1"></div>
+                                <div style={{backgroundImage: `url(${imageURL})`, width: "100px", height: "100px", backgroundSize: "cover"}} className="ml-1"></div> */}
+                                {product_images_row}
+                            </div>
+                            
+
                         </div>
                         <div className="flex flex-col" style={{marginLeft: "10%"}}>
                             {product ? 
