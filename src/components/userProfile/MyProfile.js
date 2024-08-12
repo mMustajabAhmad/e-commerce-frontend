@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../home/Header';
 import Footer from '../home/Footer';
 import apiClient from '../../api/authApi';
+import { jwtDecode } from 'jwt-decode' 
 
 function MyProfile() {
     const [user, setUser] = useState(null);
@@ -12,7 +13,10 @@ function MyProfile() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await apiClient.get('/user');
+                const token = localStorage.getItem('token');
+                const decoded_token = jwtDecode(token) 
+                const user_id = decoded_token.user_id
+                const response = await apiClient.get(`/users/${user_id}`);
                 setUser(response.data);
             } catch (error) {
                 console.error('Error fetching user data', error);

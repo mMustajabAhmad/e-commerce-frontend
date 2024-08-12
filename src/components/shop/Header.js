@@ -29,13 +29,13 @@ function Header(){
                     <span className="font-bold text-5xl ml-20 mt-2">Flone.</span>
                     <Link to="/home" className="ml-20 hover:text-purple-700 mt-4">Home</Link>
                     <Link to="/shop" className="ml-10 hover:text-purple-700 mt-4">Shop</Link>
-                    <div className='relative mt-4 bg-white mt-2'>
-                        <Menu as="div" className="relative inline-block text-left">
+                    <div className=' mt-4 bg-white'>
+                        <Menu as="div" className=" inline-block text-left">
                             <MenuButton className="ml-10 hover:text-purple-700">
                                 Categories
                                 <i className='fa fa-angle-down pl-2'></i>
                             </MenuButton>
-                            <MenuItems className="absolute mt-2 w-48 bg-white rounded border">
+                            <MenuItems className="absolute mt-2 w-48 bg-white rounded border z-10">
                                 <div className="p-1">
                                     {categories && (
                                         categories.map((category) => {
