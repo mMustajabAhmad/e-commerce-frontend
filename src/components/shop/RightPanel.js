@@ -19,12 +19,12 @@ function RightPanel(props){
     
     return (
         <div className="relative">
-            <button type="button" className="relative border rounded  pl-4 pr-3 py-2 hover:bg-purple-700 hover:text-white w-1/3" onClick={handleClick} style={{marginTop: "13%"}}>
+            <button type="button" className="relative border rounded  pl-4 pr-3 py-2 hover:bg-purple-700 hover:text-white w-1/4" onClick={handleClick} style={{marginTop: "13%"}}>
                 default
                  <div className="float-right ml-12 mr-2"><i className='fa fa-angle-down '></i></div>
             </button>
             {menuClicked &&
-             <div className="border rounded mt-1 p-2 w-1/3 absolute bg-white">
+             <div className="border rounded mt-1 p-2 w-1/4 absolute bg-white">
                 <a href="#" className="hover:text-purple-700">Price High to Low</a>
                 <br></br>
                 <hr className="m-1 " ></hr>
