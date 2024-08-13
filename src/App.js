@@ -8,6 +8,7 @@ import Shop from './components/shop/Shop'
 import Product from './components/product/Product';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Categories from './components/categories/Categories';
+import CategoryProducts from './components/categoryProductsAndSubCategories/CategoryProducts';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/myProfile" element={<MyProfile />} />
         <Route path="/products/:id" element={<Product />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/categoryProducts" element={<CategoryProducts />} />
       </Routes>
     </Router>
   );

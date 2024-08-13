@@ -1,5 +1,5 @@
 import Header from "../shop/Header";
-import Footer from "../home/Footer";
+import Footer from "../shop/Footer";
 import CategoryRow from "./CategoriesRow";
 
 function Categories(){
