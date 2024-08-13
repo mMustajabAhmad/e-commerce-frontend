@@ -58,7 +58,6 @@ function Header() {
 
                                                     {childCategories && (
                                                         childCategories.map((child)=>{
-                                                            console.log("child", child);
                                                             return(
                                                                 <MenuItem key={child.id} as={Fragment} className="ml-3">
                                                                     {({ active }) => (

@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 
-function CategoryCard(){
+function CategoryCard(props){
+    const category = props.data
+    const imageURL = category && category.category_image_url ? `http://localhost:3001/${category.category_image_url}` : '/images/watch1.png'
     return(
         <>
-        <div style={{backgroundImage: `url(/images/watch1.png)`, width: "350px", height: "350px", backgroundSize: "cover"}} className="ml-6">
+        <div style={{backgroundImage: `url(${imageURL})`, width: "350px", height: "350px", backgroundSize: "cover"}} className="ml-6">
             <Link to="/categoryProducts">
                 <span className="flex justify-center text-white font-bold text-2xl hover:text-purple-700 hover:text-3xl" style={{marginTop: "40%"}}>
-                    Category Name
+                    {category.name}
                 </span>
             </Link>
         </div>

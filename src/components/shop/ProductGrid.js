@@ -21,8 +21,7 @@ function ProductGrid(props){
 
     return (
         <>
-            {rows}
-            
+            {rows} 
         </>
     );
 };
