@@ -32,7 +32,7 @@ function Header(){
                     <div className=' mt-4 bg-white'>
                         <Menu as="div" className=" inline-block text-left">
                             <MenuButton className="ml-10 hover:text-purple-700">
-                                Categories
+                                <Link to="/categories">Categories</Link>
                                 <i className='fa fa-angle-down pl-2'></i>
                             </MenuButton>
                             <MenuItems className="absolute mt-2 w-48 bg-white rounded border z-10">

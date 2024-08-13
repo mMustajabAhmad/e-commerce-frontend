@@ -2,12 +2,12 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
-import Home from './components/Home';
 import MyProfile from './components/userProfile/MyProfile'
 import HomePage from './components/home/HomePage';
 import Shop from './components/shop/Shop'
 import Product from './components/product/Product';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import Categories from './components/categories/Categories';
 
 function App() {
   return (
@@ -20,6 +20,7 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/myProfile" element={<MyProfile />} />
         <Route path="/products/:id" element={<Product />} />
+        <Route path="/categories" element={<Categories />} />
       </Routes>
     </Router>
   );
