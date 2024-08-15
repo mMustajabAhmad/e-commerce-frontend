@@ -34,7 +34,6 @@ function Header(){
                 const user_id = decoded_token.user_id
                 const response = await apiClient.get(`/users/${user_id}/cart`);
                 setCart(response.data);
-                //console.log("cart", response.data);
             }catch(error){
                 console.log(error);
             }

@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import apiClient from '../../api/authApi';
 
 function CartProduct(props){
-    const product = props.data;
-    const [productSize, setProductSize] = useState(null); 
-    
+    const cartProduct = props.data;
+    const [productSize, setProductSize] = useState(null);
+    const [product, setProduct] = useState(null); 
+    const [size, setSize] = useState(null);
+    const imageURL = product && product.product_images.length > 0 ? `http://localhost:3001/${product.product_images[0].url}` : '/images/watch1.png';
+
     useEffect(()=>{
-        const fetchProductSizes = async()=>{
+        const fetchProductSizes = async ()=>{
             try{
-                const response = await apiClient.get(`/product_sizes/${product && product.product_size_id}`);
+                const response = await apiClient.get(`/product_sizes/${cartProduct && cartProduct.product_size_id}`);
                 setProductSize(response.data);
-                console.log("product size: ", response.data);
             }catch(error){
                 console.log("Error", error);
             }
@@ -18,16 +20,46 @@ function CartProduct(props){
         fetchProductSizes();
     }, []
     );
-    
+
+    useEffect(()=>{
+        const fetchProduct = async ()=>{
+            try{
+                if(productSize){
+                    const response = await apiClient.get(`/products/${productSize && productSize.product_id}`);
+                    setProduct(response.data);
+                }
+            }catch(error){
+                console.log("Error", error);
+            }
+        };
+        fetchProduct();
+    }, [productSize]
+    );
+
+    useEffect(()=>{
+        const fetchSize = async ()=>{
+            try{
+                if(productSize){
+                    const response = await apiClient.get(`/sizes/${productSize && productSize.size_id}`);
+                    setSize(response.data);
+                    console.log("size", response.data);
+                }
+            }catch(error){
+                console.log("Error", error);
+            }
+        };
+        fetchSize();
+    }, [productSize]
+    );
 
     return(
         <>
             <div className='flex flex-row'>
-                <div style={{backgroundImage: `url(/images/watch1.png)`, height: "170px", width: "150px", backgroundSize: "cover"}} className='flex flex-col mt-2 ml-2'></div>
+                <div style={{backgroundImage: `url(${imageURL})`, height: "170px", width: "150px", backgroundSize: "cover"}} className='flex flex-col mt-2 ml-2'></div>
                 <div className='flex flex-col ml-4'>
-                    <p className='mt-2 ml-2 text-2xl font-bold flex flex-row'>Product Name</p>
-                    <p className='mt-2 ml-2 font-bold flex flex-row'>Size: <span className='ml-2 text-rose-500 font-normal'>S</span></p>
-                    <p className='mt-2 ml-2 font-bold flex flex-row'>Quantity: <span className='ml-2 font-normal'>{product.quantity}</span></p>
+                    <p className='mt-2 ml-2 text-2xl font-bold flex flex-row'>{product && product.title}</p>
+                    <p className='mt-2 ml-2 font-bold flex flex-row'>Size: <span className='ml-2 text-rose-500 font-normal'>{size && size.name}</span></p>
+                    <p className='mt-2 ml-2 font-bold flex flex-row'>Quantity: <span className='ml-2 font-normal'>{cartProduct.quantity}</span></p>
                     <p className='mt-2 ml-2 font-bold flex flex-row'>Price: <span className='ml-2 font-normal'>{productSize && productSize.price}</span></p>
                     <p className='flex flex-row ml-3 mt-2 '>
                         <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>-</button>
@@ -35,7 +67,7 @@ function CartProduct(props){
                     </p>
                 </div>
                 <div className='flex flex-col ml-16 mt-14'>
-                    <button><i class="fa fa-close"></i></button>
+                    <button><i className="fa fa-close ml-10"></i></button>
                 </div>
             </div>
             <hr className='mt-6 mr-6 mb-6'/>
