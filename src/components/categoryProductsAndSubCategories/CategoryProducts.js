@@ -5,12 +5,14 @@ import CategoryProductRow from "./CategoryProductsRow";
 import { useEffect, useState } from "react";
 import apiClient from '../../api/authApi';
 import SubCategoryRow from "./SubCategoryRow";
+import { getParentCategories } from "../../utils/CategoryUtils"
 
 function CategoryProducts(){
     const { id } = useParams();
     const [products, setProducts] = useState(null);
     const [subCategories, setSubCategories] = useState(null);
-    const [category, setCategory] =useState(null);
+    const [category, setCategory] = useState(null);
+    const [parent, setParent] = useState(null);
 
     useEffect(() =>{
         const fetchProducts = async ()=>{
@@ -24,6 +26,20 @@ function CategoryProducts(){
         fetchProducts();
     }, []
     );
+
+    useEffect(() =>{
+        const fetchParent = async ()=>{
+            try{
+                const response = await apiClient.get(`/categories/${category && category.parent_category_id}`);
+                setParent(response.data);
+            }catch(error){
+                console.log("Error", error);
+            }
+        };
+        fetchParent();
+    }, []
+    );
+
 
     useEffect(() =>{
         const fetchCategory = async ()=>{
@@ -58,7 +74,7 @@ function CategoryProducts(){
 
                 <main className="flex flex-col min-h-screen">
                     <div className="h-20 flex justify-center bg-gray-200 ">
-                        <span className="font-bold text-2xl mt-4">SHOP / CATEGORY / {category && category.name.toUpperCase()}</span>
+                        <span className="font-bold text-2xl mt-4">SHOP / CATEGORY {parent && `/ ${parent.name.toUpperCase()}`} / {category && category.name.toUpperCase()}</span>
                     </div>
                     <div className="flex flex-col mt-6">
                         <div className="flex flex-row justify-center">

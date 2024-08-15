@@ -51,7 +51,7 @@ function Header() {
                                                     <MenuItem key={category.id} as={Fragment}>
                                                         {({ active }) => (
                                                             <a
-                                                                href="#"
+                                                                href={`/categoryProducts/${category.id}`}
                                                                 className={`block px-4 py-2 hover:bg-purple-500 hover:text-white font-bold text-sm ${active ? 'bg-gray-200' : ''}`}
                                                             >
                                                                 {category.name}
@@ -65,7 +65,7 @@ function Header() {
                                                                 <MenuItem key={child.id} as={Fragment} className="ml-3">
                                                                     {({ active }) => (
                                                                         <a
-                                                                            href="#"
+                                                                            href = {`/categoryProducts/${child.id}`}
                                                                             className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
                                                                         >
                                                                             {child.name}
