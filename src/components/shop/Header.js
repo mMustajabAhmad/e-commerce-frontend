@@ -39,7 +39,7 @@ function Header(){
             }
         };
         fetchCart();
-    }, []);
+    }, [cart]);
 
 
     const cartProducts = [];

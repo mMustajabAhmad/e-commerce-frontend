@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from '../../api/authApi';
+import { jwtDecode } from 'jwt-decode';
 
 function CartProduct(props){
     const cartProduct = props.data;
@@ -52,6 +53,30 @@ function CartProduct(props){
     }, [productSize]
     );
 
+    const addOneToQuantity = async() =>{
+        const token = localStorage.getItem('token');
+        const decoded_token = jwtDecode(token); 
+        const user_id = decoded_token.user_id;
+        try{
+            await apiClient.patch(`/users/${user_id}/cart/carts_products/${cartProduct && cartProduct.id}/add_one_to_quantity`);
+        }catch(error){
+            console.log("ERROR", error);
+        }
+        
+    };
+
+    const subtractOneFromQuantity = async() =>{
+        const token = localStorage.getItem('token');
+        const decoded_token = jwtDecode(token); 
+        const user_id = decoded_token.user_id;
+        try{
+            await apiClient.patch(`/users/${user_id}/cart/carts_products/${cartProduct && cartProduct.id}/subtract_one_from_qantity`);
+        }catch(error){
+            console.log("ERROR", error);
+        }
+        
+    };
+
     return(
         <>
             <div className='flex flex-row'>
@@ -62,8 +87,8 @@ function CartProduct(props){
                     <p className='mt-2 ml-2 font-bold flex flex-row'>Quantity: <span className='ml-2 font-normal'>{cartProduct.quantity}</span></p>
                     <p className='mt-2 ml-2 font-bold flex flex-row'>Price: <span className='ml-2 font-normal'>{productSize && productSize.price}</span></p>
                     <p className='flex flex-row ml-3 mt-2 '>
-                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>-</button>
-                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>+</button>
+                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}} onClick={subtractOneFromQuantity}>-</button>
+                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}} onClick={addOneToQuantity}>+</button>
                     </p>
                 </div>
                 <div className='flex flex-col ml-16 mt-14'>
