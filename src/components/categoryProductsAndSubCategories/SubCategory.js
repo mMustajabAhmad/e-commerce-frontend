@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 function SubCategory(props){
     const subCategory = props.data;
-    const imageURL = subCategory && subCategory.category_image ? `http://localhost:3001/${subCategory.category_image.url}` : '/images/watch1.png';
+    const imageURL = subCategory && subCategory.category_image_url ? `http://localhost:3001/${subCategory.category_image_url}` : '/images/watch1.png';
 
     
     return(
