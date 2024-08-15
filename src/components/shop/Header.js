@@ -2,7 +2,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
 import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import apiClient from '../../api/authApi';
-import {getParentCategories, getChildCategories} from '../../utils/CategoryUtils';
+import { getParentCategories, getChildCategories } from '../../utils/CategoryUtils';
 import { jwtDecode } from 'jwt-decode';
 
 function Header(){
@@ -10,6 +10,7 @@ function Header(){
     const [parentCategories, setParentCategories] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [cart, setCart] = useState(null);
+    const [productSizes, setProductSizes] = useState([]);
 
     useEffect(()=>{
         const fetchCategories = async ()=>{
@@ -22,8 +23,7 @@ function Header(){
             }
         };
         fetchCategories();
-    },[]
-
+    }, []
     );
 
     useEffect(() =>{
@@ -34,12 +34,33 @@ function Header(){
                 const user_id = decoded_token.user_id
                 const response = await apiClient.get(`/users/${user_id}/cart`);
                 setCart(response.data);
+                console.log("cart", response.data);
             }catch(error){
                 console.log(error);
             }
         };
         fetchCart();
     }, []);
+
+    useEffect(() => {
+        const fetchProductSizes = async () => {
+            try {
+                if (cart) {
+                    const productSizePromises = cart.map(async (product) => {
+                        const response = await apiClient.get(`/product_sizes/${product.product_size_id}`);
+                        return response.data;
+                    });
+                    const sizes = await Promise.all(productSizePromises);
+                    setProductSizes(sizes);
+                    console.log("product sizes", sizes)
+                }
+            } catch (error) {
+                console.log("error", error);
+            }
+        };
+
+        fetchProductSizes();
+    }, [cart]); 
 
     return (
         <header>
