@@ -118,6 +118,10 @@ function Product(){
                             </div>
                             <div className="flex flex-row mt-2 ml-9">
                                 {product_images_row}
+                                {
+                                    product && product.product_images.length > 4 && 
+                                    <span className="text-2xl font-bold ml-1 pl-3 pr-3 pt-8 bg-gray-200 rounded">+{product.product_images.length-4}</span>
+                                }
                             </div>
                             
 
