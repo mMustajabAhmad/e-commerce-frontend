@@ -33,7 +33,8 @@ function Header() {
                         <Menu as="div" className="relative inline-block text-left">
                             <div>
                                 <MenuButton className='text-white pt-6 font-bold pl-10 hover:text-purple-500'>
-                                    Categories <i className='fa fa-angle-down'></i>
+                                    <Link to="/categories">Categories</Link>
+                                    <i className='fa fa-angle-down ml-2'></i>
                                 </MenuButton>
                             </div>
                             <MenuItems className="absolute bg-white text-black rounded shadow-lg ring-1 ring-black ring-opacity-5 mt-2 w-48 z-50">
