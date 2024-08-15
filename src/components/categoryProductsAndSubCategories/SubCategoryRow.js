@@ -13,12 +13,10 @@ function SubCategoryRow(props){
         }else{
             setEnd(3);
         }
-    },[subCategories]);
+    },[]);
 
     useEffect(()=>{
         if(subCategories.length > 0){
-            console.log("start", start);
-            console.log("end", end);
             const rows = [];
             for(let i = start; i < end; i++){
                 if(subCategories[i]){
@@ -33,7 +31,6 @@ function SubCategoryRow(props){
 
     function moveRight(){
         if(start < subCategories.length && end < subCategories.length){
-            console.log("moving right");
             setStart(start + 1);
             setEnd(end + 1);
         }
@@ -41,7 +38,6 @@ function SubCategoryRow(props){
 
     function moveLeft(){
         if(start > 0 && end  > 0){
-            console.log("moving left");
             setStart(start - 1);
             setEnd(end - 1);
         }

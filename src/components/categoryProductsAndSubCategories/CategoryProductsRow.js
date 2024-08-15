@@ -17,8 +17,6 @@ function CategoryProductRow(props){
 
     useEffect(()=>{
         if(products.length > 0){
-            console.log("start", start);
-            console.log("end", end);
             const rows = [];
             for(let i = start; i < end; i++){
                 if(products[i]){
@@ -33,7 +31,6 @@ function CategoryProductRow(props){
 
     function moveRight(){
         if(start < products.length && end < products.length){
-            console.log("moving right");
             setStart(start + 1);
             setEnd(end + 1);
         }
@@ -41,7 +38,6 @@ function CategoryProductRow(props){
 
     function moveLeft(){
         if(start > 0 && end  > 0){
-            console.log("moving left");
             setStart(start - 1);
             setEnd(end - 1);
         }

@@ -32,12 +32,13 @@ function CategoryProducts(){
             try{
                 const response = await apiClient.get(`/categories/${category && category.parent_category_id}`);
                 setParent(response.data);
+                console.log("pareent", response.data)
             }catch(error){
                 console.log("Error", error);
             }
         };
         fetchParent();
-    }, []
+    }, parent
     );
 
 
