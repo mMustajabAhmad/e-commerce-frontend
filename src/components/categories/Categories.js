@@ -34,10 +34,9 @@ function calculateNumberOfCategories(categories){
 }
 
 function Categories(){
-
     const [categories, setCategories] = useState(null);
     const [parentCategories, setParentCategories] = useState(null)
-    
+
     useEffect(()=>{
         const fetchCategories = async () => {
             try{
@@ -51,6 +50,7 @@ function Categories(){
         fetchCategories();
     },[]  
     );
+
     const rows = [];
     if(categories){
         const numberOfRows = calculateNumberOfRows(parentCategories);
@@ -65,9 +65,6 @@ function Categories(){
             );
         }
     }
-    
-    
-    
 
     return(
         <div className="mt-3">
@@ -83,7 +80,6 @@ function Categories(){
             <Footer />
         </div>
     );
-
 }
 
 export default Categories;

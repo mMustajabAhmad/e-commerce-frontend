@@ -117,9 +117,6 @@ function Product(){
                                 </button>
                             </div>
                             <div className="flex flex-row mt-2 ml-9">
-                                {/* <div style={{backgroundImage: `url(${imageURL})`, width: "100px", height: "100px", backgroundSize: "cover"}} className="ml-1"></div>
-                                <div style={{backgroundImage: `url(${imageURL})`, width: "100px", height: "100px", backgroundSize: "cover"}} className="ml-1"></div>
-                                <div style={{backgroundImage: `url(${imageURL})`, width: "100px", height: "100px", backgroundSize: "cover"}} className="ml-1"></div> */}
                                 {product_images_row}
                             </div>
                             
