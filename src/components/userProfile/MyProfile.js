@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../home/Header';
 import Footer from '../home/Footer';
 import apiClient from '../../api/authApi';
-import { jwtDecode } from 'jwt-decode' 
+import { jwtDecode } from 'jwt-decode';
 
 function MyProfile() {
     const [user, setUser] = useState(null);

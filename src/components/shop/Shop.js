@@ -22,10 +22,10 @@ function Shop(){
     );
     return (
         <>
-            <div className="wrapper mt-3">
+            <div className="wrapper">
                 <Header />
                 
-                <main className="flex flex-col min-h-screen">
+                <main className="flex flex-col min-h-screen z-11">
                     <div className="h-20 flex justify-center bg-gray-200 ">
                         <span className="font-bold text-3xl mt-4">HOME / SHOP</span>
                     </div>
