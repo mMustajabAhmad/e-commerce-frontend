@@ -1,10 +1,10 @@
 import ProductGridRow from "./ProductGridRow";
-import { calculateNumberOfRows, calculateNumberOfProducts } from "../../utils/ShopUtils"
+import { calculateNumberOfRows, calculateNumberOfColumns } from "../../utils/RowAndColUtils"
 
 function ProductGrid(props){
     const products = props.data;
     const numberOfRows = calculateNumberOfRows(products);
-    const indexesForSlicing =  calculateNumberOfProducts(products);
+    const indexesForSlicing =  calculateNumberOfColumns(products);
     const start = indexesForSlicing["start"];
     const end = indexesForSlicing["end"];
 

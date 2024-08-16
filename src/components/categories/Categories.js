@@ -4,38 +4,12 @@ import CategoryRow from "./CategoriesRow";
 import { getParentCategories } from '../../utils/CategoryUtils';
 import { useState, useEffect } from "react";
 import apiClient from '../../api/authApi';
-
-
-function calculateNumberOfRows(categories){
-    const numberOfCategories = categories.length;
-    const numberOfRows = numberOfCategories / 3;
-    return numberOfRows;
-}
-
-function calculateNumberOfCategories(categories){
-    const numberOfRows = calculateNumberOfRows(categories);
-    var startingIndexOfCategories = 0;
-    const endingIndexOfCategories = categories.length;
-    const start = [];
-    const end = [];
-
-    for (let i = 0; i < numberOfRows; i++){
-        start.push(startingIndexOfCategories);
-        if (endingIndexOfCategories % 3 == 0 || i != numberOfRows - 1){
-            end.push(startingIndexOfCategories + 3);
-            startingIndexOfCategories += 3;
-        }
-        else {
-            end.push(startingIndexOfCategories + (endingIndexOfCategories % 3));
-        }
-    }
-    const indexes ={"start": start, "end": end}
-    return indexes;
-}
+import { calculateNumberOfRows, calculateNumberOfColumns } from "../../utils/RowAndColUtils"
 
 function Categories(){
     const [categories, setCategories] = useState(null);
     const [parentCategories, setParentCategories] = useState(null)
+    
 
     useEffect(()=>{
         const fetchCategories = async () => {
@@ -54,7 +28,7 @@ function Categories(){
     const rows = [];
     if(categories){
         const numberOfRows = calculateNumberOfRows(parentCategories);
-        const indexesForSlicing =  calculateNumberOfCategories(parentCategories);
+        const indexesForSlicing =  calculateNumberOfColumns(parentCategories);
         const start = indexesForSlicing["start"];
         const end = indexesForSlicing["end"];
         for(let i = 0;i < numberOfRows; i++){

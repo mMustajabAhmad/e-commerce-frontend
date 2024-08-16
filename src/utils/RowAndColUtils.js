@@ -5,7 +5,7 @@ export function calculateNumberOfRows(products){
     return numberOfRows;
 };
 
-export function calculateNumberOfProducts(products){
+export function calculateNumberOfColumns(products){
     const numberOfRows = calculateNumberOfRows(products);
     var startingIndexOfProducts = 0;
     const endingIndexOfProducts = products.length;
