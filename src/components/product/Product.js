@@ -3,7 +3,7 @@ import Footer from "../shop/Footer";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import apiClient from '../../api/authApi';
-import { jwtDecode } from 'jwt-decode';
+import { getCurrentUserId } from '../../utils/JWT_TokenDecoder';
 
 function Product(){
     const { id } = useParams();
@@ -14,9 +14,7 @@ function Product(){
     const [selectedSize, setSelectedSize] = useState(sizes ? sizes[0] : null);
     const [priceOfSelectedSize, setPriceOfSelectedSize] = useState(sizes ? sizes[0].price : "---");
     const [productSize, setProductSize] = useState(null);
-    const token = localStorage.getItem('token');
-    const decoded_token = jwtDecode(token); 
-    const user_id = decoded_token.user_id;
+    const user_id = getCurrentUserId();
     
     useEffect(()=>{
         const fetchSizes = async() => {
@@ -161,10 +159,18 @@ function Product(){
 
                             <hr className="mt-4 ml-2 mr-6"></hr>
                             <p className="mt-4 font-bold text-2xl">Sizes</p>
+
                             <div className="flex flex-row mt-2">
                                 {sizes && buttons}
                             </div>
-                            <button className="border bg-black text-white mt-6 hover:bg-purple-700" style={{height: "50px", width: "200px"}} onClick={addToCart}>Add To Cart</button>
+
+                            <div className="flex flex-row">
+                                <button className="border bg-black text-white mt-6 hover:bg-purple-700" style={{height: "50px", width: "200px"}} onClick={addToCart}>Add To Cart</button>
+                                <button className="border bg-black text-white mt-6 hover:bg-purple-700 ml-2" style={{height: "50px", width: "200px"}} >
+                                    <a href="https://wa.me/+923356517758">Contact Seller</a>
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                     
