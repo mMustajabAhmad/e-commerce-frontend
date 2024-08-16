@@ -3,8 +3,7 @@ import Footer from "../shop/Footer";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import apiClient from '../../api/authApi';
-
-
+import { jwtDecode } from 'jwt-decode';
 
 function Product(){
     const { id } = useParams();
@@ -12,8 +11,12 @@ function Product(){
     const [imageURL, setImageURL] = useState(null);
     const [sizes, setSizes] = useState(null);
     const [currentImage, setCurrentImage] = useState(0);
-    const [selectedSize, setSelectedSize] = useState(sizes ? sizes[0].name : "---");
+    const [selectedSize, setSelectedSize] = useState(sizes ? sizes[0] : null);
     const [priceOfSelectedSize, setPriceOfSelectedSize] = useState(sizes ? sizes[0].price : "---");
+    const [productSize, setProductSize] = useState(null);
+    const token = localStorage.getItem('token');
+    const decoded_token = jwtDecode(token); 
+    const user_id = decoded_token.user_id;
     
     useEffect(()=>{
         const fetchSizes = async() => {
@@ -32,7 +35,6 @@ function Product(){
         const fetchProduct = async ()=>{
             const response = await apiClient.get(`/products/${id}`);
             setProduct(response.data);
-            console.log("product",product);
             setImageURL(response.data.product_images && response.data.product_images.length > 0 ? `http://localhost:3001/${response.data.product_images[0].url}` : []);
         };
         fetchProduct();
@@ -40,7 +42,7 @@ function Product(){
     );
 
     function selectedPrams(size){
-        setSelectedSize(size.name);
+        setSelectedSize(size);
         setPriceOfSelectedSize(size.price)
     }
 
@@ -63,7 +65,6 @@ function Product(){
             }
             setCurrentImage(nextImageIndex);
             setImageURL(`http://localhost:3001/${product.product_images[nextImageIndex].url}`);
-            console.log("current image", nextImageIndex);
         }
     }
 
@@ -75,7 +76,6 @@ function Product(){
             }
             setCurrentImage(previousImageIndex);
             setImageURL(`http://localhost:3001/${product.product_images[previousImageIndex].url}`);
-            console.log("current image", previousImageIndex);
         }
     }
 
@@ -92,9 +92,29 @@ function Product(){
                 <div style={{backgroundImage: `url(http://localhost:3001/${product_images[i].url})`, width: "100px", height: "100px", backgroundSize: "cover" }} className = "ml-1"></div>
             );
         }
-        console.log("product images", product_images_row)
     }
-    
+
+    const getProductSizeId = async()=>{
+        try{
+            const response = await apiClient.get(`/products/${id}/product_sizes/${selectedSize && selectedSize.id}`);
+            setProductSize(response.data);
+            console.log("product size", response.data);
+            return response.data
+        }catch(error){
+            console.log("Error", error);
+        }
+    }
+
+    const addToCart = async()=>{
+        try{
+            const productSize = await getProductSizeId();
+            console.log("inside cart ps", productSize)
+            await apiClient.post(`/users/${user_id}/cart/carts_products/`,{"product_size_id": productSize && productSize.id})
+        }catch(error){
+            console.log("Error", error);
+        }
+    }
+
     return(
         <>
             <div className="wrapper mt-3">
@@ -137,14 +157,14 @@ function Product(){
                             </>
                             }
                             <p className="text-2xl fornt-bold text-rose-600 mt-2">$ {priceOfSelectedSize}</p>
-                            <p className="text-1xl fornt-bold  mt-2"><b>Selected Size: </b><span className="text-rose-600">{selectedSize}</span></p>
+                            <p className="text-1xl fornt-bold  mt-2"><b>Selected Size: </b><span className="text-rose-600">{selectedSize && selectedSize.name}</span></p>
 
                             <hr className="mt-4 ml-2 mr-6"></hr>
                             <p className="mt-4 font-bold text-2xl">Sizes</p>
                             <div className="flex flex-row mt-2">
                                 {sizes && buttons}
                             </div>
-                            <button className="border bg-black text-white mt-6 hover:bg-purple-700" style={{height: "50px", width: "200px"}}>Add To Cart</button>
+                            <button className="border bg-black text-white mt-6 hover:bg-purple-700" style={{height: "50px", width: "200px"}} onClick={addToCart}>Add To Cart</button>
                         </div>
                     </div>
                     
