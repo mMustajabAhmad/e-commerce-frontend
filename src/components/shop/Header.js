@@ -123,7 +123,7 @@ function Header(){
                     </div>
 
                     <a href="#" className="ml-10 hover:text-purple-700 mt-4">About Us</a>
-                    <a href="#" className="ml-10 hover:text-purple-700 mt-4">Contact Us</a>
+                    <a href="https://wa.me/+923356517758" target="_blank" className="ml-10 hover:text-purple-700 mt-4">Contact Us</a>
 
                     <div>
                         <input className='px-2 py-1 rounded border' type='text' style={{marginLeft: "150px", marginTop: "20px"}} placeholder='Search...' ></input>

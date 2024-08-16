@@ -123,7 +123,7 @@ function Header() {
                         </Menu>
                     </div>
                     <a className='text-white pt-6 font-bold pl-10 hover:text-purple-500'><span>About Us</span></a>
-                    <a className='text-white pt-6 font-bold pl-10 hover:text-purple-500'><span>Contact Us</span></a>
+                    <a className='text-white pt-6 font-bold pl-10 hover:text-purple-500' href="https://wa.me/+923356517758" target="_blank"><span>Contact Us</span></a>
                     
                     <span className='text-white font-bold pt-3 text-5xl pl-14'>Flone.</span>
                     <div className='items-center'>

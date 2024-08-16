@@ -167,7 +167,7 @@ function Product(){
                             <div className="flex flex-row">
                                 <button className="border bg-black text-white mt-6 hover:bg-purple-700" style={{height: "50px", width: "200px"}} onClick={addToCart}>Add To Cart</button>
                                 <button className="border bg-black text-white mt-6 hover:bg-purple-700 ml-2" style={{height: "50px", width: "200px"}} >
-                                    <a href="https://wa.me/+923356517758">Contact Seller</a>
+                                    <a href="https://wa.me/+923356517758" target="_blank">Contact Seller</a>
                                 </button>
                             </div>
 
