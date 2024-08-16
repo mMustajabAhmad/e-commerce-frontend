@@ -3,19 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../home/Header';
 import Footer from '../home/Footer';
 import apiClient from '../../api/authApi';
-import { jwtDecode } from 'jwt-decode';
+import { getCurrentUserId } from '../../utils/JWT_TokenDecoder';
 
 function MyProfile() {
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const user_id = getCurrentUserId();
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const token = localStorage.getItem('token');
-                const decoded_token = jwtDecode(token) 
-                const user_id = decoded_token.user_id
                 const response = await apiClient.get(`/users/${user_id}`);
                 setUser(response.data);
             } catch (error) {

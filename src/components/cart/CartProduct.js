@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import apiClient from '../../api/authApi';
-import { jwtDecode } from 'jwt-decode';
+import { getCurrentUserId } from '../../utils/JWT_TokenDecoder';
 
 function CartProduct(props){
     const cartProduct = props.data;
@@ -8,9 +8,7 @@ function CartProduct(props){
     const [product, setProduct] = useState(null); 
     const [size, setSize] = useState(null);
     const imageURL = product && product.product_images.length > 0 ? `http://localhost:3001/${product.product_images[0].url}` : '/images/watch1.png';
-    const token = localStorage.getItem('token');
-    const decoded_token = jwtDecode(token); 
-    const user_id = decoded_token.user_id;
+    const user_id = getCurrentUserId();
 
     useEffect(()=>{
         const fetchProductSizes = async ()=>{

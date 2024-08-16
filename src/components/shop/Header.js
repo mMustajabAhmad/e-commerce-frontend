@@ -3,7 +3,7 @@ import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import apiClient from '../../api/authApi';
 import { getParentCategories, getChildCategories } from '../../utils/CategoryUtils';
-import { jwtDecode } from 'jwt-decode';
+import { getCurrentUserId } from '../../utils/JWT_TokenDecoder';
 import CartProduct from '../cart/CartProduct';
 
 function Header(){
@@ -11,9 +11,7 @@ function Header(){
     const [parentCategories, setParentCategories] = useState(null);
     const [isOpen, setIsOpen] = useState(false);
     const [cart, setCart] = useState(null);
-    const token = localStorage.getItem('token');
-    const decoded_token = jwtDecode(token) 
-    const user_id = decoded_token.user_id
+    const user_id = getCurrentUserId();
 
     useEffect(()=>{
         const fetchCategories = async ()=>{
