@@ -32,10 +32,9 @@ function ModifyAddressBook(props){
                 </div>
                 <hr className='mb-4 mx-6'/>
 
-                <div className='mx-6 mt-3'>
+                <div className='mx-6 mt-3 mb-8'>
                     {userAddresses}
                     {addAddressBookEntry}
-                    <button type='submit' className='bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold'>CONTINUE</button>
                 </div>
                 
             </div>
