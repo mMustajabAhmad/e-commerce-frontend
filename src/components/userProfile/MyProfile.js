@@ -45,7 +45,7 @@ function MyProfile() {
         };
 
         fetchAddresses();
-    }, [addresses]);
+    }, [user, addresses]);
 
     if (isLoading) {
         return <div>Loading...</div>;
