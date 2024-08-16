@@ -16,6 +16,7 @@ function MyProfile() {
     const [editAccountInfo, setEditAccountInfo] = useState(false);
     const [changePassword, setChangePassword] = useState(false);
     const [modifyAddressBook, setModifyAddressBook] = useState(false);
+    const [addresses, setAddresses] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -32,6 +33,19 @@ function MyProfile() {
 
         fetchUserData();
     }, [navigate]);
+
+    useEffect(() => {
+        const fetchAddresses = async () => {
+            try {
+                const response = await apiClient.get(`/users/${user && user.id}/addresses`);
+                setAddresses(response.data);
+            } catch (error) {
+                console.error('Error fetching Addresses', error);
+            }
+        };
+
+        fetchAddresses();
+    }, [user]);
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -115,7 +129,7 @@ function MyProfile() {
                     </div>
 
                     {modifyAddressBook &&
-                        <ModifyAddressBook />
+                        <ModifyAddressBook data={addresses}/>
                     }
                 </div>
             </main>

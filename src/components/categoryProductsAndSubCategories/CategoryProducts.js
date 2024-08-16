@@ -5,7 +5,6 @@ import CategoryProductRow from "./CategoryProductsRow";
 import { useEffect, useState } from "react";
 import apiClient from '../../api/authApi';
 import SubCategoryRow from "./SubCategoryRow";
-import { getParentCategories } from "../../utils/CategoryUtils"
 
 function CategoryProducts(){
     const { id } = useParams();
