@@ -4,6 +4,9 @@ import Header from '../shop/Header';
 import Footer from '../shop/Footer';
 import apiClient from '../../api/authApi';
 import { getCurrentUserId } from '../../utils/JWT_TokenDecoder';
+import AccountInfo from './AccountInfo';
+import ChangePassword from './ChangePassword';
+import ModifyAddressBook from './ModifyAddressBook';
 
 function MyProfile() {
     const [user, setUser] = useState(null);
@@ -13,8 +16,6 @@ function MyProfile() {
     const [editAccountInfo, setEditAccountInfo] = useState(false);
     const [changePassword, setChangePassword] = useState(false);
     const [modifyAddressBook, setModifyAddressBook] = useState(false);
-    const addressEntries = [];
-    const [addAddressBookEntry, setAddAddressBookEntry] = useState(addressEntries);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -53,21 +54,6 @@ function MyProfile() {
             </>
         );
     }
-
-    function addEntry(){
-        addressEntries.push(
-            <div className='flex flex-row mt-4'>
-                <div className='flex flex-row w-full'>
-                    <input type='text' className='border p-2 w-2/3'></input>
-                    <button className='bg-green-600 ml-6 px-11 text-white font-bold'>Add</button>
-                    <button className='bg-red-600 ml-4 px-8 text-white font-bold'>Cancel</button>
-                </div>
-            </div>
-        )
-        setAddAddressBookEntry([...addAddressBookEntry, addressEntries]);
-    }
-
-
 
     return (
         <>
@@ -128,46 +114,7 @@ function MyProfile() {
                     </div>
 
                     {editAccountInfo &&
-                        <div className='border border-gray-300 rounded flex flex-col'>
-                            <div className='flex flex-row mt-2 p-6'>
-                                <span className='text-[20px]'>Your Personal Details</span>
-                                
-                            </div>
-                            <hr className='mb-4 mx-6'/>
-
-                            <form className='mx-6 mt-3'>
-                                <div className='flex flex-row'>
-                                    <div className='flex flex-col w-1/2 mr-4'>
-                                        <label>First Name</label>
-                                        <input type='text' className='border p-2 w-full'></input>
-                                    </div>
-                                    <div className='flex flex-col w-1/2 ml-4'>
-                                        <label>Last Name</label>
-                                        <input type='text' className='border p-2 w-full'></input>
-                                    </div> 
-                                </div>
-
-                                <div className='flex flex-row mt-8'>
-                                    <div className='flex flex-col w-full'>
-                                        <label>Email Address</label>
-                                        <input type='email' className='border p-2 w-full'></input>
-                                    </div>
-                                </div>
-
-                                <div className='flex flex-row mt-8'>
-                                    <div className='flex flex-col w-1/2 mr-4'>
-                                        <label>Contact Number</label>
-                                        <input type='text' className='border p-2 w-full'></input>
-                                    </div>
-                                    <div className='flex flex-col w-1/2 ml-4'>
-                                        <label>Contact Number(Alternate)</label>
-                                        <input type='text' className='border p-2 w-full'></input>
-                                    </div> 
-                                </div>
-                                <button type='submit' className='bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold'>CONTINUE</button>
-                            </form>
-                            
-                        </div>
+                        <AccountInfo />
                     }
 
                     <div className='flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6'>
@@ -185,31 +132,7 @@ function MyProfile() {
                     </div>
 
                     {changePassword &&
-                        <div className='border border-gray-300 rounded flex flex-col'>
-                            <div className='flex flex-row mt-2 p-6'>
-                                <span className='text-[20px]'>Change Password</span>
-                                
-                            </div>
-                            <hr className='mb-4 mx-6'/>
-
-                            <form className='mx-6 mt-3'>
-                                <div className='flex flex-row'>
-                                    <div className='flex flex-col w-full'>
-                                        <label>Password</label>
-                                        <input type='email' className='border p-2 w-full'></input>
-                                    </div>
-                                </div>
-
-                                <div className='flex flex-row mt-8'>
-                                    <div className='flex flex-col w-full'>
-                                        <label>Confirm Password</label>
-                                        <input type='email' className='border p-2 w-full'></input>
-                                    </div>
-                                </div>
-                                <button type='submit' className='bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold'>CONTINUE</button>
-                            </form>
-                            
-                        </div>
+                        <ChangePassword />
                     }
 
                     <div className='flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6'>
@@ -225,37 +148,9 @@ function MyProfile() {
                             </div>
                         </div>
                     </div>
+
                     {modifyAddressBook &&
-                        <div className='border border-gray-300 rounded flex flex-col'>
-                            <div className='flex flex-row mt-2 p-6'>
-                                <span className='text-[20px]'>Address Book Entries</span>
-                                <div className="bg-black p-2 hover:bg-purple-700" style={{marginLeft: "70%", borderRadius:"26px", width: "40px"}} onClick={addEntry}><i className='fa fa-plus text-white ml-1'></i></div>
-                            </div>
-                            <hr className='mb-4 mx-6'/>
-
-                            <form className='mx-6 mt-3'>
-                                <div className='flex flex-row'>
-                                    <div className='flex flex-row w-full'>
-                                        <input type='text' className='border p-2 w-2/3'></input>
-                                        <button className='bg-green-600 ml-6 px-8 text-white font-bold'>Update</button>
-                                        <button className='bg-red-600 ml-4 px-8 text-white font-bold'>Delete</button>
-                                    </div>
-                                </div>
-
-                                <div className='flex flex-row mt-4'>
-                                    <div className='flex flex-row w-full'>
-                                        <input type='text' className='border p-2 w-2/3'></input>
-                                        <button className='bg-green-600 ml-6 px-8 text-white font-bold'>Update</button>
-                                        <button className='bg-red-600 ml-4 px-8 text-white font-bold'>Delete</button>
-                                    </div>
-                                </div>
-
-                                {addAddressBookEntry}
-
-                                <button type='submit' className='bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold'>CONTINUE</button>
-                            </form>
-                            
-                        </div>
+                        <ModifyAddressBook />
                     }
                 </div>
             </main>
