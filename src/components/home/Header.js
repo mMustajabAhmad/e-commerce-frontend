@@ -3,11 +3,18 @@ import { Fragment, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import apiClient from '../../api/authApi';
 import {getParentCategories, getChildCategories} from '../../utils/CategoryUtils'
+import { jwtDecode } from 'jwt-decode';
+import CartProduct from '../cart/CartProduct';
 
 function Header() {
     const [categories, setCategories] = useState(null);
     const [parentCategories, setParentCategories] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
+    const [cart, setCart] = useState(null);
+    const token = localStorage.getItem('token');
+    const decoded_token = jwtDecode(token) 
+    const user_id = decoded_token.user_id
+
 
     useEffect(()=>{
         const fetchCategories = async () => {
@@ -22,6 +29,36 @@ function Header() {
         fetchCategories();
     },[]  
     );
+
+    useEffect(() =>{
+        const fetchCart = async () =>{
+            try{
+                const response = await apiClient.get(`/users/${user_id}/cart`);
+                setCart(response.data);
+            }catch(error){
+                console.log(error);
+            }
+        };
+        fetchCart();
+    }, [cart]);
+
+    const cartProducts = [];
+
+    if(cart){
+        for(let i=0; i< cart.length; i++){
+            cartProducts.push(
+                <CartProduct data={cart[i]}/>
+            );
+        }
+    }
+
+    const clearCart = async()=>{
+        try{
+            await apiClient.delete(`/users/${user_id}/cart`);
+        }catch(error){
+            console.log("ERROR", error);
+        }
+    }
 
     return (
         <header>
@@ -144,7 +181,7 @@ function Header() {
                                         <p className='flex justify-center float-right mt-4 mr-4 p-1 hover:bg-purple-700 bg-black text-white rounded-3xl' onClick={() => setIsOpen(!isOpen)}><i className="fa fa-angle-up flex justify-center pl-1 pt-1" style={{width: "25px", height: "25px"}}></i></p>
                                         <br/>
                                         <hr className='mt-9'/>
-                                        <div className='flex flex-col mt-6 ml-10 mr-4'>
+                                        {/* <div className='flex flex-col mt-6 ml-10 mr-4'>
                                             <div className='flex flex-row'>
                                                 <div style={{backgroundImage: `url(/images/watch1.png)`, height: "150px", width: "150px", backgroundSize: "cover"}} className='flex flex-col mt-2 ml-2'></div>
                                                 <div className='flex flex-col'>
@@ -195,7 +232,19 @@ function Header() {
                                             <hr className='mt-6 mr-6 mb-6'/>
                                             <button className='bg-black hover:bg-purple-700 text-white font-bold ml-14 mr-16 p-2 mb-2'>CHECKOUT</button>
                                             <button className='bg-black hover:bg-purple-700 text-white font-bold ml-14 mr-16 p-2 mb-6'>CLEAR CART</button>
-                                        </div>
+                                        </div> */}
+
+                                        {cart && cart.length > 0 ?
+                                            <div className='flex flex-col mt-6 ml-10 mr-4'>
+                                                {cartProducts}
+                                                <button className='bg-black hover:bg-purple-700 text-white font-bold ml-14 mr-16 p-2 mb-2'>CHECKOUT</button>
+                                                <button className='bg-black hover:bg-purple-700 text-white font-bold ml-14 mr-16 p-2 mb-6' onClick={clearCart}>CLEAR CART</button>
+                                            </div>
+                                            :
+                                            <div className='flex flex-col mt-6 ml-10 mr-4'>
+                                                <p className='text-2xl font-bold mb-4'>Your Cart is empty :(</p>
+                                            </div>
+                                        }
 
                                     </div> 
                                     : 
