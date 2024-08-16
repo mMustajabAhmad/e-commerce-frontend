@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import AddressBookEntryForModification from './AddressBookEntryForModification';
+import NewAddressBookEntry from './NewAddressBookEntry';
 
 function ModifyAddressBook(props){
     const addresses = props.data;
@@ -9,26 +11,14 @@ function ModifyAddressBook(props){
     if(addresses){
         for(let i=0; i<addresses.length; i++){
             userAddresses.push(
-                <div className='flex flex-row mt-4'>
-                    <div className='flex flex-row w-full'>
-                        <input type='text' className='border p-2 w-2/3' value={addresses[i].address}></input>
-                        <button className='bg-green-600 ml-6 px-8 text-white font-bold'>Update</button>
-                        <button className='bg-red-600 ml-4 px-8 text-white font-bold'>Delete</button>
-                    </div>
-                </div>
+                <AddressBookEntryForModification data={addresses[i]}/>
             )
         }
     }
 
     function addEntry(){
         addressEntries.push(
-            <div className='flex flex-row mt-4'>
-                <div className='flex flex-row w-full'>
-                    <input type='text' className='border p-2 w-2/3'></input>
-                    <button className='bg-green-600 ml-6 px-11 text-white font-bold'>Add</button>
-                    <button className='bg-red-600 ml-4 px-8 text-white font-bold'>Cancel</button>
-                </div>
-            </div>
+            <NewAddressBookEntry />
         )
         setAddAddressBookEntry([...addAddressBookEntry, addressEntries]);
     }
@@ -43,25 +33,8 @@ function ModifyAddressBook(props){
                 <hr className='mb-4 mx-6'/>
 
                 <div className='mx-6 mt-3'>
-                    {/* <div className='flex flex-row'>
-                        <div className='flex flex-row w-full'>
-                            <input type='text' className='border p-2 w-2/3'></input>
-                            <button className='bg-green-600 ml-6 px-8 text-white font-bold'>Update</button>
-                            <button className='bg-red-600 ml-4 px-8 text-white font-bold'>Delete</button>
-                        </div>
-                    </div>
-
-                    <div className='flex flex-row mt-4'>
-                        <div className='flex flex-row w-full'>
-                            <input type='text' className='border p-2 w-2/3'></input>
-                            <button className='bg-green-600 ml-6 px-8 text-white font-bold'>Update</button>
-                            <button className='bg-red-600 ml-4 px-8 text-white font-bold'>Delete</button>
-                        </div>
-                    </div> */}
                     {userAddresses}
-
                     {addAddressBookEntry}
-
                     <button type='submit' className='bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold'>CONTINUE</button>
                 </div>
                 
