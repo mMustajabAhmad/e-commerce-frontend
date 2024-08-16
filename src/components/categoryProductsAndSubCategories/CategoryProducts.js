@@ -60,6 +60,7 @@ function CategoryProducts(){
             try{
                 const response = await apiClient.get(`/categories/${id}/sub_categories`);
                 setSubCategories(response.data);
+                console.log("subCategories", subCategories)
             }catch(error){
                 console.log("Error", error);
             }

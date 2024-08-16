@@ -8,6 +8,9 @@ function CartProduct(props){
     const [product, setProduct] = useState(null); 
     const [size, setSize] = useState(null);
     const imageURL = product && product.product_images.length > 0 ? `http://localhost:3001/${product.product_images[0].url}` : '/images/watch1.png';
+    const token = localStorage.getItem('token');
+    const decoded_token = jwtDecode(token); 
+    const user_id = decoded_token.user_id;
 
     useEffect(()=>{
         const fetchProductSizes = async ()=>{
@@ -54,27 +57,27 @@ function CartProduct(props){
     );
 
     const addOneToQuantity = async() =>{
-        const token = localStorage.getItem('token');
-        const decoded_token = jwtDecode(token); 
-        const user_id = decoded_token.user_id;
         try{
             await apiClient.patch(`/users/${user_id}/cart/carts_products/${cartProduct && cartProduct.id}/add_one_to_quantity`);
         }catch(error){
             console.log("ERROR", error);
         }
-        
     };
 
     const subtractOneFromQuantity = async() =>{
-        const token = localStorage.getItem('token');
-        const decoded_token = jwtDecode(token); 
-        const user_id = decoded_token.user_id;
         try{
             await apiClient.patch(`/users/${user_id}/cart/carts_products/${cartProduct && cartProduct.id}/subtract_one_from_qantity`);
         }catch(error){
             console.log("ERROR", error);
         }
-        
+    };
+
+    const removeProductFromCart = async() =>{
+        try{
+            await apiClient.delete(`/users/${user_id}/cart/carts_products/${cartProduct && cartProduct.id}`);
+        }catch(error){
+            console.log("ERROR", error);
+        }
     };
 
     return(
@@ -92,7 +95,7 @@ function CartProduct(props){
                     </p>
                 </div>
                 <div className='flex flex-col ml-16 mt-14'>
-                    <button><i className="fa fa-close ml-10"></i></button>
+                    <button onClick={removeProductFromCart} ><i className="fa fa-close ml-10"></i></button>
                 </div>
             </div>
             <hr className='mt-6 mr-6 mb-6'/>
