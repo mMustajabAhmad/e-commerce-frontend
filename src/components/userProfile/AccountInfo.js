@@ -21,7 +21,7 @@ function AccountInfo(props){
 
     const updateUserInfo = async() =>{
         try{
-            await apiClient.put(`/users/${user && user.id}`,{"user":{"name": name, "email":email, "phone_number": phoneNumber}});
+            await apiClient.patch(`/users/${user && user.id}`,{"user":{"name": name, "email":email, "phone_number": phoneNumber}});
         }catch(error){
             console.log("ERROR", error);
         }

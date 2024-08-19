@@ -29,7 +29,7 @@ function AddressBookEntryForModification(props){
             <div className='flex flex-row mt-4'>
                 <div className='flex flex-row w-full'>
                     <input type='text' className='border p-2 w-2/3' value={addressValue} onChange={handleInputChange}></input>
-                    <button className='bg-green-600 ml-6 px-8 text-white font-bold' onClick={updateAddress}>Update</button>
+                    <button className='bg-black hover:bg-purple-700 ml-6 px-8 text-white font-bold' onClick={updateAddress}>Update</button>
                     <button className='bg-red-600 ml-4 px-8 text-white font-bold' onClick={deleteAddress}>Delete</button>
                 </div>
             </div>

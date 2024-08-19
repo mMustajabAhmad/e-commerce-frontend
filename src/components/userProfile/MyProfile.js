@@ -111,7 +111,7 @@ function MyProfile() {
                     </div>
 
                     {changePassword &&
-                        <ChangePassword />
+                        <ChangePassword data={user}/>
                     }
 
                     <div className='flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6'>
