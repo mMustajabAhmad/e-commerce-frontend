@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { login } from "../api/authApi";
 
+
 export default function Signin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,8 +16,9 @@ export default function Signin() {
     setError("");
 
     try {
-      const { token } = await login(email, password);
+      const { token, expiration_time } = await login(email, password);
       localStorage.setItem("token", token); 
+      localStorage.setItem("expirationTime", expiration_time)
       navigate(from); //redirect to previous route
     } catch (err) {
       setError("Invalid email or password.");

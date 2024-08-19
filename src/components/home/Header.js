@@ -58,6 +58,11 @@ function Header() {
         }
     }
 
+    function logout(){
+        localStorage.removeItem('expirationTime');
+        localStorage.removeItem('token');
+    }
+
     return (
         <header>
             <nav className='bg-black h-20'>
@@ -169,6 +174,18 @@ function Header() {
                                                 </a>
                                             )}
                                         </MenuItem>
+
+                                        <MenuItem as={Fragment}>
+                                            {({ active }) => (
+                                                <a
+                                                    href="/signin"
+                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                    onClick={logout}
+                                                >
+                                                    Logout
+                                                </a>
+                                            )}
+                                        </MenuItem>
                                     </div>
                                 </MenuItems>
                             </Menu>
@@ -179,58 +196,6 @@ function Header() {
                                         <p className='flex justify-center float-right mt-4 mr-4 p-1 hover:bg-purple-700 bg-black text-white rounded-3xl' onClick={() => setIsOpen(!isOpen)}><i className="fa fa-angle-up flex justify-center pl-1 pt-1" style={{width: "25px", height: "25px"}}></i></p>
                                         <br/>
                                         <hr className='mt-9'/>
-                                        {/* <div className='flex flex-col mt-6 ml-10 mr-4'>
-                                            <div className='flex flex-row'>
-                                                <div style={{backgroundImage: `url(/images/watch1.png)`, height: "150px", width: "150px", backgroundSize: "cover"}} className='flex flex-col mt-2 ml-2'></div>
-                                                <div className='flex flex-col'>
-                                                    <p className='mt-2 ml-2 text-2xl font-bold flex flex-row'>Product Name</p>
-                                                    <p className='mt-2 ml-2 font-bold flex flex-row'>Size: <span className='ml-2 text-rose-500 font-normal'>S</span></p>
-                                                    <p className='mt-2 ml-2 font-bold flex flex-row'>Quantity: <span className='ml-2 font-normal'>2</span></p>
-                                                    <p className='flex flex-row ml-3 mt-2 '>
-                                                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>-</button>
-                                                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>+</button>
-                                                    </p>
-                                                </div>
-                                                <div className='flex flex-col ml-16 mt-14'>
-                                                    <button><i class="fa fa-close"></i></button>
-                                                </div>
-                                            </div>
-                                            <hr className='mt-6 mr-6 mb-6'/>
-                                            <div className='flex flex-row'>
-                                                <div style={{backgroundImage: `url(/images/watch1.png)`, height: "150px", width: "150px", backgroundSize: "cover"}} className='flex flex-col mt-2 ml-2'></div>
-                                                <div className='flex flex-col'>
-                                                    <p className='mt-2 ml-2 text-2xl font-bold flex flex-row'>Product Name</p>
-                                                    <p className='mt-2 ml-2 font-bold flex flex-row'>Size: <span className='ml-2 text-rose-500 font-normal'>S</span></p>
-                                                    <p className='mt-2 ml-2 font-bold flex flex-row'>Quantity: <span className='ml-2 font-normal'>2</span></p>
-                                                    <p className='flex flex-row ml-3 mt-2 '>
-                                                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>-</button>
-                                                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>+</button>
-                                                    </p>
-                                                </div>
-                                                <div className='flex flex-col ml-16 mt-14'>
-                                                    <button><i class="fa fa-close"></i></button>
-                                                </div>
-                                            </div>
-                                            <hr className='mt-6 mr-6 mb-6'/>
-                                            <div className='flex flex-row'>
-                                                <div style={{backgroundImage: `url(/images/watch1.png)`, height: "150px", width: "150px", backgroundSize: "cover"}} className='flex flex-col mt-2 ml-2'></div>
-                                                <div className='flex flex-col'>
-                                                    <p className='mt-2 ml-2 text-2xl font-bold flex flex-row'>Product Name</p>
-                                                    <p className='mt-2 ml-2 font-bold flex flex-row'>Size: <span className='ml-2 text-rose-500 font-normal'>S</span></p>
-                                                    <p className='mt-2 ml-2 font-bold flex flex-row'>Quantity: <span className='ml-2 font-normal'>2</span></p>
-                                                    <p className='flex flex-row ml-3 mt-2 '>
-                                                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>-</button>
-                                                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}}>+</button>
-                                                    </p>
-                                                </div>
-                                                <div className='flex flex-col ml-16 mt-14'>
-                                                    <button><i class="fa fa-close"></i></button>
-                                                </div>
-                                            </div>
-                                            <hr className='mt-6 mr-6 mb-6'/>
-                                            <button className='bg-black hover:bg-purple-700 text-white font-bold ml-14 mr-16 p-2 mb-2'>CHECKOUT</button>
-                                            <button className='bg-black hover:bg-purple-700 text-white font-bold ml-14 mr-16 p-2 mb-6'>CLEAR CART</button>
-                                        </div> */}
 
                                         {cart && cart.length > 0 ?
                                             <div className='flex flex-col mt-6 ml-10 mr-4'>

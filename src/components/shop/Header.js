@@ -58,6 +58,11 @@ function Header(){
         }
     }
 
+    function logout(){
+        localStorage.removeItem('expirationTime');
+        localStorage.removeItem('token');
+    }
+
     return (
         <header>
             <nav className='bg-white h-20'>
@@ -128,7 +133,58 @@ function Header(){
                     <div>
                         <input className='px-2 py-1 rounded border' type='text' style={{marginLeft: "150px", marginTop: "20px"}} placeholder='Search...' ></input>
                         <i className="fas fa-search mt-4 ml-2" style={{ color: 'black', fontSize: '24px' ,paddingLeft: "10px"}} ></i>
-                        <i className="fas fa-user pl-10 mt-4" style={{ color: 'black', fontSize: '24px'}} ></i>
+                        <Menu as="div" className="relative inline-block text-left">
+                                <div>
+                                    <MenuButton className="text-white font-bold pl-10">
+                                        <i className="fas fa-user text-black" style={{ fontSize: '24px' }}></i>
+                                    </MenuButton>
+                                </div>
+                                <MenuItems className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                                    <div className="p-1">
+                                        <MenuItem as={Fragment}>
+                                            {({ active }) => (
+                                                <a
+                                                    href="/signin"
+                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                >
+                                                    Sign In
+                                                </a>
+                                            )}
+                                        </MenuItem>
+                                        <MenuItem as={Fragment}>
+                                            {({ active }) => (
+                                                <a
+                                                    href="/signup"
+                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                >
+                                                    Sign Up
+                                                </a>
+                                            )}
+                                        </MenuItem>
+                                        <MenuItem as={Fragment}>
+                                            {({ active }) => (
+                                                <a
+                                                    href="/myProfile"
+                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                >
+                                                    My Profile
+                                                </a>
+                                            )}
+                                        </MenuItem>
+                                        <MenuItem as={Fragment}>
+                                            {({ active }) => (
+                                                <a
+                                                    href="/signin"
+                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
+                                                    onClick={logout}
+                                                >
+                                                    Logout
+                                                </a>
+                                            )}
+                                        </MenuItem>
+                                    </div>
+                                </MenuItems>
+                            </Menu>
                         <i className="fas fa-shopping-cart pl-10 mt-4" style={{ color: 'black', fontSize: '24px'}} onClick={() => setIsOpen(!isOpen)}></i>
 
                         {isOpen ? 

@@ -10,7 +10,6 @@ import ModifyAddressBook from './ModifyAddressBook';
 
 function MyProfile() {
     const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     const user_id = getCurrentUserId();
     const [editAccountInfo, setEditAccountInfo] = useState(false);
@@ -26,9 +25,7 @@ function MyProfile() {
             } catch (error) {
                 console.error('Error fetching user data', error);
                 navigate('/signin', { state: { from: '/myProfile' } });
-            } finally {
-                setIsLoading(false);
-            }
+            } 
         };
 
         fetchUserData();
@@ -46,28 +43,6 @@ function MyProfile() {
 
         fetchAddresses();
     }, [user, addresses]);
-
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (!user) {
-        return (
-            <>
-                <Header />
-                <main className="flex flex-col min-h-screen">
-                    <div className="container mx-auto mt-6 px-4">
-                        <h1 className="text-3xl font-bold mb-4">Edit Account Information</h1>
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h2 className="text-2xl font-semibold mb-4">User Information</h2>
-                            <p>You are not logged in. Please <Link to="/signin" className="text-indigo-600">login</Link> to view your profile.</p>
-                        </div>
-                    </div>
-                </main>
-                <Footer />
-            </>
-        );
-    }
 
     return (
         <>
