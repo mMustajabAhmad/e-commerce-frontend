@@ -25,9 +25,9 @@ function Shop(){
             <div className="wrapper">
                 <Header />
                 
-                <main className="flex flex-col min-h-screen z-11">
+                <main className="flex flex-col min-h-screen">
                     <div className="h-20 flex justify-center bg-gray-200 ">
-                        <span className="font-bold text-3xl mt-4">HOME / SHOP</span>
+                        <span className="font-medium text-3xl mt-4">HOME / SHOP</span>
                     </div>
                     <div className="flex flex-row">
                         <div className="flex flex-col w-1/3">

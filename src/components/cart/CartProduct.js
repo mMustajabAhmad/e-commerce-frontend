@@ -1,104 +1,112 @@
-import { useEffect, useState } from "react";
-import apiClient from '../../api/authApi';
-import { getCurrentUserId } from '../../utils/JWT_TokenDecoder';
+import apiClient from "../../api/authApi";
+import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { BsTrash3 } from "react-icons/bs";
+import { 
+  fetchProductSizes,
+  fetchProduct, 
+  fetchSize, 
+  addOneToCartProductQuantity,
+  subtractOneFromCartProductQuantity,
+  removeProductFromCart
+} from "../../utils/Cart_APIs";
 
-function CartProduct(props){
-    const cartProduct = props.data;
-    const [productSize, setProductSize] = useState(null);
-    const [product, setProduct] = useState(null); 
-    const [size, setSize] = useState(null);
-    const imageURL = product && product.product_images.length > 0 ? `http://localhost:3001/${product.product_images[0].url}` : '/images/watch1.png';
-    const user_id = getCurrentUserId();
+function CartProduct(props) {
+  const cartProduct = props.data;
+  const user_id = getCurrentUserId();
+  const queryClient = useQueryClient();
 
-    useEffect(()=>{
-        const fetchProductSizes = async ()=>{
-            try{
-                const response = await apiClient.get(`/product_sizes/${cartProduct && cartProduct.product_size_id}`);
-                setProductSize(response.data);
-            }catch(error){
-                console.log("Error", error);
-            }
-        };
-        fetchProductSizes();
-    }, []
-    );
+  const {
+    data: productSize,
+    error: productSizeError,
+    isLoading: productSizeLoading,
+  } = useQuery({
+    queryKey: ["productSize", cartProduct.product_size_id],
+    queryFn: () => fetchProductSizes(cartProduct.product_size_id),
+  });
 
-    useEffect(()=>{
-        const fetchProduct = async ()=>{
-            try{
-                if(productSize){
-                    const response = await apiClient.get(`/products/${productSize && productSize.product_id}`);
-                    setProduct(response.data);
-                }
-            }catch(error){
-                console.log("Error", error);
-            }
-        };
-        fetchProduct();
-    }, [productSize]
-    );
+  const {
+    data: product,
+    error: productError,
+    isLoading: productIsLoading,
+  } = useQuery({
+    queryKey: ["product", productSize?.product_id],
+    queryFn: () => fetchProduct(productSize?.product_id),
+    enabled: !!productSize?.product_id,
+  });
 
-    useEffect(()=>{
-        const fetchSize = async ()=>{
-            try{
-                if(productSize){
-                    const response = await apiClient.get(`/sizes/${productSize && productSize.size_id}`);
-                    setSize(response.data);
-                    console.log("size", response.data);
-                }
-            }catch(error){
-                console.log("Error", error);
-            }
-        };
-        fetchSize();
-    }, [productSize]
-    );
+  const {
+    data: size,
+    error: sizeError,
+    isLoading: sizeIsLoading,
+  } = useQuery({
+    queryKey: ["size", productSize?.size_id],
+    queryFn: () => fetchSize(productSize?.size_id),
+    enabled: !!productSize?.size_id,
+  });
 
-    const addOneToQuantity = async() =>{
-        try{
-            await apiClient.patch(`/users/${user_id}/cart/carts_products/${cartProduct && cartProduct.id}/add_one_to_quantity`);
-        }catch(error){
-            console.log("ERROR", error);
-        }
-    };
+  const addOneToQuantity = useMutation({
+    mutationFn: ()=> addOneToCartProductQuantity(cartProduct.id),
+    onSuccess: ()=>{
+      queryClient.invalidateQueries(['cart', user_id]);
+    }
+  })
 
-    const subtractOneFromQuantity = async() =>{
-        try{
-            await apiClient.patch(`/users/${user_id}/cart/carts_products/${cartProduct && cartProduct.id}/subtract_one_from_qantity`);
-        }catch(error){
-            console.log("ERROR", error);
-        }
-    };
+  const subtractOneFromQuantity = useMutation({
+    mutationFn: ()=>subtractOneFromCartProductQuantity(cartProduct.id),
+    onSuccess: ()=>{
+      queryClient.invalidateQueries(['cart', user_id]);
+    }
+  })
 
-    const removeProductFromCart = async() =>{
-        try{
-            await apiClient.delete(`/users/${user_id}/cart/carts_products/${cartProduct && cartProduct.id}`);
-        }catch(error){
-            console.log("ERROR", error);
-        }
-    };
+  const removeProduct = useMutation({
+    mutationFn: ()=> removeProductFromCart(cartProduct.id),
+    onSuccess: ()=>{
+      queryClient.invalidateQueries(['cart', user_id]);
+    }
+  })
 
-    return(
-        <>
-            <div className='flex flex-row'>
-                <div style={{backgroundImage: `url(${imageURL})`, height: "170px", width: "150px", backgroundSize: "cover"}} className='flex flex-col mt-2 ml-2'></div>
-                <div className='flex flex-col ml-4'>
-                    <p className='mt-2 ml-2 text-2xl font-bold flex flex-row'>{product && product.title}</p>
-                    <p className='mt-2 ml-2 font-bold flex flex-row'>Size: <span className='ml-2 text-rose-500 font-normal'>{size && size.name}</span></p>
-                    <p className='mt-2 ml-2 font-bold flex flex-row'>Quantity: <span className='ml-2 font-normal'>{cartProduct.quantity}</span></p>
-                    <p className='mt-2 ml-2 font-bold flex flex-row'>Price: <span className='ml-2 font-normal'>{productSize && productSize.price}</span></p>
-                    <p className='flex flex-row ml-3 mt-2 '>
-                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}} onClick={subtractOneFromQuantity}>-</button>
-                        <button className='flex flex-col justify-center pl-2 border' style={{width: "30px", height: "30px"}} onClick={addOneToQuantity}>+</button>
-                    </p>
-                </div>
-                <div className='flex flex-col ml-16 mt-14'>
-                    <button onClick={removeProductFromCart} ><i className="fa fa-close ml-10"></i></button>
-                </div>
+  if (productSizeLoading) return <div>Loading product size...</div>;
+  if (productSizeError) return <div>Error loading product size!</div>;
+
+  if (productIsLoading) return <div>Loading product...</div>;
+  if (productError) return <div>Error loading product!</div>;
+
+  if (sizeIsLoading) return <div>Loading size...</div>;
+  if (sizeError) return <div>Error loading size!</div>;
+
+
+  const imageURL =
+    product?.product_images.length > 0
+      ? `http://localhost:3001/${product.product_images[0].url}`
+      : "/images/watch1.png";
+
+  return (
+    
+    <>
+      <div className="flex flex-col">
+        <div className="flex flex-row mx-6 gap-4">
+          <img src={imageURL} alt="image" className="w-[5em] h-[5em] rounded-md"></img>
+          <div className="flex flex-col w-full">
+            <span>{product.title}</span>
+            <span className="text-red-600">{size.name}</span>
+            <span className="font-medium">${productSize.price * cartProduct.quantity}</span>
+            <div className="flex flex-row justify-between w-full mt-1.5">
+              <div className="flex flex-row border gap-3 px-2 py-1 rounded-md text-md">
+                <button onClick={() => subtractOneFromQuantity.mutate()}>-</button>
+                <span className="px-2">{cartProduct.quantity}</span>
+                <button onClick={() => addOneToQuantity.mutate()}>+</button>
+              </div>
+              <div className="flex flex-row text-sm text-slate-500 gap-0.5 mr-1">
+                <BsTrash3 />
+                <span className="underline" onClick={() => removeProduct.mutate()} >Remove</span>
+              </div>
             </div>
-            <hr className='mt-6 mr-6 mb-6'/>
-        </>
-    );
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default CartProduct;

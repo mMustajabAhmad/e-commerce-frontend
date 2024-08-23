@@ -7,9 +7,9 @@ function ShopProduct(props){
     
     return(
         <>
-            <div>
-                <div style={{backgroundImage: `url(${imageURL})`, width: "250px", height: "300px", backgroundSize: "cover"}}></div>
-                <div className="mt-3 flex justify-center">
+            <div >
+                <div className="rounded" style={{backgroundImage: `url(${imageURL})`, width: "250px", height: "300px", backgroundSize: "cover"}}></div>
+                <div className="mt-3">
                     <div>
                         <Link to={`/products/${product.id}`} className="ml-2 hover:text-purple-700 text-1xl">{product.title}</Link>
                         <br></br>

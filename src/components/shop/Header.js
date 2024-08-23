@@ -37,7 +37,7 @@ function Header(){
             }
         };
         fetchCart();
-    }, [cart]);
+    }, []);
 
 
     const cartProducts = [];
@@ -187,7 +187,7 @@ function Header(){
                             </Menu>
                         <i className="fas fa-shopping-cart pl-10 mt-4" style={{ color: 'black', fontSize: '24px'}} onClick={() => setIsOpen(!isOpen)}></i>
 
-                        {isOpen ? 
+                        {/* {isOpen ? 
                             <div className='bg-white relative z-10 mt-2 rounded border'>
                                 <p className='flex justify-center float-right mt-4 mr-4 p-1 hover:bg-purple-700 bg-black text-white rounded-3xl' onClick={() => setIsOpen(!isOpen)}><i className="fa fa-angle-up flex justify-center pl-1 pt-1" style={{width: "25px", height: "25px"}}></i></p>
                                 <br/>
@@ -207,7 +207,7 @@ function Header(){
                             : 
                             <>
                             </>
-                        }
+                        } */}
                     </div>
                 </div>
             </nav>
