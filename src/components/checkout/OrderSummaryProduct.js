@@ -19,7 +19,6 @@ import { IoCloseOutline } from "react-icons/io5";
 
 const OrderSummaryProduct = (props) => {
   const orderSummaryProduct = props.cartProduct;
-  console.log("order,summary", orderSummaryProduct)
   const user_id = getCurrentUserId();
   const queryClient = useQueryClient();
   const [voucherCode, setVoucherCode] = useState('');

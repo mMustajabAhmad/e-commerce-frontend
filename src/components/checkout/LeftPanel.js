@@ -25,9 +25,9 @@ const LeftPanel = (props) =>{
   }
   return(
     <>
-      <div className="flex flex-col w-2/3 ml-16 mr-10 mt-4">
-          <span className="font-medium text-lg my-2">Order Summary</span>
-          <div className="flex flex-col h-[450px] overflow-auto rounded-lg border">
+      <div className="flex flex-col w-2/3 ml-16 mr-8 gap-2 mt-20">
+          <span className="font-medium text-lg flex flex-row ml-1">Order Summary</span>
+          <div className="flex flex-col h-2/3 overflow-auto rounded-lg border">
             {orderSummaryProducts}
           </div>
       </div>

@@ -27,7 +27,7 @@ const Checkout = ()=>{
         <div className="h-20 flex justify-center bg-gray-200 ">
             <span className="font-medium text-3xl mt-4">CHECKOUT</span>
         </div>
-        <div className="flex flex-row w-full mt-10">
+        <div className="flex flex-row w-full min-h-screen">
           <LeftPanel data={cart}/>
           <RightPanel data={bill}/>
         </div>
