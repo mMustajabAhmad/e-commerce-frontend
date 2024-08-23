@@ -1,4 +1,3 @@
-import apiClient from "../../api/authApi";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { BsTrash3 } from "react-icons/bs";
@@ -90,14 +89,14 @@ function CartProduct(props) {
           <div className="flex flex-col w-full">
             <span>{product.title}</span>
             <span className="text-red-600">{size.name}</span>
-            <span className="font-medium">${productSize.price * cartProduct.quantity}</span>
+            <span className="font-medium">${cartProduct.price * cartProduct.quantity}</span>
             <div className="flex flex-row justify-between w-full mt-1.5">
               <div className="flex flex-row border gap-3 px-2 py-1 rounded-md text-md">
                 <button onClick={() => subtractOneFromQuantity.mutate()}>-</button>
                 <span className="px-2">{cartProduct.quantity}</span>
                 <button onClick={() => addOneToQuantity.mutate()}>+</button>
               </div>
-              <div className="flex flex-row text-sm text-slate-500 gap-0.5 mr-1">
+              <div className="flex flex-row text-sm text-slate-500 gap-0.5 mr-1 items-center">
                 <BsTrash3 />
                 <span className="underline" onClick={() => removeProduct.mutate()} >Remove</span>
               </div>
