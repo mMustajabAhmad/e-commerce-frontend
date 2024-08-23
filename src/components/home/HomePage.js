@@ -5,23 +5,19 @@ import ProductGridRow from "./ProductGridRow";
 import { Link } from "react-router-dom";
 import { makeListOfEightProducts } from '../../utils/HomeProductsUtils'
 import { useQuery } from '@tanstack/react-query';
-import axios from "axios";
+import { fetchProducts } from "../../utils/Product_APIs";
 
-const fetchProducts = async()=>{
-  const response = await axios.get(
-    "http://localhost:3001/products",
-  );
-  return makeListOfEightProducts(response.data);
-};
 
 function HomePage(){
-  const { data: products, error, isLoading } = useQuery({queryKey: ['products'], queryFn: fetchProducts});
+  const { data: fetchedproducts, error, isLoading } = useQuery({queryKey: ['products'], queryFn: fetchProducts});
   
   let productList1 = [];
   let productList2 = [];
 
   if(error) return <div>Error</div>
   if(isLoading) return <div>Loading...</div>
+
+  const products = makeListOfEightProducts(fetchedproducts)
   if(products){
     productList1 = products.slice(0,4);
     productList2 = products.slice(4,8);
