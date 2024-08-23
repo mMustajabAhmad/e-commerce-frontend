@@ -1,26 +1,24 @@
-import { useState, useEffect } from "react";
-import apiClient from "../../api/authApi";
 import {
   getParentCategories,
   getChildCategories,
 } from "../../utils/CategoryUtils";
+import { fetchCategories } from "../../utils/Category_APIs";
+import { useQuery } from "@tanstack/react-query";
 
 function LeftPanel() {
-  const [categories, setCategories] = useState(null);
-  const [parentCategories, setParentCategories] = useState(null);
+  const {
+    data: categories,
+    error: categoriesError,
+    isLoading: loadingCategories
+  } = useQuery ({
+    queryKey: ["categories"],
+    queryFn: () => fetchCategories()
+  })
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await apiClient.get("/categories");
-        setCategories(response.data);
-        setParentCategories(getParentCategories(response.data));
-      } catch (error) {
-        console.error("Error: ", error);
-      }
-    };
-    fetchCategories();
-  }, []);
+  if (loadingCategories) return <div>Loading Categories...</div>
+  if (categoriesError) return <div>Error</div>
+
+  const parentCategories = getParentCategories(categories);
 
   return (
     <>
