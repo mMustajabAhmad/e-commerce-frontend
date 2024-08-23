@@ -2,24 +2,22 @@ import Header from "./Header";
 import Footer from "./Footer";
 import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
-import { useEffect, useState } from "react";
-import apiClient from "../../api/authApi";
+import { fetchProducts } from "../../utils/Product_APIs";
+import { useQuery } from "@tanstack/react-query";
 
 
 function Shop(){
-    const [products, setProducts] = useState(null);
-    useEffect(()=>{
-        const fetchProducts = async ()=>{
-            try{
-                const response = await apiClient.get('/products');
-                setProducts(response.data)
-            } catch(error){
-                console.log(error);
-            }
-        };
-        fetchProducts();
-    }, []
-    );
+    const {
+        data: products,
+        error: productsError,
+        isLoading: loadingProducts
+    } = useQuery({
+        queryKey: ["products"],
+        queryFn: () => fetchProducts(),
+    })
+    
+    if(loadingProducts) return <div>Loading Products...</div>
+    if(productsError) return <div>Error</div>
     return (
         <>
             <div className="wrapper">
