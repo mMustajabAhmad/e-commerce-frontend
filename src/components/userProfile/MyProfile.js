@@ -1,117 +1,136 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Header from '../shop/Header';
-import Footer from '../shop/Footer';
-import apiClient from '../../api/authApi';
-import { getCurrentUserId } from '../../utils/JWT_TokenDecoder';
-import AccountInfo from './AccountInfo';
-import ChangePassword from './ChangePassword';
-import ModifyAddressBook from './ModifyAddressBook';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Header from "../shop/Header";
+import Footer from "../shop/Footer";
+import apiClient from "../../api/authApi";
+import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
+import AccountInfo from "./AccountInfo";
+import ChangePassword from "./ChangePassword";
+import ModifyAddressBook from "./ModifyAddressBook";
 
 function MyProfile() {
-    const [user, setUser] = useState(null);
-    const navigate = useNavigate();
-    const user_id = getCurrentUserId();
-    const [editAccountInfo, setEditAccountInfo] = useState(false);
-    const [changePassword, setChangePassword] = useState(false);
-    const [modifyAddressBook, setModifyAddressBook] = useState(false);
-    const [addresses, setAddresses] = useState(null);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
+  const user_id = getCurrentUserId();
+  const [editAccountInfo, setEditAccountInfo] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
+  const [modifyAddressBook, setModifyAddressBook] = useState(false);
+  const [addresses, setAddresses] = useState(null);
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await apiClient.get(`/users/${user_id}`);
-                setUser(response.data);
-            } catch (error) {
-                console.error('Error fetching user data', error);
-                navigate('/signin', { state: { from: '/myProfile' } });
-            } 
-        };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await apiClient.get(`/users/${user_id}`);
+        setUser(response.data);
+      } catch (error) {
+        console.error("Error fetching user data", error);
+        navigate("/signin", { state: { from: "/myProfile" } });
+      }
+    };
 
-        fetchUserData();
-    }, [navigate]);
+    fetchUserData();
+  }, [navigate]);
 
-    useEffect(() => {
-        const fetchAddresses = async () => {
-            try {
-                const response = await apiClient.get(`/users/${user && user.id}/addresses`);
-                setAddresses(response.data);
-            } catch (error) {
-                console.error('Error fetching Addresses', error);
-            }
-        };
+  useEffect(() => {
+    const fetchAddresses = async () => {
+      try {
+        const response = await apiClient.get(
+          `/users/${user && user.id}/addresses`
+        );
+        setAddresses(response.data);
+      } catch (error) {
+        console.error("Error fetching Addresses", error);
+      }
+    };
 
-        fetchAddresses();
-    }, [user, addresses]);
+    fetchAddresses();
+  }, [user, addresses]);
 
-    return (
-        <>
-            <Header />
-            <main className="flex flex-col min-h-screen mb-16">
-                <div className="h-20 flex justify-center bg-gray-200">
-                    <span className="font-bold text-3xl mt-4">MY ACCOUNT</span>
-                </div>
+  return (
+    <>
+      <Header />
+      <main className="flex flex-col min-h-screen mb-16">
+        <div className="h-20 flex justify-center bg-gray-200">
+          <span className="font-bold text-3xl mt-4">MY ACCOUNT</span>
+        </div>
 
-                <div className='flex flex-col' style={{marginLeft: "20%",marginRight: "20%", marginTop: "7%"}}>
-                    <div className='flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6'>
-                        <div className='flex flex-row font-bold text-2xl hover:text-purple-700' onClick={()=> setEditAccountInfo(!editAccountInfo)}>
-                            <div className='flex flex-col'>
-                                <span>1.</span>
-                            </div>
-                            <div className='flex flex-col'>
-                                <span className='ml-4'>EDIT YOUR ACCOUNT INFORMATION</span>
-                            </div>
-                            <div className='flex flex-col'>
-                                <i className='fa fa-angle-down mt-1 text-2xl' style={{marginLeft: "340px"}}></i>
-                            </div>
-                        </div>
-                    </div>
+        <div
+          className="flex flex-col"
+          style={{ marginLeft: "20%", marginRight: "20%", marginTop: "7%" }}
+        >
+          <div className="flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6">
+            <div
+              className="flex flex-row font-bold text-2xl hover:text-purple-700"
+              onClick={() => setEditAccountInfo(!editAccountInfo)}
+            >
+              <div className="flex flex-col">
+                <span>1.</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="ml-4">EDIT YOUR ACCOUNT INFORMATION</span>
+              </div>
+              <div className="flex flex-col">
+                <i
+                  className="fa fa-angle-down mt-1 text-2xl"
+                  style={{ marginLeft: "340px" }}
+                ></i>
+              </div>
+            </div>
+          </div>
 
-                    {editAccountInfo &&
-                        <AccountInfo data={user}/>
-                    }
+          {editAccountInfo && <AccountInfo data={user} />}
 
-                    <div className='flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6'>
-                        <div className='flex flex-row font-bold text-2xl hover:text-purple-700' onClick={()=> setChangePassword(!changePassword)}>
-                            <div className='flex flex-col'>
-                                <span>2.</span>
-                            </div>
-                            <div className='flex flex-col'>
-                                <span className='ml-4'>CHANGE YOUR PASSWORD</span>
-                            </div>
-                            <div className='flex flex-col'>
-                                <i className='fa fa-angle-down mt-1 text-2xl' style={{marginLeft: "440px"}}></i>
-                            </div>
-                        </div>
-                    </div>
+          <div className="flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6">
+            <div
+              className="flex flex-row font-bold text-2xl hover:text-purple-700"
+              onClick={() => setChangePassword(!changePassword)}
+            >
+              <div className="flex flex-col">
+                <span>2.</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="ml-4">CHANGE YOUR PASSWORD</span>
+              </div>
+              <div className="flex flex-col">
+                <i
+                  className="fa fa-angle-down mt-1 text-2xl"
+                  style={{ marginLeft: "440px" }}
+                ></i>
+              </div>
+            </div>
+          </div>
 
-                    {changePassword &&
-                        <ChangePassword data={user}/>
-                    }
+          {changePassword && <ChangePassword data={user} />}
 
-                    <div className='flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6'>
-                        <div className='flex flex-row font-bold text-2xl hover:text-purple-700' onClick={()=> setModifyAddressBook(!modifyAddressBook)}>
-                            <div className='flex flex-col'>
-                                <span>3.</span>
-                            </div>
-                            <div className='flex flex-col'>
-                                <span className='font-bold ml-4 text-2xl'>MODIFY YOUR ADDRESS BOOK ENTRIES</span>
-                            </div>
-                            <div className='flex flex-col'>
-                                <i className='fa fa-angle-down mt-1 text-2xl' style={{marginLeft: "295px"}}></i>
-                            </div>
-                        </div>
-                    </div>
+          <div className="flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6">
+            <div
+              className="flex flex-row font-bold text-2xl hover:text-purple-700"
+              onClick={() => setModifyAddressBook(!modifyAddressBook)}
+            >
+              <div className="flex flex-col">
+                <span>3.</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold ml-4 text-2xl">
+                  MODIFY YOUR ADDRESS BOOK ENTRIES
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <i
+                  className="fa fa-angle-down mt-1 text-2xl"
+                  style={{ marginLeft: "295px" }}
+                ></i>
+              </div>
+            </div>
+          </div>
 
-                    {modifyAddressBook &&
-                        <ModifyAddressBook data={addresses}/>
-                    }
-                </div>
-            </main>
-            
-            <Footer />
-        </>
-    );
+          {modifyAddressBook && <ModifyAddressBook data={addresses} />}
+        </div>
+      </main>
+
+      <Footer />
+    </>
+  );
 }
 
 export default MyProfile;

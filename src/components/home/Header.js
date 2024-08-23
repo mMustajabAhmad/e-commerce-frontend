@@ -16,7 +16,6 @@ import { clearCart } from "../../utils/Cart_APIs";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import { fetchCategories } from "../../utils/Category_APIs";
 
-
 const Header = () => {
   const queryClient = useQueryClient();
   const user_id = getCurrentUserId();
