@@ -4,7 +4,6 @@ import CartProduct from "../cart/CartProduct";
 import { CgSearch } from "react-icons/cg";
 import { CiShoppingCart } from "react-icons/ci";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import ProfileMenu from "./ProfileMenu";
 import CategoriesMenu from "./CategoriesMenu";
 import { IoCloseOutline } from "react-icons/io5";
@@ -15,15 +14,8 @@ import { fetchCart } from "../../utils/Cart_APIs";
 import { BsTrash3 } from "react-icons/bs";
 import { clearCart } from "../../utils/Cart_APIs";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
+import { fetchCategories } from "../../utils/Category_APIs";
 
-const fetchCategories = async () => {
-  try {
-    const response = await axios.get("http://localhost:3001/categories");
-    return response.data;
-  } catch (error) {
-    console.log("Error", error);
-  }
-};
 
 const Header = () => {
   const queryClient = useQueryClient();

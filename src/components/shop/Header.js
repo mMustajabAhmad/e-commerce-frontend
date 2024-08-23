@@ -14,18 +14,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchCart } from "../../utils/Cart_APIs";
 import { BsTrash3 } from "react-icons/bs";
 import { clearCart } from "../../utils/Cart_APIs";
-import axios from "axios";
 import { CiShoppingCart } from "react-icons/ci";
 import { CgSearch } from "react-icons/cg";
-
-const fetchCategories = async () => {
-  try {
-    const response = await axios.get("http://localhost:3001/categories");
-    return response.data;
-  } catch (error) {
-    console.log("Error", error);
-  }
-};
+import { fetchCategories } from "../../utils/Category_APIs";
 
 function Header() {
   const queryClient = useQueryClient();
