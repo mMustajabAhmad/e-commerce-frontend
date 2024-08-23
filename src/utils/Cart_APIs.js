@@ -69,3 +69,13 @@ export const removeProductFromCart = async(cartProductId) =>{
     `${API_BASE_URL}/users/${user_id}/cart/carts_products/${cartProductId}`
   );
 }
+
+export const clearCart = async () => {
+  try {
+    await axios.delete(
+      `${API_BASE_URL}/users/${user_id}/cart`
+    );
+  } catch (error) {
+    console.log("ERROR", error);
+  }
+};

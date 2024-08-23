@@ -3,15 +3,18 @@ import { getParentCategories } from "../../utils/CategoryUtils";
 import CartProduct from "../cart/CartProduct";
 import { CgSearch } from "react-icons/cg";
 import { CiShoppingCart } from "react-icons/ci";
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from "axios";
 import ProfileMenu from "./ProfileMenu";
 import CategoriesMenu from "./CategoriesMenu";
 import { IoCloseOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import React from "react";
-import Modal from "../cart/CartSheet";
+import Modal from "../cart/CartModal";
 import { fetchCart } from "../../utils/Cart_APIs";
+import { BsTrash3 } from "react-icons/bs";
+import { clearCart } from "../../utils/Cart_APIs";
+import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 
 const fetchCategories = async ()=>{
   try{
@@ -26,6 +29,8 @@ const fetchCategories = async ()=>{
 
 
 const Header = () => {
+  const queryClient = useQueryClient();
+  const user_id = getCurrentUserId();
   const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
@@ -46,6 +51,12 @@ const Header = () => {
     queryFn: () => fetchCart(),
   });
   
+  const clearCartProduts = useMutation({
+    mutationFn: () =>clearCart(),
+    onSuccess: () =>{
+      queryClient.invalidateQueries(['cart', user_id]);
+    }
+  })
   if(categoriesLoading || cartIsLoading) return <div>Loading...</div>
   if(categoriesError || cartError) return <div>Error...</div>
 
@@ -73,13 +84,7 @@ const Header = () => {
     }
   }
 
-  // const clearCart = async () => {
-  //   try {
-  //     await apiClient.delete(`/users/${user_id}/cart`);
-  //   } catch (error) {
-  //     console.log("ERROR", error);
-  //   }
-  // };
+  
 
   function logout() {
     localStorage.removeItem("expirationTime");
@@ -175,13 +180,19 @@ const Header = () => {
                 </div>
               </div>
               <div className="flex flex-col w-[33%] gap-y-2 my-5">
-                <button className="border p-3 rounded-md mx-6">
-                  <span>Continue Shopping</span>
-                </button>
+                
                 {cartProducts.length > 0 &&
-                  <button className="border bg-yellow-500 p-3 rounded-md mx-6">
-                    <Link to="/checkout"><span>Go to checkout</span></Link>
-                  </button>
+                  <>
+                    <button className="border p-3 rounded-md mx-6" onClick={()=> clearCartProduts.mutate()}>
+                      <div className="flex flex-row justify-center items-center gap-1">
+                        <BsTrash3 />
+                        <span>Clear Cart</span>
+                      </div>
+                    </button>
+                    <button className="border bg-yellow-500 p-3 rounded-md mx-6">
+                      <Link to="/checkout"><span>Go to checkout</span></Link>
+                    </button>
+                  </>
                 }
                 
               </div>

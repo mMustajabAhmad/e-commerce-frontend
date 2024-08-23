@@ -11,13 +11,7 @@ import Categories from "./components/categories/Categories";
 import CategoryProducts from "./components/categoryProductsAndSubCategories/CategoryProducts";
 import { isTokenValid } from "./utils/LoginValidity";
 import { Navigate } from "react-router-dom";
-import Example from "./components/cart/LoadSheet";
 import Checkout from "./components/checkout/Checkout";
-
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-
-// const root = ReactDOM.createRoot(document.getElementById("root"));
-const queryClient = new QueryClient();
 
 function App() {
   return (
@@ -37,7 +31,6 @@ function App() {
               path="/categoryProducts/:id"
               element={<CategoryProducts />}
             />
-            <Route path="/sheet" element={<Example />}></Route>
 
             <Route path="/checkout" element={<Checkout />} />
           </>
