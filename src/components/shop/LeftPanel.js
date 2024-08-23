@@ -24,19 +24,20 @@ function LeftPanel() {
 
   return (
     <>
-      <div style={{ marginLeft: "20%", marginTop: "20%" }}>
+    <div className="flex flex-col gap-y-6">
+      <div className="flex flex-col gap-y-2">
         <span className="font-medium ">Search</span>
-        <br />
-        <input
-          className="mt-4 py-1 border px-4 rounded"
-          type="text"
-          placeholder="  Search..."
-        ></input>
+        <div className="flex flex-row border border-black rounded-md w-1/2 p-1.5">
+          <input
+            className="rounded text-xs"
+            type="text"
+            placeholder="Search..."
+          />
+        </div>
       </div>
 
-      <div style={{ marginLeft: "20%", marginTop: "10%" }}>
+      <div className="flex flex-col gap-y-1">
         <span className="font-medium">Categories</span>
-        <br />
 
         {categories &&
           categories.map((category) => {
@@ -76,6 +77,7 @@ function LeftPanel() {
             }
           })}
       </div>
+    </div>
     </>
   );
 }

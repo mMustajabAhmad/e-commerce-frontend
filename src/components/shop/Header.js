@@ -1,217 +1,208 @@
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/react';
-import { Fragment, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import apiClient from '../../api/authApi';
-import { getParentCategories, getChildCategories } from '../../utils/CategoryUtils';
-import { getCurrentUserId } from '../../utils/JWT_TokenDecoder';
-import CartProduct from '../cart/CartProduct';
+import {
+  getParentCategories
+} from "../../utils/CategoryUtils";
+import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
+import CartProduct from "../cart/CartProduct";
+import ProfileMenu from "./ProfileMenu";
+import CategoriesMenu from "./CategoriesMenu";
+import Modal from "../cart/CartModal";
+import React from "react";
+import { IoCloseOutline } from "react-icons/io5";
+import { CiDeliveryTruck } from "react-icons/ci";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { fetchCart } from "../../utils/Cart_APIs";
+import { BsTrash3 } from "react-icons/bs";
+import { clearCart } from "../../utils/Cart_APIs";
+import axios from "axios";
+import { CiShoppingCart } from "react-icons/ci";
+import { CgSearch } from "react-icons/cg";
 
-function Header(){
-    const [categories, setCategories] = useState(null);
-    const [parentCategories, setParentCategories] = useState(null);
-    const [isOpen, setIsOpen] = useState(false);
-    const [cart, setCart] = useState(null);
-    const user_id = getCurrentUserId();
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get("http://localhost:3001/categories");
+    return response.data;
+  } catch (error) {
+    console.log("Error", error);
+  }
+};
 
-    useEffect(()=>{
-        const fetchCategories = async ()=>{
-            try{
-                const response = await apiClient.get('/categories');
-                setCategories(response.data);
-                setParentCategories(getParentCategories(response.data));
-            }catch (error){
-                console.error("Error: ", error);
-            }
-        };
-        fetchCategories();
-    }, []
-    );
+function Header() {
+  const queryClient = useQueryClient();
+  const user_id = getCurrentUserId();
+  const [open, setOpen] = React.useState(false);
 
-    useEffect(() =>{
-        const fetchCart = async () =>{
-            try{
-                const response = await apiClient.get(`/users/${user_id}/cart`);
-                setCart(response.data);
-            }catch(error){
-                console.log(error);
-            }
-        };
-        fetchCart();
-    }, []);
+  const handleClose = () => {
+    setOpen(false);
+  };
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-    const cartProducts = [];
+  const { data: categories, error: categoriesError, isLoading: categoriesLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
 
-    if(cart){
-        for(let i=0; i< cart.length; i++){
-            cartProducts.push(
-                <CartProduct data={cart[i]}/>
-            );
-        }
+  const {
+    data: cartData,
+    error: cartError,
+    isLoading: cartIsLoading,
+  } = useQuery({
+    queryKey: ["cart"],
+    queryFn: () => fetchCart(),
+  });
+
+  const clearCartProduts = useMutation({
+    mutationFn: () => clearCart(),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart", user_id]);
+    },
+  });
+
+  if(categoriesLoading || cartIsLoading) return <div>Loading...</div>
+  if(categoriesError || cartError) return <div>Error...</div>
+
+  
+
+  const cart = cartData.cart_products
+  const parentCategories = getParentCategories(categories);
+  const cartProducts = [];
+
+  for (let i = 0; i < cart.length; i++) {
+    if(i==cart.length - 1){
+      cartProducts.push(
+        <>
+          <CartProduct data={cart[i]} />
+        </>
+        );
+    }else{
+      cartProducts.push(
+        <>
+          <CartProduct data={cart[i]} />
+          <hr className="mx-6 my-2"/>
+        </>
+        );
     }
+    
+  }
 
-    const clearCart = async()=>{
-        try{
-            await apiClient.delete(`/users/${user_id}/cart`);
-        }catch(error){
-            console.log("ERROR", error);
-        }
-    }
+  function logout() {
+    localStorage.removeItem("expirationTime");
+    localStorage.removeItem("token");
+  }
 
-    function logout(){
-        localStorage.removeItem('expirationTime');
-        localStorage.removeItem('token');
-    }
+  return (
+    <>
+      <header>
+        <nav className="bg-white h-20">
+          <div className="flex flex-row justify-between pt-3">
+            <div className="flex flex-row gap-10 items-center ml-4 font-medium">
+              <span className="font-bold text-5xl">Flone.</span>
+              <Link to="/home" className="hover:text-purple-700">
+                Home
+              </Link>
+              <Link to="/shop" className="hover:text-purple-700">
+                Shop
+              </Link>
+              <CategoriesMenu
+                categories={categories}
+                parentCategories={parentCategories}
+              />
 
-    return (
-        <header>
-            <nav className='bg-white h-20'>
-                <div className='flex flex-row'>
-                    <span className="font-bold text-5xl ml-20 mt-2">Flone.</span>
-                    <Link to="/home" className="ml-20 hover:text-purple-700 mt-4">Home</Link>
-                    <Link to="/shop" className="ml-10 hover:text-purple-700 mt-4">Shop</Link>
+              <a href="#" className="hover:text-purple-700">
+                About Us
+              </a>
+              <a
+                href="https://wa.me/+923356517758"
+                target="_blank"
+                className="hover:text-purple-700"
+              >
+                Contact Us
+              </a>
+            </div>
 
-                    <div className=' mt-4 bg-white'>
-                        <Menu as="div" className=" inline-block text-left">
-
-                            <MenuButton className="ml-10 hover:text-purple-700">
-                                <Link to="/categories">Categories</Link>
-                                <i className='fa fa-angle-down pl-2'></i>
-                            </MenuButton>
-
-                            <MenuItems className="absolute mt-2 w-48 bg-white rounded border z-10">
-                                <div className="p-1">
-                                    {categories && (
-                                        categories.map((category) => {
-                                            if (parentCategories.includes(category)) {
-                                                const childCategories = getChildCategories(category, categories)
-                                                return (
-                                                    <>
-                                                        <MenuItem key={category.id} as={Fragment}>
-                                                            {({ active }) => (
-                                                                <a
-                                                                    href={`/categoryProducts/${category.id}`}
-                                                                    className={`block px-4 py-2 hover:bg-purple-700 hover:text-white font-bold text-sm ${active ? 'bg-gray-200' : ''}`}
-                                                                >
-                                                                    {category.name}
-                                                                </a>
-                                                            )}
-                                                        </MenuItem>
-
-                                                        {childCategories && (
-                                                            childCategories.map((child)=>{
-                                                                return(
-                                                                    <MenuItem key={child.id} as={Fragment} className="ml-3">
-                                                                        {({ active }) => (
-                                                                            <a
-                                                                                href = {`/categoryProducts/${child.id}`}
-                                                                                className = {`block px-4 py-2 hover:bg-purple-700 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
-                                                                            >
-                                                                                {child.name}
-                                                                            </a>
-                                                                        )}
-                                                                    </MenuItem>
-                                                                );
-                                                            })
-                                                        )
-                                                        }
-                                                        
-                                                    </>
-                                                );
-                                            }
-                                        })
-                                    )
-                                    }
-                                </div>
-                            </MenuItems>
-                        </Menu>
-                    </div>
-
-                    <a href="#" className="ml-10 hover:text-purple-700 mt-4">About Us</a>
-                    <a href="https://wa.me/+923356517758" target="_blank" className="ml-10 hover:text-purple-700 mt-4">Contact Us</a>
-
-                    <div>
-                        <input className='px-2 py-1 rounded border' type='text' style={{marginLeft: "150px", marginTop: "20px"}} placeholder='Search...' ></input>
-                        <i className="fas fa-search mt-4 ml-2" style={{ color: 'black', fontSize: '24px' ,paddingLeft: "10px"}} ></i>
-                        <Menu as="div" className="relative inline-block text-left">
-                                <div>
-                                    <MenuButton className="text-white font-bold pl-10">
-                                        <i className="fas fa-user text-black" style={{ fontSize: '24px' }}></i>
-                                    </MenuButton>
-                                </div>
-                                <MenuItems className="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
-                                    <div className="p-1">
-                                        <MenuItem as={Fragment}>
-                                            {({ active }) => (
-                                                <a
-                                                    href="/signin"
-                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
-                                                >
-                                                    Sign In
-                                                </a>
-                                            )}
-                                        </MenuItem>
-                                        <MenuItem as={Fragment}>
-                                            {({ active }) => (
-                                                <a
-                                                    href="/signup"
-                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
-                                                >
-                                                    Sign Up
-                                                </a>
-                                            )}
-                                        </MenuItem>
-                                        <MenuItem as={Fragment}>
-                                            {({ active }) => (
-                                                <a
-                                                    href="/myProfile"
-                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
-                                                >
-                                                    My Profile
-                                                </a>
-                                            )}
-                                        </MenuItem>
-                                        <MenuItem as={Fragment}>
-                                            {({ active }) => (
-                                                <a
-                                                    href="/signin"
-                                                    className={`block px-4 py-2 hover:bg-purple-500 hover:text-white text-sm ${active ? 'bg-gray-200' : ''}`}
-                                                    onClick={logout}
-                                                >
-                                                    Logout
-                                                </a>
-                                            )}
-                                        </MenuItem>
-                                    </div>
-                                </MenuItems>
-                            </Menu>
-                        <i className="fas fa-shopping-cart pl-10 mt-4" style={{ color: 'black', fontSize: '24px'}} onClick={() => setIsOpen(!isOpen)}></i>
-
-                        {/* {isOpen ? 
-                            <div className='bg-white relative z-10 mt-2 rounded border'>
-                                <p className='flex justify-center float-right mt-4 mr-4 p-1 hover:bg-purple-700 bg-black text-white rounded-3xl' onClick={() => setIsOpen(!isOpen)}><i className="fa fa-angle-up flex justify-center pl-1 pt-1" style={{width: "25px", height: "25px"}}></i></p>
-                                <br/>
-                                <hr className='mt-9'/>
-                                {cart && cart.length > 0 ?
-                                    <div className='flex flex-col mt-6 ml-10 mr-4'>
-                                        {cartProducts}
-                                        <button className='bg-black hover:bg-purple-700 text-white font-bold ml-14 mr-16 p-2 mb-2'>CHECKOUT</button>
-                                        <button className='bg-black hover:bg-purple-700 text-white font-bold ml-14 mr-16 p-2 mb-6' onClick={clearCart}>CLEAR CART</button>
-                                    </div>
-                                    :
-                                    <div className='flex flex-col mt-6 ml-10 mr-4'>
-                                        <p className='text-2xl font-bold mb-4'>Your Cart is empty :(</p>
-                                    </div>
-                                }
-                            </div> 
-                            : 
-                            <>
-                            </>
-                        } */}
-                    </div>
+            <div className="flex flex-row items-center gap-4 mr-4">
+              <div className="flex flex-row gap-1 items-center border border-black px-2 rounded-lg overflow-hidden">
+                <input
+                  className="rounded  px-3 py-2 bg-transparent"
+                  type="text"
+                  placeholder="Search..."
+                />
+                <CgSearch className="" size={"1.5em"} />
+              </div>
+              
+              <ProfileMenu />
+              <div className="flex flex-row gap-3">
+                <CiShoppingCart
+                  strokeWidth={1}
+                  className="cursor-pointer"
+                  size={"1.5em"}
+                  onClick={handleOpen}
+                />
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <Modal isOpen={open} onClose={handleClose}>
+        <>
+          <div className="flex flex-col w-full h-full">
+            <div className="fixed top-0 w-[33%]">
+              <div className="flex flex-row mt-6 mb-8 w-full justify-between">
+                <div className="flex flex-row gap-2 ml-2">
+                  <span>Cart Preview</span>
+                  <div className="bg-purple-300 rounded-xl w-6 h-6 flex justify-center">
+                    {cart.length}
+                  </div>
                 </div>
-            </nav>
-        </header>
-    );
+                <IoCloseOutline className="text-2xl" onClick={handleClose} />
+              </div>
+              <hr />
+            </div>
+
+            <div className="flex flex-col mt-[18%] h-[67%] ">
+              <div className="flex flex-row gap-2 bg-slate-300 p-3 justify-center mx-6 rounded my-3">
+                <CiDeliveryTruck className="text-2xl" />
+                <span>Free delivery from $150</span>
+              </div>
+              <div className="w-full overflow-auto">{cartProducts}</div>
+            </div>
+
+            <div className="fixed bottom-0 w-full">
+              <hr />
+              <div className="flex flex-row w-[33%]">
+                <div className="flex flex-row mt-2 justify-between w-full mx-6">
+                  <span>Total</span>
+                  <span>${cartData.total}</span>
+                </div>
+              </div>
+              <div className="flex flex-col w-[33%] gap-y-2 my-5">
+                {cartProducts.length > 0 && (
+                  <>
+                    <button
+                      className="border p-3 rounded-md mx-6"
+                      onClick={() => clearCartProduts.mutate()}
+                    >
+                      <div className="flex flex-row justify-center items-center gap-1">
+                        <BsTrash3 />
+                        <span>Clear Cart</span>
+                      </div>
+                    </button>
+                    <button className="border bg-yellow-500 p-3 rounded-md mx-6">
+                      <Link to="/checkout">
+                        <span>Go to checkout</span>
+                      </Link>
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      </Modal>
+    </>
+  );
 }
 export default Header;

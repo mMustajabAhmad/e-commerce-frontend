@@ -3,7 +3,7 @@ import { getParentCategories } from "../../utils/CategoryUtils";
 import CartProduct from "../cart/CartProduct";
 import { CgSearch } from "react-icons/cg";
 import { CiShoppingCart } from "react-icons/ci";
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import ProfileMenu from "./ProfileMenu";
 import CategoriesMenu from "./CategoriesMenu";
@@ -16,17 +16,14 @@ import { BsTrash3 } from "react-icons/bs";
 import { clearCart } from "../../utils/Cart_APIs";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 
-const fetchCategories = async ()=>{
-  try{
-    const response = await axios.get(
-      "http://localhost:3001/categories",
-    );
+const fetchCategories = async () => {
+  try {
+    const response = await axios.get("http://localhost:3001/categories");
     return response.data;
-  }catch(error){
-    console.log("Error",error)
+  } catch (error) {
+    console.log("Error", error);
   }
-}
-
+};
 
 const Header = () => {
   const queryClient = useQueryClient();
@@ -41,50 +38,53 @@ const Header = () => {
     setOpen(true);
   };
 
-  const { data: categories, error: categoriesError, isLoading: categoriesLoading } = useQuery({
-    queryKey: ['categories'],
+  const {
+    data: categories,
+    error: categoriesError,
+    isLoading: categoriesLoading,
+  } = useQuery({
+    queryKey: ["categories"],
     queryFn: fetchCategories,
   });
 
-  const {data: cartData, error: cartError, isLoading: cartIsLoading} = useQuery({
-    queryKey: ['cart'],
+  const {
+    data: cartData,
+    error: cartError,
+    isLoading: cartIsLoading,
+  } = useQuery({
+    queryKey: ["cart"],
     queryFn: () => fetchCart(),
   });
-  
-  const clearCartProduts = useMutation({
-    mutationFn: () =>clearCart(),
-    onSuccess: () =>{
-      queryClient.invalidateQueries(['cart', user_id]);
-    }
-  })
-  if(categoriesLoading || cartIsLoading) return <div>Loading...</div>
-  if(categoriesError || cartError) return <div>Error...</div>
 
-  const cart = cartData.cart_products
+  const clearCartProduts = useMutation({
+    mutationFn: () => clearCart(),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart", user_id]);
+    },
+  });
+  if (categoriesLoading || cartIsLoading) return <div>Loading...</div>;
+  if (categoriesError || cartError) return <div>Error...</div>;
+
+  const cart = cartData.cart_products;
   const parentCategories = getParentCategories(categories);
   const cartProducts = [];
 
-  if (cart) {
-    for (let i = 0; i < cart.length; i++) {
-      if(i==cart.length - 1){
-        cartProducts.push(
-          <>
-            <CartProduct data={cart[i]} />
-          </>
-          );
-      }else{
-        cartProducts.push(
-          <>
-            <CartProduct data={cart[i]} />
-            <hr className="mx-6 my-2"/>
-          </>
-          );
-      }
-      
+  for (let i = 0; i < cart.length; i++) {
+    if (i == cart.length - 1) {
+      cartProducts.push(
+        <>
+          <CartProduct data={cart[i]} />
+        </>
+      );
+    } else {
+      cartProducts.push(
+        <>
+          <CartProduct data={cart[i]} />
+          <hr className="mx-6 my-2" />
+        </>
+      );
     }
   }
-
-  
 
   function logout() {
     localStorage.removeItem("expirationTime");
@@ -93,7 +93,6 @@ const Header = () => {
 
   return (
     <>
-      
       <header>
         <nav className="bg-black h-20">
           <div className="flex flex-row gap-6 h-full flex-wrap justify-between items-center px-3">
@@ -110,7 +109,10 @@ const Header = () => {
               >
                 <span>Shop</span>
               </Link>
-              <CategoriesMenu categories={categories} parentCategories={parentCategories}/>
+              <CategoriesMenu
+                categories={categories}
+                parentCategories={parentCategories}
+              />
               <a className="text-white font-medium hover:text-purple-500">
                 <span>About Us</span>
               </a>
@@ -147,63 +149,65 @@ const Header = () => {
           </div>
         </nav>
       </header>
-      <Modal isOpen={open} onClose={handleClose} >
+
+      <Modal isOpen={open} onClose={handleClose}>
         <>
           <div className="flex flex-col w-full h-full">
             <div className="fixed top-0 w-[33%]">
               <div className="flex flex-row mt-6 mb-8 w-full justify-between">
                 <div className="flex flex-row gap-2 ml-2">
                   <span>Cart Preview</span>
-                  <div className="bg-purple-300 rounded-xl w-6 h-6 flex justify-center">{cart.length}</div>
+                  <div className="bg-purple-300 rounded-xl w-6 h-6 flex justify-center">
+                    {cart.length}
+                  </div>
                 </div>
-                <IoCloseOutline className="text-2xl" onClick={handleClose}/>
+                <IoCloseOutline className="text-2xl" onClick={handleClose} />
               </div>
-              <hr/>
+              <hr />
             </div>
 
             <div className="flex flex-col mt-[18%] h-[67%] ">
               <div className="flex flex-row gap-2 bg-slate-300 p-3 justify-center mx-6 rounded my-3">
-                <CiDeliveryTruck className="text-2xl"/>
+                <CiDeliveryTruck className="text-2xl" />
                 <span>Free delivery from $150</span>
               </div>
-              <div className="w-full overflow-auto">
-                  {cartProducts}
-              </div>
-              </div>
-              
+              <div className="w-full overflow-auto">{cartProducts}</div>
+            </div>
+
             <div className="fixed bottom-0 w-full">
-              <hr/>
+              <hr />
               <div className="flex flex-row w-[33%]">
                 <div className="flex flex-row mt-2 justify-between w-full mx-6">
                   <span>Total</span>
                   <span>${cartData.total}</span>
                 </div>
               </div>
+
               <div className="flex flex-col w-[33%] gap-y-2 my-5">
-                
-                {cartProducts.length > 0 &&
+                {cartProducts.length > 0 && (
                   <>
-                    <button className="border p-3 rounded-md mx-6" onClick={()=> clearCartProduts.mutate()}>
+                    <button
+                      className="border p-3 rounded-md mx-6"
+                      onClick={() => clearCartProduts.mutate()}
+                    >
                       <div className="flex flex-row justify-center items-center gap-1">
                         <BsTrash3 />
                         <span>Clear Cart</span>
                       </div>
                     </button>
                     <button className="border bg-yellow-500 p-3 rounded-md mx-6">
-                      <Link to="/checkout"><span>Go to checkout</span></Link>
+                      <Link to="/checkout">
+                        <span>Go to checkout</span>
+                      </Link>
                     </button>
                   </>
-                }
-                
+                )}
               </div>
             </div>
-
           </div>
-          
         </>
       </Modal>
     </>
-    
   );
 };
 

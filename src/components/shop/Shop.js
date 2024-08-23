@@ -25,11 +25,11 @@ function Shop(){
             <div className="wrapper">
                 <Header />
                 
-                <main className="flex flex-col min-h-screen">
+                <main className="flex flex-col min-h-screen gap-y-10">
                     <div className="h-20 flex justify-center bg-gray-200 ">
                         <span className="font-medium text-3xl mt-4">HOME / SHOP</span>
                     </div>
-                    <div className="flex flex-row">
+                    <div className="flex flex-row justify-center">
                         <div className="flex flex-col w-1/3">
                             <LeftPanel />
                         </div>
