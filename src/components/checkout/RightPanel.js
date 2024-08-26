@@ -1,18 +1,19 @@
 import Select from "react-select";
 import { IoIosLock } from "react-icons/io";
 import { fetchOrderVouchers } from "../../utils/APIs/Voucher_APIs";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { fetchAddresses } from "../../utils/APIs/Address_APIs";
+import { postOrderData } from "../../utils/APIs/Order_APIs";
+import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 
 const RightPanel = (props) => {
+  const queryClient = useQueryClient();
+  const user_id = getCurrentUserId();
   const [showSaved, setShowSaved] = useState(false);
-  // const addresses = [
-  //   { label: "abc", value: "1" },
-  //   { label: "def", value: "2" },
-  //   { label: "ghi", value: "3" },
-  //   { label: "jkl", value: "4" },
-  // ];
+  const [voucher, setVoucher] = useState(null);
+  const [billingAddress, setBillingAddress] = useState(null);
+  const [shippingAddress, setShippingAddress] = useState(null);
 
   const {
     data: fetchedAddresses,
@@ -23,8 +24,6 @@ const RightPanel = (props) => {
     queryFn: ()=> fetchAddresses(),
   })
 
-  
-
   const bill = props.data;
   const {
     data: applicableOrderVouchers,
@@ -34,6 +33,16 @@ const RightPanel = (props) => {
     queryKey: ["orderVouchers"],
     queryFn: () => fetchOrderVouchers(),
   });
+
+  const placeOrder = useMutation({
+    mutationFn: () => postOrderData(billingAddress, shippingAddress, voucher && voucher.voucher_code),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart", user_id])
+    },
+    onError: (error) => {
+      console.error('Error placing order:', error);
+    },
+  })
 
   if (loadingVouchers) return <div>Loading Vouchers...</div>
   if (voucherError) return <div>Error in Loading Vouchers</div>
@@ -47,11 +56,33 @@ const RightPanel = (props) => {
   }
 
   const vouchers = [];
+  vouchers.push({label: "None", value: "null"})
   for (let i = 0; i < applicableOrderVouchers.length; i++) {
     vouchers.push({
       label: applicableOrderVouchers[i].voucher_code,
       value: applicableOrderVouchers[i].id,
     });
+    
+  }
+
+  const handleVoucherChange = (event) => {
+    setVoucher(event);
+  }
+
+  const handleBillingAddressChangeForSelect = (event) =>{
+    setBillingAddress(event);
+  }
+
+  const handleShippingAddressChangeForSelect = (event) =>{
+    setShippingAddress(event);
+  }
+
+  const handleBillingAddressChangeForInput = (event) =>{
+    setBillingAddress(event.target.value);
+  }
+
+  const handleShippingAddressChangeForInput = (event) =>{
+    setShippingAddress(event.target.value);
   }
 
   return (
@@ -62,7 +93,12 @@ const RightPanel = (props) => {
         </span>
         <div className="flex flex-col gap-y-1">
           <span className="font-medium">Apply Voucher</span>
-          <Select options={vouchers} placeholder="Select Voucher" />
+          <Select 
+            options={vouchers} 
+            placeholder="Select Voucher" 
+            value={voucher} 
+            onChange={handleVoucherChange}
+          />
         </div>
         <div className="flex flex-col gap-y-2">
           <div className="flex flex-col gap-y-2">
@@ -71,7 +107,7 @@ const RightPanel = (props) => {
               {showSaved ? (
                 <button
                   className="text-xs text-slate-600 underline"
-                  onClick={() => setShowSaved(false)}
+                  onClick={() => {setShowSaved(false);setBillingAddress(null); setShippingAddress(null);}}
                 >
                   Other Adresses
                 </button>
@@ -86,8 +122,18 @@ const RightPanel = (props) => {
             </div>
             {showSaved ? (
               <>
-                <Select options={addresses} placeholder="Billing Address" />
-                <Select options={addresses} placeholder="Shipping Address" />
+                <Select 
+                  options={addresses} 
+                  placeholder="Billing Address"
+                  value={billingAddress}
+                  onChange={handleBillingAddressChangeForSelect}
+                />
+                <Select
+                  options={addresses} 
+                  placeholder="Shipping Address"
+                  value={shippingAddress}
+                  onChange={handleShippingAddressChangeForSelect}
+                />
               </>
             ) : (
               <>
@@ -95,11 +141,15 @@ const RightPanel = (props) => {
                   placeholder="Billing Address"
                   className="border rounded-md p-1.5"
                   type="text"
+                  value={billingAddress}
+                  onChange={handleBillingAddressChangeForInput}
                 />
                 <input
                   placeholder="Shipping Address"
                   className="border rounded-md p-1.5"
                   type="text"
+                  value={shippingAddress}
+                  onChange={handleShippingAddressChangeForInput}
                 />
               </>
             )}
@@ -133,7 +183,7 @@ const RightPanel = (props) => {
                 <span>$15.99</span>
               </div>
             </div>
-            <button className="bg-blue-700 rounded-md">
+            <button className="bg-blue-700 rounded-md" onClick={()=> placeOrder.mutate()}>
               <span className="flex flex-row items-center justify-center text-white gap-1 py-2">
                 <IoIosLock />
                 Place Order
