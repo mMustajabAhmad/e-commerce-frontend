@@ -8,7 +8,7 @@ import {
   addOneToCartProductQuantity,
   subtractOneFromCartProductQuantity,
   removeProductFromCart,
-} from "../../utils/Cart_APIs";
+} from "../../utils/APIs/Cart_APIs";
 
 function CartProduct(props) {
   const cartProduct = props.data;

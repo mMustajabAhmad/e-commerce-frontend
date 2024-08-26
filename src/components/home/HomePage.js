@@ -5,7 +5,7 @@ import ProductGridRow from "./ProductGridRow";
 import { Link } from "react-router-dom";
 import { makeListOfEightProducts } from "../../utils/HomeProductsUtils";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProducts } from "../../utils/Product_APIs";
+import { fetchProducts } from "../../utils/APIs/Product_APIs";
 
 function HomePage() {
   const {

@@ -4,7 +4,7 @@ import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import { useQuery } from "@tanstack/react-query";
-import { fetchCart } from "../../utils/Cart_APIs";
+import { fetchCart } from "../../utils/APIs/Cart_APIs";
 
 const Checkout = () => {
   const user_id = getCurrentUserId();

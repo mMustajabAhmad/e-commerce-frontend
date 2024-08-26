@@ -1,6 +1,6 @@
 import Select from "react-select";
 import { IoIosLock } from "react-icons/io";
-import { fetchOrderVouchers } from "../../utils/Voucher_APIs";
+import { fetchOrderVouchers } from "../../utils/APIs/Voucher_APIs";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 

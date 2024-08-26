@@ -11,12 +11,12 @@ import React, { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { fetchCart } from "../../utils/Cart_APIs";
+import { fetchCart } from "../../utils/APIs/Cart_APIs";
 import { BsTrash3 } from "react-icons/bs";
-import { clearCart } from "../../utils/Cart_APIs";
+import { clearCart } from "../../utils/APIs/Cart_APIs";
 import { CiShoppingCart } from "react-icons/ci";
 import { CgSearch } from "react-icons/cg";
-import { fetchCategories } from "../../utils/Category_APIs";
+import { fetchCategories } from "../../utils/APIs/Category_APIs";
 
 function Header() {
   const queryClient = useQueryClient();

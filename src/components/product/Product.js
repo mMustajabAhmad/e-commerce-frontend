@@ -3,9 +3,9 @@ import Footer from "../shop/Footer";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
-import { fetchProductSizes, fetchProduct, fetchProductSizeId } from "../../utils/Product_APIs";
+import { fetchProductSizes, fetchProduct, fetchProductSizeId } from "../../utils/APIs/Product_APIs";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addProductToCart } from "../../utils/Cart_APIs";
+import { addProductToCart } from "../../utils/APIs/Cart_APIs";
 
 function Product() {
   const { id } = useParams();

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCurrentUserId } from './JWT_TokenDecoder';
+import { getCurrentUserId } from '../JWT_TokenDecoder';
 
 const API_BASE_URL = 'http://localhost:3001'
 const user_id = getCurrentUserId();

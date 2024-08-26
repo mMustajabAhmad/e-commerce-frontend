@@ -1,6 +1,6 @@
 import Header from "../shop/Header";
 import Footer from "../shop/Footer";
-import { fetchSearchedProducts } from "../../utils/Product_APIs";
+import { fetchSearchedProducts } from "../../utils/APIs/Product_APIs";
 import { useQuery } from "@tanstack/react-query";
 import RightPanel from "../shop/RightPanel";
 import { useParams } from "react-router-dom";

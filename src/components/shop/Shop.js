@@ -2,7 +2,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import LeftPanel from "./LeftPanel";
 import RightPanel from "./RightPanel";
-import { fetchProducts } from "../../utils/Product_APIs";
+import { fetchProducts } from "../../utils/APIs/Product_APIs";
 import { useQuery } from "@tanstack/react-query";
 
 function Shop() {

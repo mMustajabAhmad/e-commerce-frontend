@@ -2,7 +2,7 @@ import {
   getParentCategories,
   getChildCategories,
 } from "../../utils/CategoryUtils";
-import { fetchCategories } from "../../utils/Category_APIs";
+import { fetchCategories } from "../../utils/APIs/Category_APIs";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";

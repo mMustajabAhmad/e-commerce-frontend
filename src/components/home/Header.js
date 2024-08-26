@@ -10,11 +10,11 @@ import { IoCloseOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import React from "react";
 import Modal from "../cart/CartModal";
-import { fetchCart } from "../../utils/Cart_APIs";
+import { fetchCart } from "../../utils/APIs/Cart_APIs";
 import { BsTrash3 } from "react-icons/bs";
-import { clearCart } from "../../utils/Cart_APIs";
+import { clearCart } from "../../utils/APIs/Cart_APIs";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
-import { fetchCategories } from "../../utils/Category_APIs";
+import { fetchCategories } from "../../utils/APIs/Category_APIs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

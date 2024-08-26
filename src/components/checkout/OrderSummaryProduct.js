@@ -5,7 +5,7 @@ import {
   applyProductVoucher,
   getVoucher,
   removeProductVoucher,
-} from "../../utils/Voucher_APIs";
+} from "../../utils/APIs/Voucher_APIs";
 import {
   fetchProductSizes,
   fetchProduct,
@@ -13,7 +13,7 @@ import {
   addOneToCartProductQuantity,
   subtractOneFromCartProductQuantity,
   removeProductFromCart,
-} from "../../utils/Cart_APIs";
+} from "../../utils/APIs/Cart_APIs";
 import { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 
