@@ -13,6 +13,7 @@ import { isTokenValid } from "./utils/LoginValidity";
 import { Navigate } from "react-router-dom";
 import Checkout from "./components/checkout/Checkout";
 import SearchedProducts from "./components/searchResults/SearchedProducts";
+import StripeWrapper from "./components/checkout/Stripe";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
 
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/searchedProducts/:query" element={<SearchedProducts />} />
+            <Route path="/stripe" element={<StripeWrapper />} />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/signin" />} />
