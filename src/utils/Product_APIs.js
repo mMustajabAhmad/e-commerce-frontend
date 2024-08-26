@@ -42,7 +42,9 @@ export const fetchProductSizeId = async (product_id ,size_id) =>{
 
 export const fetchSearchedProducts = async (query) => {
   try {
+    console.log("I'm here")
     const response = await axios.get(`${API_BASE_URL}/products?query=${query}`);
+    console.log("response", response.data)
     return response.data;
   } catch (error) {
     console.log("Error", error);

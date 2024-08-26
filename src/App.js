@@ -12,7 +12,7 @@ import CategoryProducts from "./components/categoryProductsAndSubCategories/Cate
 import { isTokenValid } from "./utils/LoginValidity";
 import { Navigate } from "react-router-dom";
 import Checkout from "./components/checkout/Checkout";
-import SearchedProducts from "./components/shop/SearchedProducts";
+import SearchedProducts from "./components/searchResults/SearchedProducts";
 
 function App() {
   return (

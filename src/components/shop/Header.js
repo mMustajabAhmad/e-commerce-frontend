@@ -37,7 +37,15 @@ function Header() {
   const handleSearchQueryChange = (event) => {
     setSearchQuery(event.target.value);
   };
-  
+
+  const handleKeyDown = (event) =>{
+    if(event.key == 'Enter'){
+      setSearch(true);
+      search && navigate(`/searchedProducts/${searchQuery}`);
+      setSearchQuery('')
+    };
+    }
+
   const { data: categories, error: categoriesError, isLoading: categoriesLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories,
@@ -129,6 +137,7 @@ function Header() {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={handleSearchQueryChange}
+                  onKeyDown={handleKeyDown}
                 />
                 <CgSearch className="" size={"1.5em"} onClick={()=>{setSearch(true); search && navigate(`/searchedProducts/${searchQuery}`); setSearchQuery('')}}/>
               </div>

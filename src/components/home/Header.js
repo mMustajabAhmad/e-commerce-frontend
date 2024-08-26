@@ -39,6 +39,14 @@ const Header = () => {
     setSearchQuery(event.target.value);
   };
 
+  const handleKeyDown = (event) =>{
+    if(event.key == 'Enter'){
+      setSearch(true);
+      search && navigate(`/searchedProducts/${searchQuery}`);
+      setSearchQuery('')
+    };
+  }
+
   const {
     data: categories,
     error: categoriesError,
@@ -135,8 +143,9 @@ const Header = () => {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={handleSearchQueryChange}
+                  onKeyDown={handleKeyDown}
                 />
-                <CgSearch className="text-white" size={"1.5em"} onClick={()=>{setSearch(true); search && navigate(`/searchedProducts/${searchQuery}`); setSearchQuery('')}}/>
+                <CgSearch className="text-white" size={"1.5em"} onClick={()=>{setSearch(true); search && navigate(`/searchedProducts/${searchQuery}`);}}/>
               </div>
 
               <ProfileMenu logout={logout} />
