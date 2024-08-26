@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   getParentCategories
 } from "../../utils/CategoryUtils";
@@ -7,7 +7,7 @@ import CartProduct from "../cart/CartProduct";
 import ProfileMenu from "./ProfileMenu";
 import CategoriesMenu from "./CategoriesMenu";
 import Modal from "../cart/CartModal";
-import React from "react";
+import React, { useState } from "react";
 import { IoCloseOutline } from "react-icons/io5";
 import { CiDeliveryTruck } from "react-icons/ci";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -21,7 +21,10 @@ import { fetchCategories } from "../../utils/Category_APIs";
 function Header() {
   const queryClient = useQueryClient();
   const user_id = getCurrentUserId();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+  const [search, setSearch] = useState(true);
 
   const handleClose = () => {
     setOpen(false);
@@ -31,6 +34,10 @@ function Header() {
     setOpen(true);
   };
 
+  const handleSearchQueryChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+  
   const { data: categories, error: categoriesError, isLoading: categoriesLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: fetchCategories,
@@ -102,26 +109,28 @@ function Header() {
                 parentCategories={parentCategories}
               />
 
-              <a href="#" className="hover:text-purple-700">
+              <Link to="#" className="hover:text-purple-700">
                 About Us
-              </a>
-              <a
-                href="https://wa.me/+923356517758"
+              </Link>
+              <Link
+                to="https://wa.me/+923356517758"
                 target="_blank"
                 className="hover:text-purple-700"
               >
                 Contact Us
-              </a>
+              </Link>
             </div>
 
             <div className="flex flex-row items-center gap-4 mr-4">
               <div className="flex flex-row gap-1 items-center border border-black px-2 rounded-lg overflow-hidden">
                 <input
-                  className="rounded  px-3 py-2 bg-transparent"
+                  className="rounded  px-3 py-2 outline-none bg-transparent"
                   type="text"
                   placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearchQueryChange}
                 />
-                <CgSearch className="" size={"1.5em"} />
+                <CgSearch className="" size={"1.5em"} onClick={()=>{setSearch(true); search && navigate(`/searchedProducts/${searchQuery}`); setSearchQuery('')}}/>
               </div>
               
               <ProfileMenu />

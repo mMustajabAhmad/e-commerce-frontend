@@ -15,11 +15,17 @@ import { BsTrash3 } from "react-icons/bs";
 import { clearCart } from "../../utils/Cart_APIs";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import { fetchCategories } from "../../utils/Category_APIs";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const queryClient = useQueryClient();
   const user_id = getCurrentUserId();
   const [open, setOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+  const [search, setSearch] = useState(true);
+
 
   const handleClose = () => {
     setOpen(false);
@@ -27,6 +33,10 @@ const Header = () => {
 
   const handleOpen = () => {
     setOpen(true);
+  };
+
+  const handleSearchQueryChange = (event) => {
+    setSearchQuery(event.target.value);
   };
 
   const {
@@ -104,16 +114,16 @@ const Header = () => {
                 categories={categories}
                 parentCategories={parentCategories}
               />
-              <a className="text-white font-medium hover:text-purple-500">
+              <Link className="text-white font-medium hover:text-purple-500">
                 <span>About Us</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 className="text-white  font-medium hover:text-purple-500"
-                href="https://wa.me/+923356517758"
+                to="https://wa.me/+923356517758"
                 target="_blank"
               >
                 <span>Contact Us</span>
-              </a>
+              </Link>
             </div>
 
             <span className="text-white font-bold text-5xl">Flone.</span>
@@ -123,8 +133,10 @@ const Header = () => {
                   className="rounded text-white outline-none px-3 py-2 bg-transparent"
                   type="text"
                   placeholder="Search..."
+                  value={searchQuery}
+                  onChange={handleSearchQueryChange}
                 />
-                <CgSearch className="text-white" size={"1.5em"} />
+                <CgSearch className="text-white" size={"1.5em"} onClick={()=>{setSearch(true); search && navigate(`/searchedProducts/${searchQuery}`); setSearchQuery('')}}/>
               </div>
 
               <ProfileMenu logout={logout} />
