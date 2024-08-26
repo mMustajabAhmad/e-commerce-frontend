@@ -79,3 +79,10 @@ export const clearCart = async () => {
     console.log("ERROR", error);
   }
 };
+
+export const addProductToCart = async (product_size_id) =>{
+  console.log("I'm here clicked")
+  return await axios.post(
+    `${API_BASE_URL}/users/${user_id}/cart/carts_products/`, {product_size_id}
+  );
+}

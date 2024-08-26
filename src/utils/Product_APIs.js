@@ -32,7 +32,7 @@ export const fetchProduct = async (product_id) =>{
 export const fetchProductSizeId = async (product_id ,size_id) =>{
   try {
     const response = await axios.get(
-      `/products/${product_id}/product_sizes/${size_id}`
+      `${API_BASE_URL}/products/${product_id}/product_sizes/${size_id}`
     );
     return response.data;
   } catch (error) {

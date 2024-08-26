@@ -2,18 +2,20 @@ import Header from "../shop/Header";
 import Footer from "../shop/Footer";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import apiClient from "../../api/authApi";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import { fetchProductSizes, fetchProduct, fetchProductSizeId } from "../../utils/Product_APIs";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { addProductToCart } from "../../utils/Cart_APIs";
 
 function Product() {
   const { id } = useParams();
+  const queryClient = useQueryClient();
   const [currentImage, setCurrentImage] = useState(0);
   const user_id = getCurrentUserId();
   const [imageURL, setImageURL] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [priceOfSelectedSize, setPriceOfSelectedSize] = useState(null);
+  const [ productSize, setProductSize ] = useState(null);
 
   const {
     data: sizes,
@@ -28,9 +30,17 @@ function Product() {
     data: product,
     error: productError,
     isLoading: productIsLoading,
-  } = useQuery({
+  } = useQuery({ 
     queryKey: ["product", id],
     queryFn: () => fetchProduct(id),
+  });
+
+  
+  const addToCart = useMutation({
+    mutationFn: () => addProductToCart(productSize.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["cart", user_id]);
+    },
   });
 
   useEffect(() => {
@@ -48,12 +58,21 @@ function Product() {
     } 
   }, [sizes]);
 
+  useEffect(() => {
+    if (selectedSize) {
+      fetchProductSizeId(id, selectedSize.id)
+        .then(data => setProductSize(data))
+        .catch(error => console.error("Error fetching product size:", error));
+    }
+  }, [selectedSize, id]);
+
   if (loadingSizes) return <div>Loading Sizes...</div>;
   if (sizesError) return <div>Error in Loading Sizes</div>;
 
   if (productIsLoading) return <div>Product is Loading...</div>;
   if (productError) return <div>Error in Loading Product</div>;
 
+  
   function selectedPrams(size) {
     setSelectedSize(size);
     setPriceOfSelectedSize(size.price);
@@ -75,7 +94,6 @@ function Product() {
     }
   }
   function changeImageRight() {
-    console.log("moving right");
     if (
       product &&
       product.product_images &&
@@ -91,9 +109,6 @@ function Product() {
   }
 
   function changeImageLeft() {
-    console.log("moving left");
-    console.log("index", currentImage)
-    console.log("product",product.product_images[0].url)
     if (
       product &&
       product.product_images &&
@@ -130,18 +145,6 @@ function Product() {
       );
     }
   }
-
-  const addToCart = async () => {
-    try {
-      const productSize = await fetchProductSizeId(id, selectedSize.id);
-      console.log("inside cart ps", productSize);
-      await apiClient.post(`/users/${user_id}/cart/carts_products/`, {
-        product_size_id: productSize && productSize.id,
-      });
-    } catch (error) {
-      console.log("Error", error);
-    }
-  };
 
   return (
     <>
@@ -226,7 +229,7 @@ function Product() {
                 <button
                   className="border rounded-lg bg-black text-white mt-6 hover:bg-purple-700"
                   style={{ height: "50px", width: "200px" }}
-                  onClick={addToCart}
+                  onClick={()=>addToCart.mutate()}
                 >
                   Add To Cart
                 </button>
