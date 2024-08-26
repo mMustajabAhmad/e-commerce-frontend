@@ -28,3 +28,14 @@ export const fetchProduct = async (product_id) =>{
     console.log("Error", error);
   }
 }
+
+export const fetchProductSizeId = async (product_id ,size_id) =>{
+  try {
+    const response = await axios.get(
+      `/products/${product_id}/product_sizes/${size_id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("Error", error);
+  }
+}

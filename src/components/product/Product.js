@@ -4,33 +4,17 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import apiClient from "../../api/authApi";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
-import { fetchProductSizes, fetchProduct } from "../../utils/Product_APIs";
+import { fetchProductSizes, fetchProduct, fetchProductSizeId } from "../../utils/Product_APIs";
 import { useQuery } from "@tanstack/react-query";
 
 function Product() {
   const { id } = useParams();
-  // const [product, setProduct] = useState(null);
-  // const [imageURL, setImageURL] = useState(null);
-  // const [sizes, setSizes] = useState(null);
   const [currentImage, setCurrentImage] = useState(0);
-  // const [selectedSize, setSelectedSize] = useState(sizes ? sizes[0] : null);
-  // const [priceOfSelectedSize, setPriceOfSelectedSize] = useState(
-  //   sizes ? sizes[0].price : "---"
-  // );
-  // const [productSize, setProductSize] = useState(null);
   const user_id = getCurrentUserId();
+  const [imageURL, setImageURL] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [priceOfSelectedSize, setPriceOfSelectedSize] = useState(null);
 
-  // useEffect(() => {
-  //   const fetchSizes = async () => {
-  //     try {
-  //       const response = await apiClient.get(`/products/${id}/product_sizes`);
-  //       setSizes(response.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchSizes();
-  // }, []);
   const {
     data: sizes,
     error: sizesError,
@@ -49,18 +33,20 @@ function Product() {
     queryFn: () => fetchProduct(id),
   });
 
-  // useEffect(() => {
-  //   const fetchProduct = async () => {
-  //     const response = await apiClient.get(`/products/${id}`);
-  //     setProduct(response.data);
-  //     setImageURL(
-  //       response.data.product_images && response.data.product_images.length > 0
-  //         ? `http://localhost:3001/${response.data.product_images[0].url}`
-  //         : []
-  //     );
-  //   };
-  //   fetchProduct();
-  // }, []);
+  useEffect(() => {
+    if (product && product.product_images && product.product_images.length > 0) {
+      setImageURL(`http://localhost:3001/${product.product_images[0].url}`);
+    } else {
+      setImageURL("images/watch1.png");
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (sizes) {
+      setSelectedSize(sizes[0]);
+      setPriceOfSelectedSize(sizes[0].price);
+    } 
+  }, [sizes]);
 
   if (loadingSizes) return <div>Loading Sizes...</div>;
   if (sizesError) return <div>Error in Loading Sizes</div>;
@@ -68,35 +54,18 @@ function Product() {
   if (productIsLoading) return <div>Product is Loading...</div>;
   if (productError) return <div>Error in Loading Product</div>;
 
-  const selectedSize = sizes[0];
-  const priceOfSelectedSize = sizes[0].price;
-  const imageURL =
-    product.product_images && product.product_images.length > 0
-      ? `http://localhost:3001/${product.product_images[0].url}`
-      : "images/watch1.png";
-
-  // function selectedPrams(size) {
-  //   setSelectedSize(size);
-  //   setPriceOfSelectedSize(size.price);
-  // }
+  function selectedPrams(size) {
+    setSelectedSize(size);
+    setPriceOfSelectedSize(size.price);
+  }
 
   const buttons = [];
   if (sizes != null) {
-    buttons.push(
-      <button
-        onClick={() => selectedPrams(sizes[0])}
-        className="bg-purple-700 text-white border rounded-md"
-        type="button"
-        style={{ width: "40px", height: "40px" }}
-      >
-        {sizes ? sizes[0].name : "XS"}
-      </button>
-    );
-    for (let i = 1; i < sizes.length; i++) {
+    for (let i = 0; i < sizes.length; i++) {
       buttons.push(
         <button
           onClick={() => selectedPrams(sizes[i])}
-          className="bg-purple-700 text-white border ml-2"
+          className="bg-purple-700 text-white ml-2 border rounded-md"
           type="button"
           style={{ width: "40px", height: "40px" }}
         >
@@ -106,6 +75,7 @@ function Product() {
     }
   }
   function changeImageRight() {
+    console.log("moving right");
     if (
       product &&
       product.product_images &&
@@ -116,13 +86,14 @@ function Product() {
         nextImageIndex = 0;
       }
       setCurrentImage(nextImageIndex);
-      setImageURL(
-        `http://localhost:3001/${product.product_images[nextImageIndex].url}`
-      );
+      setImageURL(`http://localhost:3001/${product.product_images[nextImageIndex].url}`);
     }
   }
 
   function changeImageLeft() {
+    console.log("moving left");
+    console.log("index", currentImage)
+    console.log("product",product.product_images[0].url)
     if (
       product &&
       product.product_images &&
@@ -133,9 +104,8 @@ function Product() {
         previousImageIndex = product.product_images.length - 1;
       }
       setCurrentImage(previousImageIndex);
-      setImageURL(
-        `http://localhost:3001/${product.product_images[previousImageIndex].url}`
-      );
+      setImageURL(`http://localhost:3001/${product.product_images[previousImageIndex].url}`);
+      console.log("imageURL", imageURL)
     }
   }
 
@@ -161,22 +131,9 @@ function Product() {
     }
   }
 
-  const getProductSizeId = async () => {
-    try {
-      const response = await apiClient.get(
-        `/products/${id}/product_sizes/${selectedSize && selectedSize.id}`
-      );
-      setProductSize(response.data);
-      console.log("product size", response.data);
-      return response.data;
-    } catch (error) {
-      console.log("Error", error);
-    }
-  };
-
   const addToCart = async () => {
     try {
-      const productSize = await getProductSizeId();
+      const productSize = await fetchProductSizeId(id, selectedSize.id);
       console.log("inside cart ps", productSize);
       await apiClient.post(`/users/${user_id}/cart/carts_products/`, {
         product_size_id: productSize && productSize.id,
