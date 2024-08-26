@@ -4,8 +4,26 @@ import {
 } from "../../utils/CategoryUtils";
 import { fetchCategories } from "../../utils/Category_APIs";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 
 function LeftPanel() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+  const [search, setSearch] = useState(true);
+
+  const handleSearchQueryChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleKeyDown = (event) =>{
+    if(event.key == 'Enter'){
+      setSearch(true);
+      search && navigate(`/searchedProducts/${searchQuery}`);
+      setSearchQuery('')
+    };
+    }
+
   const {
     data: categories,
     error: categoriesError,
@@ -27,9 +45,11 @@ function LeftPanel() {
           <span className="font-medium ">Search</span>
           <div className="flex flex-row border border-black rounded-md w-1/2 p-1.5">
             <input
-              className="rounded text-xs"
+              className="rounded text-xs outline-none"
               type="text"
               placeholder="Search..."
+              onChange={handleSearchQueryChange}
+              onKeyDown={handleKeyDown}
             />
           </div>
         </div>
