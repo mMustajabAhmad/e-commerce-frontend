@@ -3,15 +3,28 @@ import { IoIosLock } from "react-icons/io";
 import { fetchOrderVouchers } from "../../utils/APIs/Voucher_APIs";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { fetchAddresses } from "../../utils/APIs/Address_APIs";
 
 const RightPanel = (props) => {
   const [showSaved, setShowSaved] = useState(false);
-  const addresses = [
-    { label: "abc", value: "1" },
-    { label: "def", value: "2" },
-    { label: "ghi", value: "3" },
-    { label: "jkl", value: "4" },
-  ];
+  // const addresses = [
+  //   { label: "abc", value: "1" },
+  //   { label: "def", value: "2" },
+  //   { label: "ghi", value: "3" },
+  //   { label: "jkl", value: "4" },
+  // ];
+
+  const {
+    data: fetchedAddresses,
+    error: AddressError,
+    isLoading: loadingAddress
+  } = useQuery({
+    queryKey: ["addresses"],
+    queryFn: ()=> fetchAddresses(),
+  })
+
+  
+
   const bill = props.data;
   const {
     data: applicableOrderVouchers,
@@ -22,8 +35,16 @@ const RightPanel = (props) => {
     queryFn: () => fetchOrderVouchers(),
   });
 
-  if (loadingVouchers) return <div>Loading Vouchers...</div>;
-  if (voucherError) return <div>Error in Loading Vouchers</div>;
+  if (loadingVouchers) return <div>Loading Vouchers...</div>
+  if (voucherError) return <div>Error in Loading Vouchers</div>
+
+  if (loadingAddress) return <div>Addresses are Loading...</div>
+  if (AddressError) return <div>Error in Loading Addresses</div>
+
+  const addresses = []
+  for(let i=0; i<fetchedAddresses.length; i++){
+    addresses.push({label: fetchedAddresses[i].address, value: fetchedAddresses[i].id});
+  }
 
   const vouchers = [];
   for (let i = 0; i < applicableOrderVouchers.length; i++) {

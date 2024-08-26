@@ -16,7 +16,7 @@ function LeftPanel() {
     setSearchQuery(event.target.value);
   };
 
-  const handleKeyDown = (event) =>{
+  const handleKeyDown = (event) => {
     if(event.key == 'Enter'){
       setSearch(true);
       search && navigate(`/searchedProducts/${searchQuery}`);
