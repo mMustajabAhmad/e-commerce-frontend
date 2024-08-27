@@ -14,6 +14,7 @@ import { Navigate } from "react-router-dom";
 import Checkout from "./components/checkout/Checkout";
 import SearchedProducts from "./components/searchResults/SearchedProducts";
 import StripeWrapper from "./components/checkout/Stripe";
+import OrderHistory from "./components/orderHistory/OrderHistory";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/searchedProducts/:query" element={<SearchedProducts />} />
             <Route path="/payNow/:order_id" element={<StripeWrapper />} />
+            <Route path="/orderHistory" element={<OrderHistory />}/>
           </>
         ) : (
           <Route path="*" element={<Navigate to="/signin" />} />
