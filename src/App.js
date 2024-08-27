@@ -36,7 +36,7 @@ function App() {
 
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/searchedProducts/:query" element={<SearchedProducts />} />
-            <Route path="/stripe" element={<StripeWrapper />} />
+            <Route path="/payNow/:order_id" element={<StripeWrapper />} />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/signin" />} />

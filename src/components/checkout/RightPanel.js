@@ -6,8 +6,10 @@ import { useState } from "react";
 import { fetchAddresses } from "../../utils/APIs/Address_APIs";
 import { postOrderData } from "../../utils/APIs/Order_APIs";
 import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
+import { useNavigate } from 'react-router-dom';
 
 const RightPanel = (props) => {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const user_id = getCurrentUserId();
   const [showSaved, setShowSaved] = useState(false);
@@ -36,8 +38,10 @@ const RightPanel = (props) => {
 
   const placeOrder = useMutation({
     mutationFn: () => postOrderData(billingAddress, shippingAddress, voucher && voucher.voucher_code),
-    onSuccess: () => {
+    onSuccess: (response) => {
       queryClient.invalidateQueries(["cart", user_id])
+      console.log("ORDER", response)
+      navigate(`/payNow/${response.data.order.id}`)
     },
     onError: (error) => {
       console.error('Error placing order:', error);

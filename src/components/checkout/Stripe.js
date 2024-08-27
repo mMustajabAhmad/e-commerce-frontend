@@ -4,9 +4,13 @@ import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from './CheckoutForm';
 import Header from '../shop/Header';
 import Footer from '../shop/Footer';
+import { useParams } from 'react-router-dom';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY)
-const StripeWrapper = () => (
+
+const StripeWrapper = () => {
+  const {order_id} = useParams();
+  return(
   <>
     <Header/>
     <main className='min-h-screen'>
@@ -15,15 +19,16 @@ const StripeWrapper = () => (
       </div>
       <div className='flex flex-row w-full justify-center'>
         <div className='flex flex-col justify-center w-1/2'>
-          <Elements stripe={stripePromise} options={{ theme: 'stripe' }}>
-            <CheckoutForm />
+          <Elements stripe={stripePromise}>
+            <CheckoutForm data={order_id}/>
           </Elements>
         </div>
       </div>
     </main>
     <Footer/>
   </>
-);
+  );
+}
 
 
 export default StripeWrapper;
