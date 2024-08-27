@@ -17,6 +17,7 @@
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.3",
     "bootstrap": "^5.3.3",
+    "date-fns": "^3.6.0",
     "flowbite-react": "^0.10.1",
     "jwt-decode": "^4.0.0",
     "postcss": "^8.4.40",

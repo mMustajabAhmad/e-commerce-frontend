@@ -11,25 +11,27 @@ export const fetchProducts = async () => {
   }
 };
 
-export const fetchProductSizes = async (product_id) =>{
-  try{
-    const response = await axios.get(`${API_BASE_URL}/products/${product_id}/product_sizes`);
+export const fetchProductSizes = async (product_id) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/products/${product_id}/product_sizes`
+    );
     return response.data;
-  }catch(error) {
+  } catch (error) {
     console.log("Error", error);
   }
-}
+};
 
-export const fetchProduct = async (product_id) =>{
-  try{
-    const response = await axios.get(`${API_BASE_URL}/products/${product_id}`)
+export const fetchProduct = async (product_id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/products/${product_id}`);
     return response.data;
-  }catch(error){
+  } catch (error) {
     console.log("Error", error);
   }
-}
+};
 
-export const fetchProductSizeId = async (product_id ,size_id) =>{
+export const fetchProductSizeId = async (product_id, size_id) => {
   try {
     const response = await axios.get(
       `${API_BASE_URL}/products/${product_id}/product_sizes/${size_id}`
@@ -38,15 +40,24 @@ export const fetchProductSizeId = async (product_id ,size_id) =>{
   } catch (error) {
     console.log("Error", error);
   }
-}
+};
 
 export const fetchSearchedProducts = async (query) => {
   try {
-    console.log("I'm here")
     const response = await axios.get(`${API_BASE_URL}/products?query=${query}`);
-    console.log("response", response.data)
     return response.data;
   } catch (error) {
     console.log("Error", error);
+  }
+};
+
+export const fetchProductSize = async (product_size_id) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/product_sizes/${product_size_id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("ERROR", error);
   }
 };

@@ -1,10 +1,29 @@
-const BillingDetails = () =>{
+import { fetchOrderDetails } from "../../utils/APIs/Order_APIs";
+import { useQuery } from "@tanstack/react-query";
+
+const BillingDetails = (props) => {
+  const orderId = props.data;
+  console.log("ORDERRR IDD",orderId)
+
+  const{
+    data: orderDetails,
+    error: orderDetailsError,
+    isLoading: loadingOrderDetails
+  } = useQuery({
+    queryKey: ["orderDetails", orderId],
+    queryFn: ()=> fetchOrderDetails(orderId)
+  })
+
+  if(loadingOrderDetails) return <div>Loading...</div>
+  if(orderDetailsError) return <div>Error</div>
+
+  console.log("order details ...", orderDetails)
   return(
     <>
       <div className="flex flex-col bg-gray-200 mx-8 my-4 rounded py-4 gap-1">
           <div className="flex flex-row justify-between px-6">
             <span className="font-medium">Bill</span>
-            <span>$1000</span>
+            <span>${orderDetails.bill}</span>
           </div>
           <div className="flex flex-row justify-between px-6">
             <span className="font-medium">Voucher Code</span>

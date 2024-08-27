@@ -49,3 +49,21 @@ export const removeProductVoucher = async (cartProductId, voucher_id) =>{
     `${API_BASE_URL}/users/${user_id}/cart/carts_products/${cartProductId}/remove_voucher/${voucher_id}`
   );
 }
+
+export const fetchProductVoucher = async (order_detail_id) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/product_vouchers/${order_detail_id}`);
+    return response.data;
+  } catch (error) {
+    console.log("error", error)
+  }
+}
+
+export const fetchOrderVoucher = async (order_id) =>{
+  try{
+    const response = await axios.get(`${API_BASE_URL}/order_vouchers/${order_id}`);
+    return response.data;
+  }catch(error){
+    console.log("error", error)
+  }
+}
