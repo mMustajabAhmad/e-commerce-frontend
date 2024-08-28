@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 import { getPaymentInfo } from '../../utils/APIs/Payment_APIs';
 import { useQuery } from "@tanstack/react-query"
+import { Link } from 'react-router-dom';
 
 const OrderRow = (props) => {
   const order = props.order;
@@ -58,7 +59,9 @@ const OrderRow = (props) => {
         <th className="px-6 py-3">
           {payment.payment_status == 'pending' &&
              <div className="bg-red-100 rounded">
-                <span className="text-red-800">Pending</span>
+                <Link to={`/payNow/${order.id}`}>
+                  <span className="text-red-800">Pay Now</span>
+                </Link>
               </div>
           }
 
@@ -69,6 +72,7 @@ const OrderRow = (props) => {
           }
          
         </th>
+        <th className="px-6 py-3">{order.shipping_method}</th>
         <th className="px-6 py-3">
           <button
             className="underline"
