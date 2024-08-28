@@ -6,6 +6,7 @@ const ProfileMenu = ({ logout }) => {
   const links = [
     { href: "/myProfile", label: "My Profile" },
     { href: "/signin", label: "Log Out", onClick: logout },
+    { href: "/orderHistory", label: "Order History" },
   ];
 
   return (

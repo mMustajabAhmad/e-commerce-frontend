@@ -14,41 +14,39 @@ export const postOrderData = async (
     billing_address: billingAddress,
     shipping_address: shippingAddress,
     voucher_code: voucherCode,
-    shipping_method: shippingMethod
-  }
+    shipping_method: shippingMethod,
+  };
   return await axios.post(`${API_BASE_URL}/users/${user_id}/orders`, payload);
 };
 
-
 export const fetchOrders = async () => {
-  try{
-    const response = await axios.get(
-      `${API_BASE_URL}/users/${user_id}/orders`
-    )
+  try {
+    const response = await axios.get(`${API_BASE_URL}/users/${user_id}/orders`);
     return response.data;
-  }catch(error){
+  } catch (error) {
     console.log("ERROR", error);
   }
 };
 
-export const fetchOrderDetails = async(order_id) =>{
-  try{
+export const fetchOrderDetails = async (order_id) => {
+  try {
     const response = await axios.get(
       `${API_BASE_URL}/users/${user_id}/orders/${order_id}/order_details`
-    )
+    );
     return response.data;
-  }catch(error){
-    console.log("ERROR", error);
-  }
-}
-
-export const fetchOrder = async (order_id) => {
-  try{
-    const response = await axios.get(
-      `${API_BASE_URL}/users/${user_id}/orders/${order_id}`
-    )
-    return response.data;
-  }catch(error){
+  } catch (error) {
     console.log("ERROR", error);
   }
 };
+
+export const fetchOrder = async (order_id) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/users/${user_id}/orders/${order_id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.log("ERROR", error);
+  }
+};
+
