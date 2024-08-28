@@ -57,11 +57,16 @@ const OrderRow = (props) => {
           )}
         </th>
         <th className="px-6 py-3">
-          {payment.payment_status == 'pending' &&
+          {payment.payment_status == 'pending' && order.shipping_method == 'stripe' &&
              <div className="bg-red-100 rounded">
                 <Link to={`/payNow/${order.id}`}>
                   <span className="text-red-800">Pay Now</span>
                 </Link>
+              </div>
+          }
+          {payment.payment_status == 'pending' && order.shipping_method == 'COD' &&
+             <div className="bg-red-100 rounded">
+                  <span className="text-red-800">Pending</span>
               </div>
           }
 
