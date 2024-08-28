@@ -28,7 +28,7 @@ const CheckoutForm = (props) => {
       }
       
       alert("Payment succeeded!")
-      navigate('/shop')
+      navigate('/orderHistory')
     },
     onError: (error, response)=>{
       alert("Payment failed!", error)

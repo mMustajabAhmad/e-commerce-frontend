@@ -20,7 +20,6 @@ const OrderRow = (props) => {
   if (paymentIsLoading) return <div>Payment is Loading...</div>
   if (paymentError) return <div>Payment Error</div>
 
-  console.log("PAYMENT", payment)
   return (
     <>
       <tr className="border">
@@ -32,27 +31,27 @@ const OrderRow = (props) => {
         <th className="px-6 py-3">
           {order.order_status == "placed" && (
             <div className="bg-orange-100 rounded">
-              <span className=" text-orange-800">{order.order_status}</span>
+              <span className=" text-orange-800">Placed</span>
             </div>
           )}
           {order.order_status == "processed" && (
             <div className="bg-blue-100 rounded">
-              <span className="text-blue-800">{order.order_status}</span>
+              <span className="text-blue-800">Processed</span>
             </div>
           )}
           {order.order_status == "shipped" && (
             <div className="bg-lime-100 rounded">
-              <span className="text-lime-800">{order.order_status}</span>
+              <span className="text-lime-800">Shipped</span>
             </div>
           )}
           {order.order_status == "delivered" && (
             <div className="bg-emerald-100  rounded">
-              <span className="text-emerald-800">{order.order_status}</span>
+              <span className="text-emerald-800">Delivered</span>
             </div>
           )}
           {order.order_status == "cancelled" && (
             <div className="bg-red-100  rounded">
-              <span className="text-red-800">{order.order_status}</span>
+              <span className="text-red-800">Cancelled</span>
             </div>
           )}
         </th>
@@ -77,7 +76,11 @@ const OrderRow = (props) => {
           }
          
         </th>
-        <th className="px-6 py-3">{order.shipping_method}</th>
+        {order.shipping_method == 'COD' ?
+          <th className="px-6 py-3">Cash on Delivery</th> :
+          <th className="px-6 py-3">Stripe</th>
+        }
+        
         <th className="px-6 py-3">
           <button
             className="underline"

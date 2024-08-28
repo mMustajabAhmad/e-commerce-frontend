@@ -5,16 +5,18 @@ const API_BASE_URL = "http://localhost:3001";
 const user_id = getCurrentUserId();
 
 export const postOrderData = async (
-  billing_address,
-  shipping_address,
-  voucher_code
+  billingAddress,
+  shippingAddress,
+  voucherCode,
+  shippingMethod
 ) => {
-  console.log("I  am clicked");
-  return await axios.post(`${API_BASE_URL}/users/${user_id}/orders`, {
-    billing_address: billing_address,
-    shipping_address: shipping_address,
-    voucher_code: voucher_code,
-  });
+  const payload = {
+    billing_address: billingAddress,
+    shipping_address: shippingAddress,
+    voucher_code: voucherCode,
+    shipping_method: shippingMethod
+  }
+  return await axios.post(`${API_BASE_URL}/users/${user_id}/orders`, payload);
 };
 
 

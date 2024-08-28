@@ -30,7 +30,7 @@ const BillingDetails = (props) => {
     isLoading: voucherIsLoading,
     
   } = useQuery({
-    queryKey: ["voucher", orderId],
+    queryKey: ["orderVoucher", orderId],
     queryFn: () => getVoucher(orderVoucher.voucher_id),
     enabled: !!orderVoucher
   })
@@ -46,7 +46,7 @@ const BillingDetails = (props) => {
 
   return(
     <>
-      <div className="flex flex-col bg-gray-200 mx-8 my-4 rounded py-4 gap-1">
+      <div className="flex flex-col bg-gray-200 mx-8 my-4 rounded py-2 gap-1">
           <div className="flex flex-row justify-between px-6">
             <span className="font-medium">Bill</span>
             <span>${order.bill}</span>
@@ -71,9 +71,9 @@ const BillingDetails = (props) => {
             <span>{format(new Date(order.created_at), 'dd/MM/yyyy')}</span>
           </div>
         </div>
-        {order.order_status == 'placed' || order.order_status == 'processed' &&
-          <div className="flex justify-end mr-8">
-            <button className="bg-red-700 text-white p-2 rounded">Cancel Order</button>
+        {(order.order_status == 'placed' || order.order_status == 'processed') &&
+          <div className="flex justify-end mr-8 mb-2">
+            <button className="text-sm text-red-700 underline">Cancel Order</button>
           </div>
         }
     </>

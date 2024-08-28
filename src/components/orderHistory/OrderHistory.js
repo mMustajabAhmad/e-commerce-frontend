@@ -6,8 +6,6 @@ import OrderItems from "./OrderItems";
 import BillingDetails from "./BillingDetails";
 import { fetchOrders } from "../../utils/APIs/Order_APIs";
 import { useQuery } from "@tanstack/react-query";
-import { format } from 'date-fns';
-import axios from "axios";
 import OrderRow from "./OrderTableRow";
 
 const OrderHistory = () => {

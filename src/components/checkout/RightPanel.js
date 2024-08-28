@@ -16,6 +16,7 @@ const RightPanel = (props) => {
   const [voucher, setVoucher] = useState(null);
   const [billingAddress, setBillingAddress] = useState(null);
   const [shippingAddress, setShippingAddress] = useState(null);
+  const [shippingMethod, setShippingMethod] = useState("COD")
 
   const {
     data: fetchedAddresses,
@@ -37,11 +38,14 @@ const RightPanel = (props) => {
   });
 
   const placeOrder = useMutation({
-    mutationFn: () => postOrderData(billingAddress, shippingAddress, voucher && voucher.voucher_code),
+    mutationFn: () => postOrderData(billingAddress.label, shippingAddress.label, voucher ? voucher.label : null, shippingMethod),
     onSuccess: (response) => {
       queryClient.invalidateQueries(["cart", user_id])
-      console.log("ORDER", response)
-      navigate(`/payNow/${response.data.order.id}`)
+      if(shippingMethod == "stripe"){
+        navigate(`/payNow/${response.data.order.id}`)
+      }else{
+        navigate(`/orderHistory`)
+      }
     },
     onError: (error) => {
       console.error('Error placing order:', error);
@@ -69,6 +73,9 @@ const RightPanel = (props) => {
     
   }
 
+  console.log("shipping method", shippingMethod)
+
+
   const handleVoucherChange = (event) => {
     setVoucher(event);
   }
@@ -87,6 +94,12 @@ const RightPanel = (props) => {
 
   const handleShippingAddressChangeForInput = (event) =>{
     setShippingAddress(event.target.value);
+  }
+
+  const handleShippingMethodChange = (event) => {
+    console.log("Shipping method before", event.target.value)
+    setShippingMethod(event.target.value);
+    console.log("Shipping method after", shippingMethod)
   }
 
   return (
@@ -162,11 +175,11 @@ const RightPanel = (props) => {
         <div className="flex flex-col gap-2">
           <span className="font-medium">Shipping Method</span>
           <div className="flex flex-row gap-2 text-sm border p-2 rounded-md">
-            <input type="radio" name="shippingMethod" value="COD" id="cod" />
+            <input type="radio" name="shippingMethod" value="COD" id="cod" checked onClick={handleShippingMethodChange}/>
             <label htmlFor="cod">Cash on Delivery</label>
           </div>
           <div className="flex flex-row gap-2 text-sm border p-2 rounded-md">
-            <input type="radio" name="shippingMethod" value="COD" id="cod" />
+            <input type="radio" name="shippingMethod" value="stripe" id="cod" onClick={handleShippingMethodChange}/>
             <label htmlFor="cod">Stripe</label>
           </div>
         </div>

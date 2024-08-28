@@ -39,11 +39,11 @@ const OrderItem = (props) => {
     error: voucherError,
     isLoading: voucherIsLoading
   } = useQuery({
-    queryKey: ["voucher", productVoucher?.id],
-    queryFn: ()=>getVoucher(productVoucher?.id),
+    queryKey: ["productVoucher", productVoucher?.voucher_id],
+    queryFn: () => getVoucher(productVoucher?.voucher_id),
     enabled: !!productVoucher
   })
-
+  
   if(loadingProductSize) return <div>Loading...</div>
   if (productSizeError) return <div>Error</div>
 
@@ -55,6 +55,9 @@ const OrderItem = (props) => {
 
   if(voucherIsLoading) return <div>Loading...</div>
   if(voucherError) return <div>Error</div>
+
+  console.log("Product Voucher", voucher);
+
 
   return (
     <>
