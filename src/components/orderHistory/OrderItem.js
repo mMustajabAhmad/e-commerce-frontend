@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchProductSize, fetchProduct } from "../../utils/APIs/Product_APIs";
 import { fetchProductVoucher, getVoucher } from "../../utils/APIs/Voucher_APIs";
 
-
 const OrderItem = (props) => {
   const itemDetail = props.data;
   const {
@@ -35,6 +34,16 @@ const OrderItem = (props) => {
     queryFn: () =>fetchProductVoucher(itemDetail.id)
   })
 
+  const {
+    data: voucher,
+    error: voucherError,
+    isLoading: voucherIsLoading
+  } = useQuery({
+    queryKey: ["voucher", productVoucher?.id],
+    queryFn: ()=>getVoucher(productVoucher?.id),
+    enabled: !!productVoucher
+  })
+
   if(loadingProductSize) return <div>Loading...</div>
   if (productSizeError) return <div>Error</div>
 
@@ -44,7 +53,8 @@ const OrderItem = (props) => {
   if (loadingProductVoucher) return <div>Loading...</div>
   if (productVoucherError) return <div>Error</div>
 
-  console.log("PRODUCTTTT VOUCHERRR", productVoucher)
+  if(voucherIsLoading) return <div>Loading...</div>
+  if(voucherError) return <div>Error</div>
 
   return (
     <>
@@ -58,7 +68,7 @@ const OrderItem = (props) => {
           <span className="text-sm">Size : <span className="text-red-700">{itemDetail.size}</span></span>
           <span className="text-sm">Quantity: {itemDetail.quantity}</span>
           {productVoucher &&
-            <span className="bg-gray-300 flex flex-row justify-center text-sm rounded">v123</span>
+            <span className="bg-gray-300 flex flex-row justify-center text-sm rounded">{voucher.voucher_code}</span>
           }
         </div>
       </div>

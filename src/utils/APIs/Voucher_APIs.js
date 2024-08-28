@@ -44,7 +44,6 @@ export const getVoucher = async (voucher_id) =>{
 }
 
 export const removeProductVoucher = async (cartProductId, voucher_id) =>{
-  console.log("http://localhost:3001/users/4/cart/carts_products/90/remove_voucher/3")
   return await axios.patch(
     `${API_BASE_URL}/users/${user_id}/cart/carts_products/${cartProductId}/remove_voucher/${voucher_id}`
   );

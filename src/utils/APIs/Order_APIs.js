@@ -45,3 +45,14 @@ export const fetchOrderDetails = async(order_id) =>{
     console.log("ERROR", error);
   }
 }
+
+export const fetchOrder = async (order_id) => {
+  try{
+    const response = await axios.get(
+      `${API_BASE_URL}/users/${user_id}/orders/${order_id}`
+    )
+    return response.data;
+  }catch(error){
+    console.log("ERROR", error);
+  }
+};

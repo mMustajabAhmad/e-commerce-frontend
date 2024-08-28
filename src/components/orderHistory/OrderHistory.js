@@ -52,13 +52,18 @@ const OrderHistory = () => {
             </div>
           }
           {orders[i].order_status == 'shipped' && 
-            <div className="bg-violet-100 rounded">
-              <span className="text-violet-800">{orders[i].order_status}</span>
+            <div className="bg-lime-100 rounded">
+              <span className="text-lime-800">{orders[i].order_status}</span>
             </div>
           }
           {orders[i].order_status == 'delivered' && 
             <div className="bg-emerald-100  rounded">
               <span className="text-emerald-800">{orders[i].order_status}</span>
+            </div>
+          }
+          {orders[i].order_status == 'cancelled' && 
+            <div className="bg-red-100  rounded">
+              <span className="text-red-800">{orders[i].order_status}</span>
             </div>
           }
         </th>
