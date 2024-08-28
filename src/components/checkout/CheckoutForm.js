@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useMutation } from "@tanstack/react-query";
-import { makePayment } from '../../utils/APIs/Order_APIs';
+import { makePayment } from '../../utils/APIs/Payment_APIs';
 import { useNavigate } from 'react-router-dom';
 
 const CheckoutForm = (props) => {

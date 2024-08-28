@@ -17,12 +17,6 @@ export const postOrderData = async (
   });
 };
 
-export const makePayment = async (order_id) => {
-  const response = await axios.post(
-    `${API_BASE_URL}/orders/${order_id}/payment`
-  );
-  return response.data;
-};
 
 export const fetchOrders = async () => {
   try{

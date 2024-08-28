@@ -7,6 +7,8 @@ import BillingDetails from "./BillingDetails";
 import { fetchOrders } from "../../utils/APIs/Order_APIs";
 import { useQuery } from "@tanstack/react-query";
 import { format } from 'date-fns';
+import axios from "axios";
+import OrderRow from "./OrderTableRow";
 
 const OrderHistory = () => {
   const [open, setOpen] = useState(false);
@@ -20,6 +22,8 @@ const OrderHistory = () => {
     queryKey: ["orders"],
     queryFn: () => fetchOrders()
   })
+
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -36,42 +40,43 @@ const OrderHistory = () => {
 
   for (let i=0;i<orders.length;i++){
     tableRows.push(
-      <tr className="border">
-        <th className="px-6 py-3">{orders[i].id}</th>
-        <th className="px-6 py-3">{format(new Date(orders[i].created_at), 'dd/MM/yyyy')}</th>
-        <th className="px-6 py-3">${orders[i].bill}</th>
-        <th className="px-6 py-3">
-          {orders[i].order_status == 'placed' && 
-            <div className="bg-orange-100 rounded">
-              <span className=" text-orange-800">{orders[i].order_status}</span>
-            </div>
-          }
-          {orders[i].order_status == 'processed' && 
-            <div className="bg-blue-100 rounded">
-              <span className="text-blue-800">{orders[i].order_status}</span>
-            </div>
-          }
-          {orders[i].order_status == 'shipped' && 
-            <div className="bg-lime-100 rounded">
-              <span className="text-lime-800">{orders[i].order_status}</span>
-            </div>
-          }
-          {orders[i].order_status == 'delivered' && 
-            <div className="bg-emerald-100  rounded">
-              <span className="text-emerald-800">{orders[i].order_status}</span>
-            </div>
-          }
-          {orders[i].order_status == 'cancelled' && 
-            <div className="bg-red-100  rounded">
-              <span className="text-red-800">{orders[i].order_status}</span>
-            </div>
-          }
-        </th>
-        <th className="px-6 py-3">
-          <div className="bg-red-100 rounded"><span className="text-red-800">Pending</span></div>
-        </th>
-        <th className="px-6 py-3"><button className="underline" onClick={()=>{handleOpen();setOrderId(orders[i].id)}}>View</button></th>
-      </tr>
+      <OrderRow order={orders[i]} handleOpen={handleOpen} setOrderId={setOrderId}/>
+      // <tr className="border">
+      //   <th className="px-6 py-3">{orders[i].id}</th>
+      //   <th className="px-6 py-3">{format(new Date(orders[i].created_at), 'dd/MM/yyyy')}</th>
+      //   <th className="px-6 py-3">${orders[i].bill}</th>
+      //   <th className="px-6 py-3">
+      //     {orders[i].order_status == 'placed' && 
+      //       <div className="bg-orange-100 rounded">
+      //         <span className=" text-orange-800">{orders[i].order_status}</span>
+      //       </div>
+      //     }
+      //     {orders[i].order_status == 'processed' && 
+      //       <div className="bg-blue-100 rounded">
+      //         <span className="text-blue-800">{orders[i].order_status}</span>
+      //       </div>
+      //     }
+      //     {orders[i].order_status == 'shipped' && 
+      //       <div className="bg-lime-100 rounded">
+      //         <span className="text-lime-800">{orders[i].order_status}</span>
+      //       </div>
+      //     }
+      //     {orders[i].order_status == 'delivered' && 
+      //       <div className="bg-emerald-100  rounded">
+      //         <span className="text-emerald-800">{orders[i].order_status}</span>
+      //       </div>
+      //     }
+      //     {orders[i].order_status == 'cancelled' && 
+      //       <div className="bg-red-100  rounded">
+      //         <span className="text-red-800">{orders[i].order_status}</span>
+      //       </div>
+      //     }
+      //   </th>
+      //   <th className="px-6 py-3">
+      //     <div className="bg-red-100 rounded"><span className="text-red-800">Pending</span></div>
+      //   </th>
+      //   <th className="px-6 py-3"><button className="underline" onClick={()=>{handleOpen();setOrderId(orders[i].id)}}>View</button></th>
+      // </tr>
     );
   }
 
