@@ -2,8 +2,6 @@ import Header from "../shop/Header";
 import Footer from "../shop/Footer";
 import CategoryRow from "./CategoriesRow";
 import { getParentCategories } from "../../utils/CategoryUtils";
-import { useState, useEffect } from "react";
-import apiClient from "../../api/authApi";
 import {
   calculateNumberOfRows,
   calculateNumberOfColumns,
@@ -15,18 +13,18 @@ function Categories() {
   const {
     data: categories,
     error: categoriesError,
-    isLoading: loadingCategories
+    isLoading: loadingCategories,
   } = useQuery({
     queryKey: ["categories"],
-    queryFn: ()=>fetchCategories()
-  })
+    queryFn: () => fetchCategories(),
+  });
 
-  if (loadingCategories ) return <div>Loading...</div>;
+  if (loadingCategories) return <div>Loading...</div>;
   if (categoriesError) return <div>Error...</div>;
 
-  const parentCategories = getParentCategories(categories)
+  const parentCategories = getParentCategories(categories);
   const rows = [];
-  
+
   const numberOfRows = calculateNumberOfRows(parentCategories);
   const indexesForSlicing = calculateNumberOfColumns(parentCategories);
   const start = indexesForSlicing["start"];
@@ -42,7 +40,6 @@ function Categories() {
       </>
     );
   }
-  
 
   return (
     <div className="mt-3">
