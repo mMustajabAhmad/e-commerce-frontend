@@ -50,3 +50,8 @@ export const fetchOrder = async (order_id) => {
   }
 };
 
+export const cancelOrder = async (order_id) => {
+  return await axios.patch(
+    `${API_BASE_URL}/users/${user_id}/orders/${order_id}`
+  );
+};

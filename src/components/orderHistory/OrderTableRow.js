@@ -63,7 +63,7 @@ const OrderRow = (props) => {
                 </Link>
               </div>
           }
-          {payment.payment_status == 'pending' && order.shipping_method == 'COD' &&
+          {payment.payment_status == 'pending' && order.shipping_method == 'COD' &&  order.order_status != "cancelled" &&
              <div className="bg-red-100 rounded">
                   <span className="text-red-800">Pending</span>
               </div>
