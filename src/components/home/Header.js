@@ -149,11 +149,12 @@ const Header = () => {
               </div>
 
               <ProfileMenu logout={logout} />
-              <div className="flex flex-row gap-3">
+              <div className="flex flex-col items-center">
+                <span className="absolute bg-purple-500 text-white text-xs rounded-xl w-5 h-5 flex justify-center items-center translate-x-2 -translate-y-1.5">{cart.length}</span>
                 <CiShoppingCart
-                  strokeWidth={1}
+                  strokeWidth={0.5}
                   className="text-white cursor-pointer"
-                  size={"1.5em"}
+                  size={"2em"}
                   onClick={handleOpen}
                 />
               </div>
