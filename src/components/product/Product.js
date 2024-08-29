@@ -40,7 +40,11 @@ function Product() {
     mutationFn: () => addProductToCart(productSize.id),
     onSuccess: () => {
       queryClient.invalidateQueries(["cart", user_id]);
+      alert("Product added to cart");
     },
+    onError: ()=>{
+      alert("Failed to add product to cart")
+    }
   });
 
   useEffect(() => {
