@@ -17,10 +17,10 @@ function CategoryProduct(props) {
             height: "320px",
             backgroundSize: "cover",
           }}
-          className="ml-4"
+          className="ml-4 rounded-lg"
         ></div>
         <Link to={`/products/${product.id}`}>
-          <p className="flex justify-center mt-2 font-bold hover:text-purple-700">
+          <p className="flex justify-center mt-2 font-medium hover:text-purple-700">
             {product.title}
           </p>
         </Link>

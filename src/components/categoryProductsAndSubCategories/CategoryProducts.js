@@ -76,7 +76,7 @@ function CategoryProducts() {
 
         <main className="flex flex-col min-h-screen">
           <div className="h-20 flex justify-center bg-gray-200 ">
-            <span className="font-bold text-2xl mt-4">
+            <span className="font-medium text-2xl mt-4">
               SHOP / CATEGORY {parent && `/ ${parent.name.toUpperCase()}`} /{" "}
               {category && category.name.toUpperCase()}
             </span>
@@ -86,7 +86,7 @@ function CategoryProducts() {
               <div className="flex flex-col">
                 {products && products.length > 0 && (
                   <>
-                    <p className="text-4xl font-bold flex flex-row justify-center">
+                    <p className="text-4xl font-medium flex flex-row justify-center">
                       Products
                     </p>
                     <div className="flex flex-row mt-6">
@@ -101,7 +101,7 @@ function CategoryProducts() {
               <div className="flex flex-col mt-12">
                 {subCategories && subCategories.length > 0 && (
                   <>
-                    <p className="text-4xl font-bold flex flex-row justify-center">
+                    <p className="text-4xl font-medium flex flex-row justify-center">
                       Sub Categories
                     </p>
                     <div className="flex flex-row mt-6 mb-10">
