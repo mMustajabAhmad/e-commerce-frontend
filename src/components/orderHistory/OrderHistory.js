@@ -59,7 +59,7 @@ const OrderHistory = () => {
                   <th className="px-6 py-3">Bill</th>
                   <th className="px-6 py-3">Order Status</th>
                   <th className="px-6 py-3">Payment Status</th>
-                  <th className="px-6 py-3">Shipping Method</th>
+                  <th className="px-6 py-3">Payment Method</th>
                   <th className="px-6 py-3">View Details</th>
                 </tr>
               </thead>

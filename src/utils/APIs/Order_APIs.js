@@ -16,17 +16,15 @@ export const postOrderData = async (
     voucher_code: voucherCode,
     shipping_method: shippingMethod,
   };
-  const response = await axios.post(`${API_BASE_URL}/users/${user_id}/orders`, payload, {responseType: 'blob'});
-  const url = window.URL.createObjectURL(new Blob([response.data]));
+  const response = await axios.post(`${API_BASE_URL}/users/${user_id}/orders`, payload);
+  const { order, receipt_url } = response.data
+  const pdfResponse = await axios.get(receipt_url, { responseType: 'blob' });
+  const pdfBlob = new Blob([pdfResponse.data], { type: 'application/pdf' });
   const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', `receipt_${Date.now()}.pdf`);
-  document.body.appendChild(link);
+  link.href = URL.createObjectURL(pdfBlob);
+  link.download = `receipt_${order.id}.pdf`;
   link.click();
-  document.body.removeChild(link);
-  window.URL.revokeObjectURL(url);
-  console.log("responese oderd", response.data)
-  
+  return response;
 };
 
 export const fetchOrders = async () => {
