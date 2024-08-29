@@ -50,7 +50,7 @@ function Categories() {
       <Header />
       <main className="flex flex-col min-h-screen">
         <div className="h-20 flex justify-center bg-gray-200 ">
-          <span className="font-bold text-3xl mt-4">SHOP / CATEGORIES</span>
+          <span className="font-medium text-3xl mt-4">SHOP / CATEGORIES</span>
         </div>
         <div className="mt-6 mb-10">{rows}</div>
       </main>

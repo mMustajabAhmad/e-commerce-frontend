@@ -15,11 +15,11 @@ function CategoryCard(props) {
           height: "350px",
           backgroundSize: "cover",
         }}
-        className="ml-6"
+        className="ml-6 rounded-lg"
       >
         <Link to={`/categoryProducts/${category.id}`}>
           <span
-            className="flex justify-center text-white font-bold text-2xl hover:text-purple-700 hover:text-3xl"
+            className="flex justify-center text-white font-medium text-3xl hover:text-purple-700 hover:text-3xl"
             style={{ marginTop: "40%" }}
           >
             {category.name}
