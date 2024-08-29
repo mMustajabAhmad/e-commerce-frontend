@@ -27,7 +27,7 @@ const OrderRow = (props) => {
         <th className="px-6 py-3">
           {format(new Date(order.created_at), "dd/MM/yyyy")}
         </th>
-        <th className="px-6 py-3">${payment.bill}</th>
+        <th className="px-6 py-3">${payment?.bill}</th>
         <th className="px-6 py-3">
           {order.order_status == "placed" && (
             <div className="bg-orange-100 rounded">
@@ -56,26 +56,26 @@ const OrderRow = (props) => {
           )}
         </th>
         <th className="px-6 py-3">
-          {payment.payment_status == 'pending' && order.shipping_method == 'stripe' && order.order_status != "cancelled" &&
+          {payment?.payment_status == 'pending' && order.shipping_method == 'stripe' && order.order_status != "cancelled" &&
              <div className="bg-red-100 rounded">
                 <Link to={`/payNow/${order.id}`}>
                   <span className="text-red-800">Pay Now</span>
                 </Link>
               </div>
           }
-          {payment.payment_status == 'pending' && order.shipping_method == 'COD' &&  order.order_status != "cancelled" &&
+          {payment?.payment_status == 'pending' && order.shipping_method == 'COD' &&  order.order_status != "cancelled" &&
              <div className="bg-red-100 rounded">
                   <span className="text-red-800">Pending</span>
               </div>
           }
 
-          {order.order_status == "cancelled" && payment.payment_status == 'pending'&&
+          {order.order_status == "cancelled" && payment?.payment_status == 'pending'&&
             <div className="bg-red-100 rounded">
               <span className="text-red-800">Cancelled</span>
             </div>
           }
 
-          {payment.payment_status == 'paid' &&
+          {payment?.payment_status == 'paid' &&
              <div className="bg-emerald-100 rounded">
                 <span className="text-emerald-800">Paid</span>
               </div>
