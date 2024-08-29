@@ -56,14 +56,14 @@ const OrderRow = (props) => {
           )}
         </th>
         <th className="px-6 py-3">
-          {payment?.payment_status == 'pending' && order.shipping_method == 'stripe' && order.order_status != "cancelled" &&
+          {payment?.payment_status == 'pending' && order.payment_method == 'stripe' && order.order_status != "cancelled" &&
              <div className="bg-red-100 rounded">
                 <Link to={`/payNow/${order.id}`}>
                   <span className="text-red-800">Pay Now</span>
                 </Link>
               </div>
           }
-          {payment?.payment_status == 'pending' && order.shipping_method == 'COD' &&  order.order_status != "cancelled" &&
+          {payment?.payment_status == 'pending' && order.payment_method == 'COD' &&  order.order_status != "cancelled" &&
              <div className="bg-red-100 rounded">
                   <span className="text-red-800">Pending</span>
               </div>
@@ -82,7 +82,7 @@ const OrderRow = (props) => {
           }
          
         </th>
-        {order.shipping_method == 'COD' ?
+        {order.payment_method == 'COD' ?
           <th className="px-6 py-3">Cash on Delivery</th> :
           <th className="px-6 py-3">Stripe</th>
         }
