@@ -8,42 +8,41 @@ import {
   calculateNumberOfRows,
   calculateNumberOfColumns,
 } from "../../utils/RowAndColUtils";
+import { fetchCategories } from "../../utils/APIs/Category_APIs";
+import { useQuery } from "@tanstack/react-query";
 
 function Categories() {
-  const [categories, setCategories] = useState(null);
-  const [parentCategories, setParentCategories] = useState(null);
+  const {
+    data: categories,
+    error: categoriesError,
+    isLoading: loadingCategories
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: ()=>fetchCategories()
+  })
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await apiClient.get("/categories");
-        setCategories(response.data);
-        setParentCategories(getParentCategories(response.data));
-      } catch (error) {
-        console.error("Error: ", error);
-      }
-    };
-    fetchCategories();
-  }, []);
+  if (loadingCategories ) return <div>Loading...</div>;
+  if (categoriesError) return <div>Error...</div>;
 
+  const parentCategories = getParentCategories(categories)
   const rows = [];
-  if (categories) {
-    const numberOfRows = calculateNumberOfRows(parentCategories);
-    const indexesForSlicing = calculateNumberOfColumns(parentCategories);
-    const start = indexesForSlicing["start"];
-    const end = indexesForSlicing["end"];
-    for (let i = 0; i < numberOfRows; i++) {
-      rows.push(
-        <>
-          <CategoryRow
-            data={
-              parentCategories ? parentCategories.slice(start[i], end[i]) : []
-            }
-          />
-        </>
-      );
-    }
+  
+  const numberOfRows = calculateNumberOfRows(parentCategories);
+  const indexesForSlicing = calculateNumberOfColumns(parentCategories);
+  const start = indexesForSlicing["start"];
+  const end = indexesForSlicing["end"];
+  for (let i = 0; i < numberOfRows; i++) {
+    rows.push(
+      <>
+        <CategoryRow
+          data={
+            parentCategories ? parentCategories.slice(start[i], end[i]) : []
+          }
+        />
+      </>
+    );
   }
+  
 
   return (
     <div className="mt-3">
