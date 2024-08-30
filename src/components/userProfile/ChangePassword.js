@@ -1,8 +1,10 @@
 import { useState } from "react";
-import apiClient from "../../api/authApi";
+import { updateUserInfo } from "../../utils/APIs/User_APIs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-function ChangePassword(props) {
-  const user = props.data;
+
+function ChangePassword() {
+  const queryClient = useQueryClient();
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
 
@@ -14,18 +16,17 @@ function ChangePassword(props) {
     setPasswordConfirmation(event.target.value);
   };
 
-  const updateUserInfo = async () => {
-    try {
-      await apiClient.patch(`/users/${user && user.id}`, {
-        user: {
-          password: password,
-          password_confirmation: passwordConfirmation,
-        },
-      });
-    } catch (error) {
-      console.log("ERROR", error);
+
+  const updateUser = useMutation({
+    mutationFn: () => updateUserInfo({user: { password: password, password_confirmation: passwordConfirmation }}),
+    onSuccess: () => {
+      alert('Password Updated!');
+      queryClient.invalidateQueries(["user"]);
+    },
+    onError: () => {
+      alert("Cannot update Password");
     }
-  };
+  })
   return (
     <>
       <div className="border border-gray-300 rounded flex flex-col">
@@ -63,7 +64,7 @@ function ChangePassword(props) {
           <button
             type="submit"
             className="bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold"
-            onClick={updateUserInfo}
+            onClick={()=>updateUser.mutate()}
           >
             UPDATE
           </button>

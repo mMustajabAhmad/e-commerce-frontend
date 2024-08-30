@@ -1,50 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import Header from "../shop/Header";
 import Footer from "../shop/Footer";
-import apiClient from "../../api/authApi";
-import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import AccountInfo from "./AccountInfo";
 import ChangePassword from "./ChangePassword";
 import ModifyAddressBook from "./ModifyAddressBook";
+import { fetchUser } from "../../utils/APIs/User_APIs";
+import { useQuery } from "@tanstack/react-query";
+import { fetchAddresses } from "../../utils/APIs/Address_APIs";
 
 function MyProfile() {
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-  const user_id = getCurrentUserId();
   const [editAccountInfo, setEditAccountInfo] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
   const [modifyAddressBook, setModifyAddressBook] = useState(false);
-  const [addresses, setAddresses] = useState(null);
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await apiClient.get(`/users/${user_id}`);
-        setUser(response.data);
-      } catch (error) {
-        console.error("Error fetching user data", error);
-        navigate("/signin", { state: { from: "/myProfile" } });
-      }
-    };
+  const {
+    data: user,
+    error: userError,
+    isLoading: userIsLoading,
+  } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => fetchUser(),
+  });
 
-    fetchUserData();
-  }, [navigate]);
+  const {
+    data: addresses,
+    error: addressesError,
+    isLoading: loadingAddresses,
+  } = useQuery({
+    queryKey: ["addresses"],
+    queryFn: () => fetchAddresses(),
+  });
 
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      try {
-        const response = await apiClient.get(
-          `/users/${user && user.id}/addresses`
-        );
-        setAddresses(response.data);
-      } catch (error) {
-        console.error("Error fetching Addresses", error);
-      }
-    };
+  if (userIsLoading) return <div>Loading User...</div>;
+  if (userError) return <div>User Error</div>;
 
-    fetchAddresses();
-  }, [user, addresses]);
+  if (loadingAddresses) return <div>Loading Addresses...</div>;
+  if (addressesError) return <div>Addresses Error</div>;
+
+  console.log("ADDRESES", addresses);
 
   return (
     <>
@@ -100,7 +93,7 @@ function MyProfile() {
             </div>
           </div>
 
-          {changePassword && <ChangePassword data={user} />}
+          {changePassword && <ChangePassword />}
 
           <div className="flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6">
             <div

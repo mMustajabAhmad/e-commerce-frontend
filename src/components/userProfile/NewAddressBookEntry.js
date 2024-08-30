@@ -1,26 +1,27 @@
 import { useState } from "react";
-import apiClient from "../../api/authApi";
-import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
+import { addAddress } from "../../utils/APIs/Address_APIs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function NewAddressBookEntry() {
   const [isVisible, setIsVisible] = useState(true);
+  const queryClient = useQueryClient();
   const [addressValue, setAddressValue] = useState("");
-  const user_id = getCurrentUserId();
+
 
   const handleInputChange = (event) => {
     setAddressValue(event.target.value);
   };
 
-  const createAddress = async () => {
-    try {
-      await apiClient.post(`/users/${user_id}/addresses`, {
-        address: { address: addressValue },
-      });
-      setIsVisible(false);
-    } catch (error) {
-      console.log("ERROR", error);
+  const createAddress = useMutation({
+    mutationFn: ()=> addAddress( {address: { address: addressValue }}),
+    onSuccess: ()=>{
+      queryClient.invalidateQueries(["addresses"]);
+      alert("address added");
+    },
+    onError: ()=>{
+      alert("cannot add address");
     }
-  };
+  })
 
   return (
     <>
@@ -35,7 +36,7 @@ function NewAddressBookEntry() {
             ></input>
             <button
               className="bg-black hover:bg-purple-700 ml-6 px-11 text-white font-bold"
-              onClick={createAddress}
+              onClick={()=>{setIsVisible(false);createAddress.mutate(); }}
             >
               Add
             </button>

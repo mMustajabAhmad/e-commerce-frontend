@@ -1,8 +1,10 @@
 import { useState } from "react";
-import apiClient from "../../api/authApi";
+import { updateUserInfo } from "../../utils/APIs/User_APIs";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 function AccountInfo(props) {
   const user = props.data;
+  const queryClient = useQueryClient();
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [phoneNumber, setPhoneNumber] = useState(user.phone_number);
@@ -19,15 +21,16 @@ function AccountInfo(props) {
     setPhoneNumber(event.target.value);
   };
 
-  const updateUserInfo = async () => {
-    try {
-      await apiClient.patch(`/users/${user && user.id}`, {
-        user: { name: name, email: email, phone_number: phoneNumber },
-      });
-    } catch (error) {
-      console.log("ERROR", error);
+  const updateUser = useMutation({
+    mutationFn: () => updateUserInfo({"name": name, "email": email, "phone_number": phoneNumber}),
+    onSuccess: () => {
+      alert('Information Updated!');
+      queryClient.invalidateQueries(["user"]);
+    },
+    onError: () => {
+      alert("Cannot update Info");
     }
-  };
+  })
 
   return (
     <>
@@ -75,7 +78,7 @@ function AccountInfo(props) {
           </div>
           <button
             className="bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold"
-            onClick={updateUserInfo}
+            onClick={() =>updateUser.mutate()}
           >
             UPDATE
           </button>
