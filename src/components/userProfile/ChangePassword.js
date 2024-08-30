@@ -41,7 +41,7 @@ function ChangePassword() {
               <label>Password</label>
               <input
                 type="password"
-                className="border p-2 w-full"
+                className="border p-2 w-full rounded-md"
                 value={password}
                 onChange={handlePasswordChange}
                 autocomplete="new-password"
@@ -54,7 +54,7 @@ function ChangePassword() {
               <label>Confirm Password</label>
               <input
                 type="password"
-                className="border p-2 w-full"
+                className="border p-2 w-full rounded-md"
                 value={passwordConfirmation}
                 onChange={handlePasswordConfirmationChange}
                 autocomplete="new-password"
@@ -63,7 +63,7 @@ function ChangePassword() {
           </div>
           <button
             type="submit"
-            className="bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold"
+            className="bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-medium rounded-md"
             onClick={()=>updateUser.mutate()}
           >
             UPDATE

@@ -30,18 +30,18 @@ function NewAddressBookEntry() {
           <div className="flex flex-row w-full">
             <input
               type="text"
-              className="border p-2 w-2/3"
+              className="border p-2 w-2/3 rounded-md"
               value={addressValue}
               onChange={handleInputChange}
             ></input>
             <button
-              className="bg-black hover:bg-purple-700 ml-6 px-11 text-white font-bold"
+              className="bg-black hover:bg-purple-700 ml-6 px-11 text-white font-medium rounded-md"
               onClick={()=>{setIsVisible(false);createAddress.mutate(); }}
             >
               Add
             </button>
             <button
-              className="bg-red-600 ml-4 px-8 text-white font-bold"
+              className="bg-red-600 ml-4 px-8 text-white font-medium rounded-md"
               onClick={() => setIsVisible(false)}
             >
               Cancel

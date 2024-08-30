@@ -46,7 +46,7 @@ function AccountInfo(props) {
               <label>Name</label>
               <input
                 type="text"
-                className="border p-2 w-full"
+                className="border p-2 w-full rounded-md"
                 value={name}
                 onChange={handleNameChange}
               ></input>
@@ -58,7 +58,7 @@ function AccountInfo(props) {
               <label>Email Address</label>
               <input
                 type="email"
-                className="border p-2 w-full"
+                className="border p-2 w-full rounded-md"
                 value={email}
                 onChange={handleEmailChange}
               ></input>
@@ -70,14 +70,14 @@ function AccountInfo(props) {
               <label>Contact Number</label>
               <input
                 type="text"
-                className="border p-2 w-full"
+                className="border p-2 w-full rounded-md"
                 value={phoneNumber}
                 onChange={handlePhoneNumberChange}
               ></input>
             </div>
           </div>
           <button
-            className="bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-bold"
+            className="bg-black text-white py-3 px-8 float-right mb-8 mt-10 hover:bg-purple-700 font-medium rounded-md"
             onClick={() =>updateUser.mutate()}
           >
             UPDATE

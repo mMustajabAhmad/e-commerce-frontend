@@ -9,7 +9,7 @@ function CategoryRow(props) {
   }
   return (
     <>
-      <div className="flex flex-row mt-6" style={{ marginLeft: "10%" }}>
+      <div className="flex flex-row mt-6 ml-[10%]">
         {categoryCards}
       </div>
     </>

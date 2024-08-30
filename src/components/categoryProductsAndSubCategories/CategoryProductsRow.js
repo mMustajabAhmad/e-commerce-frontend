@@ -43,15 +43,14 @@ function CategoryProductRow(props) {
 
   return (
     <>
-      <div style={{ marginTop: "10%" }} onClick={() => moveLeft()}>
+      <div className="mt-[10%]" onClick={() => moveLeft()}>
         <i className="fa fa-angle-double-left text-2xl hover:text-purple-700"></i>
       </div>
 
       {productRow}
 
       <div
-        className="ml-4"
-        style={{ marginTop: "10%" }}
+        className="ml-4 mt-[10%]"
         onClick={() => moveRight()}
       >
         <i className="fa fa-angle-double-right text-2xl hover:text-purple-700"></i>

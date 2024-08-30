@@ -2,10 +2,9 @@ function Footer() {
   return (
     <>
       <footer className="footer">
-        <div className="bg-gray-200 flex flex-row" style={{ height: "380px" }}>
+        <div className="bg-gray-200 flex flex-row h-[380px]">
           <div
-            className="flex flex-col justify-center"
-            style={{ marginLeft: "8%" }}
+            className="flex flex-col justify-center ml-[8%]"
           >
             <span className="font-bold text-5xl">Flone.</span>
             <span>© 2024 Flone.</span>
@@ -13,8 +12,7 @@ function Footer() {
           </div>
 
           <div
-            className="flex flex-col justify-center"
-            style={{ marginLeft: "5%" }}
+            className="flex flex-col justify-center ml-[5%]"
           >
             <span className="font-bold text-2xl">ABOUT US</span>
             <a href="#" className="mt-2 hover:text-purple-700">
@@ -32,8 +30,7 @@ function Footer() {
           </div>
 
           <div
-            className="flex flex-col justify-center"
-            style={{ marginLeft: "5%" }}
+            className="flex flex-col justify-center ml-[5%]"
           >
             <span className="font-bold text-2xl">USEFUL LINKS</span>
             <a href="#" className="mt-2 hover:text-purple-700">
@@ -51,8 +48,7 @@ function Footer() {
           </div>
 
           <div
-            className="flex flex-col justify-center"
-            style={{ marginLeft: "5%" }}
+            className="flex flex-col justify-center ml-[5%]"
           >
             <span className="font-bold text-2xl">FOLLOW US</span>
             <a href="#" className="mt-2 hover:text-purple-700">
@@ -70,8 +66,7 @@ function Footer() {
           </div>
 
           <div
-            className="flex flex-col justify-center"
-            style={{ marginLeft: "6%" }}
+            className="flex flex-col justify-center ml-[6%]"
           >
             <span className="font-bold text-2xl">SUBSCRIBE</span>
             <span className="mt-2">

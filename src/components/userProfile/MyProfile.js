@@ -44,16 +44,15 @@ function MyProfile() {
       <Header />
       <main className="flex flex-col min-h-screen mb-16">
         <div className="h-20 flex justify-center bg-gray-200">
-          <span className="font-bold text-3xl mt-4">MY ACCOUNT</span>
+          <span className="font-medium text-3xl mt-4">MY ACCOUNT</span>
         </div>
 
         <div
-          className="flex flex-col"
-          style={{ marginLeft: "20%", marginRight: "20%", marginTop: "7%" }}
+          className="flex flex-col mx-[20%] mt-[7%]"
         >
           <div className="flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6">
             <div
-              className="flex flex-row font-bold text-2xl hover:text-purple-700"
+              className="flex flex-row font-medium text-2xl hover:text-purple-700"
               onClick={() => setEditAccountInfo(!editAccountInfo)}
             >
               <div className="flex flex-col">
@@ -64,8 +63,7 @@ function MyProfile() {
               </div>
               <div className="flex flex-col">
                 <i
-                  className="fa fa-angle-down mt-1 text-2xl"
-                  style={{ marginLeft: "340px" }}
+                  className="fa fa-angle-down mt-1 text-2xl ml-[340px]"
                 ></i>
               </div>
             </div>
@@ -75,7 +73,7 @@ function MyProfile() {
 
           <div className="flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6">
             <div
-              className="flex flex-row font-bold text-2xl hover:text-purple-700"
+              className="flex flex-row font-medium text-2xl hover:text-purple-700"
               onClick={() => setChangePassword(!changePassword)}
             >
               <div className="flex flex-col">
@@ -86,8 +84,7 @@ function MyProfile() {
               </div>
               <div className="flex flex-col">
                 <i
-                  className="fa fa-angle-down mt-1 text-2xl"
-                  style={{ marginLeft: "440px" }}
+                  className="fa fa-angle-down mt-1 text-2xl ml-[440px]"
                 ></i>
               </div>
             </div>
@@ -97,21 +94,20 @@ function MyProfile() {
 
           <div className="flex flex-row bg-gray-200 mt-4 border border-gray-300 rounded pl-6 py-6">
             <div
-              className="flex flex-row font-bold text-2xl hover:text-purple-700"
+              className="flex flex-row font-medium text-2xl hover:text-purple-700"
               onClick={() => setModifyAddressBook(!modifyAddressBook)}
             >
               <div className="flex flex-col">
                 <span>3.</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-bold ml-4 text-2xl">
+                <span className="font-medium ml-4 text-2xl">
                   MODIFY YOUR ADDRESS BOOK ENTRIES
                 </span>
               </div>
               <div className="flex flex-col">
                 <i
-                  className="fa fa-angle-down mt-1 text-2xl"
-                  style={{ marginLeft: "295px" }}
+                  className="fa fa-angle-down mt-1 text-2xl ml-[295px]"
                 ></i>
               </div>
             </div>

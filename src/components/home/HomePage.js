@@ -31,27 +31,18 @@ function HomePage() {
       <div className="wrapper">
         <Header />
         <main className="flex flex-col min-h-screen">
-          <div
-            style={{
-              backgroundImage: "url('/images/watch.avif')",
-              height: "590px",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              opacity: "0.93",
-            }}
-            class="grid place-items-center"
-          >
-            <div>
-              <span class="text-white font-bold text-3xl flex justify-center">
+          <div class="flex justify-center">
+            <img src='/images/watch.avif' className="flex justify-center h-[590px] w-full object-cover opacity-[0.93]"></img>
+            <div className="absolute translate-y-28">
+              <span class="text-white font-medium text-3xl flex justify-center">
                 Home
               </span>
               <br></br>
-              <span class="text-white font-bold text-6xl flex justify-center">
+              <span class="text-white font-medium text-6xl flex justify-center">
                 New Arrivals
               </span>
               <br></br>
-              <span class="text-white text-2xl flex justify-center">
+              <span class="text-white text-xl flex justify-center ">
                 Shop your favorite products
               </span>
               <br></br>

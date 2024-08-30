@@ -27,8 +27,7 @@ function ModifyAddressBook(props) {
         <div className="flex flex-row mt-2 p-6">
           <span className="text-[20px]">Address Book Entries</span>
           <div
-            className="bg-black p-2 hover:bg-purple-700"
-            style={{ marginLeft: "70%", borderRadius: "26px", width: "40px" }}
+            className="bg-black p-2 hover:bg-purple-700 ml-[70%] rounded-[26px] w-[40px]"
             onClick={addEntry}
           >
             <i className="fa fa-plus text-white ml-1"></i>

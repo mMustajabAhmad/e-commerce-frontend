@@ -9,18 +9,12 @@ function SubCategory(props) {
   return (
     <>
       <div
-        style={{
-          backgroundImage: `url(${imageURL})`,
-          width: "350px",
-          height: "350px",
-          backgroundSize: "cover",
-        }}
-        className="ml-6 rounded"
+        className="relative ml-6 rounded"
       >
+        <img src={`${imageURL}`} className="w-[350px] h-[350px] object-cover rounded"></img>
         <a href={`/categoryProducts/${subCategory.id}`}>
           <span
-            className="flex justify-center text-white font-medium text-3xl hover:text-purple-700 hover:text-3xl"
-            style={{ marginTop: "40%" }}
+            className="absolute text-white font-medium text-3xl hover:text-purple-700 hover:text-3xl mt-[40%] translate-x-36 -translate-y-[11.3em]"
           >
             {subCategory.name}
           </span>

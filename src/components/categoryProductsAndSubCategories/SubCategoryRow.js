@@ -43,15 +43,14 @@ function SubCategoryRow(props) {
 
   return (
     <>
-      <div style={{ marginTop: "13%" }} onClick={() => moveLeft()}>
+      <div className="mt-[13%]" onClick={() => moveLeft()}>
         <i className="fa fa-angle-double-left text-2xl hover:text-purple-700"></i>
       </div>
 
       {categoryRow}
 
       <div
-        className="ml-4"
-        style={{ marginTop: "13%" }}
+        className="ml-4 mt-[13%]"
         onClick={() => moveRight()}
       >
         <i className="fa fa-angle-double-right text-2xl hover:text-purple-700"></i>

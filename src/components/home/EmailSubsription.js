@@ -6,16 +6,14 @@ function EmailSubscription() {
         Subscribe to our newsletter to receive news on update
       </p>
       <input
-        className="px-10 py-2 border rounded"
+        className="px-10 py-2 border rounded ml-[38%] mt-[2%] w-[350px]"
         type="email"
         placeholder="Your Email Address"
-        style={{ marginLeft: "38%", marginTop: "2%", width: "350px" }}
       ></input>
       <br></br>
       <button
-        className="bg-black text-white mt-6 pt-3 pb-3 pl-10 pr-10 mb-12 rounded hover:bg-purple-700"
+        className="bg-black text-white mt-6 pt-3 pb-3 pl-10 pr-10 mb-12 rounded hover:bg-purple-700 ml-[45%]"
         type="submit"
-        style={{ marginLeft: "45%" }}
       >
         Subscribe
       </button>

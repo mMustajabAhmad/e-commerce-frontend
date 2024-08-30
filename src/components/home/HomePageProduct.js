@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 
 function ProductOptions(props) {
   return (
-    <div className="bg-white rounded h-full w-full opacity-75">
+    <div className="absolute bg-white rounded h-full w-full opacity-75 -translate-y-[100%]">
       <Link to={`/products/${props.data.id}`}>
         <span
-          className="flex justify-center font-bold hover:text-purple-700"
-          style={{ paddingTop: "40%" }}
+          className="flex justify-center font-bold hover:text-purple-700 pt-[40%]"
         >
           {props.data.title}
         </span>
@@ -15,22 +14,18 @@ function ProductOptions(props) {
       <div className="flex justify-center mt-2 opacity-100">
         <Link to={`/products/${props.data.id}`}>
           <button
-            className="bg-purple-600 text-white hover:bg-fuchsia-500 opacity-100"
-            style={{ width: "50px", height: "50px", borderRadius: "25px" }}
+            className="bg-purple-600 text-white hover:bg-fuchsia-500 opacity-100 w-[50px] h-[50px] rounded-[25px]"
           >
             <i
-              className="fas fa-shopping-cart"
-              style={{ color: "white", fontSize: "20px" }}
+              className="fas fa-shopping-cart text-white font-[20px]"
             ></i>
           </button>
         </Link>
         <button
-          className="bg-purple-600 text-white ml-2 hover:bg-fuchsia-500 opacity-100"
-          style={{ width: "50px", height: "50px", borderRadius: "25px" }}
+          className="bg-purple-600 text-white ml-2 hover:bg-fuchsia-500 opacity-100 w-[50px] h-[50px] rounded-[25px]"
         >
           <i
-            className="fas fa-eye"
-            style={{ color: "white", fontSize: "20px" }}
+            className="fas fa-eye text-white font-[20px]"
           ></i>
         </button>
       </div>
@@ -47,17 +42,13 @@ function HomePageProduct(props) {
   console.log("image url", imageURL);
   console.log("length ", props.data.product_images);
   return (
-    <div
-      className="rounded"
-      style={{
-        backgroundImage: `url(${imageURL})`,
-        height: "370px",
-        width: "325px",
-        backgroundSize: "cover",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
+    <div className=" relative">
+      <img 
+        src={`${imageURL}`}
+        className="h-[370px] w-[325px] object-cover rounded"
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      ></img>
       {hovered && <ProductOptions data={props.data} />}
     </div>
   );

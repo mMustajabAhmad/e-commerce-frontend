@@ -88,9 +88,8 @@ function Product() {
       buttons.push(
         <button
           onClick={() => selectedPrams(sizes[i])}
-          className="bg-purple-700 text-white ml-2 border rounded-md"
+          className="bg-purple-700 text-white ml-2 border rounded-md w-[40px] h-[40px]"
           type="button"
-          style={{ width: "40px", height: "40px" }}
         >
           {sizes ? sizes[i].name : "XS"}
         </button>
@@ -137,15 +136,7 @@ function Product() {
 
     for (let i = 0; i < product_images.length; i++) {
       product_images_row.push(
-        <div
-          style={{
-            backgroundImage: `url(http://localhost:3001/${product_images[i].url})`,
-            width: "100px",
-            height: "100px",
-            backgroundSize: "cover",
-          }}
-          className="ml-1"
-        ></div>
+        <img src={`http://localhost:3001/${product_images[i].url}`} className="w-[100px] h-[100px] object-cover ml-1 rounded"></img>
       );
     }
   }
@@ -162,28 +153,14 @@ function Product() {
           </div>
 
           <div
-            className="flex flex-row"
-            style={{
-              marginLeft: "10%",
-              marginRight: "10%",
-              marginTop: "8%",
-              marginBottom: "4%",
-            }}
+            className="flex flex-row mx-[10%] mt-[8%] mb-[4%]"
           >
             <div className="flex flex-col">
               <div className="flex flex-row">
                 <button onClick={() => changeImageLeft()} className="mt-2 mr-2">
                   <i className="fa fa-angle-double-left text-3xl"></i>
                 </button>
-                <div
-                  className="rounded-xl"
-                  style={{
-                    backgroundImage: `url(${imageURL})`,
-                    width: "470px",
-                    height: "550px",
-                    backgroundSize: "cover",
-                  }}
-                ></div>
+                <img src={`${imageURL}`} className="w-[80em] h-[550px] object-cover rounded-xl"></img>
                 <button
                   onClick={() => changeImageRight()}
                   className="mt-2 ml-2"
@@ -200,13 +177,12 @@ function Product() {
                 )}
               </div>
             </div>
-            <div className="flex flex-col" style={{ marginLeft: "10%" }}>
+            <div className="flex flex-col ml-[10%]">
               {product ? (
                 <>
                   <p className="text-3xl font-medium mt-6">{product.title}</p>
                   <p
-                    className="flex justify-center mt-10 "
-                    style={{ marginRight: "4px" }}
+                    className="flex justify-center mt-10 mr-[4px]"
                   >
                     {product.description}
                   </p>
@@ -231,15 +207,13 @@ function Product() {
 
               <div className="flex flex-row">
                 <button
-                  className="border rounded-lg bg-black text-white mt-6 hover:bg-purple-700"
-                  style={{ height: "50px", width: "200px" }}
+                  className="border rounded-lg bg-black text-white mt-6 hover:bg-purple-700 h-[50px] w-[200px]"
                   onClick={()=>addToCart.mutate()}
                 >
                   Add To Cart
                 </button>
                 <button
-                  className="border rounded-lg bg-black text-white mt-6 hover:bg-purple-700 ml-2"
-                  style={{ height: "50px", width: "200px" }}
+                  className="border rounded-lg bg-black text-white mt-6 hover:bg-purple-700 ml-2 h-[50px] w-[200px]"
                 >
                   <a href="https://wa.me/+923356517758" target="_blank">
                     Contact Seller

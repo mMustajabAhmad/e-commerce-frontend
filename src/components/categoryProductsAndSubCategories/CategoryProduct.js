@@ -10,15 +10,7 @@ function CategoryProduct(props) {
   return (
     <>
       <div>
-        <div
-          style={{
-            backgroundImage: `url(${imageURL})`,
-            width: "290px",
-            height: "320px",
-            backgroundSize: "cover",
-          }}
-          className="ml-4 rounded-lg"
-        ></div>
+        <img src={`${imageURL}`} className="w-[290px] h-[320px] object-cover ml-4 rounded-lg"></img>
         <Link to={`/products/${product.id}`}>
           <p className="flex justify-center mt-2 font-medium hover:text-purple-700">
             {product.title}

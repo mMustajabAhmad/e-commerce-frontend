@@ -10,15 +10,7 @@ function ShopProduct(props) {
   return (
     <>
       <div>
-        <div
-          className="rounded"
-          style={{
-            backgroundImage: `url(${imageURL})`,
-            width: "250px",
-            height: "300px",
-            backgroundSize: "cover",
-          }}
-        ></div>
+        <img src={`${imageURL}`} className="w-[250px] h-[300px] object-cover rounded"></img>
         <div className="mt-3">
           <div>
             <Link
