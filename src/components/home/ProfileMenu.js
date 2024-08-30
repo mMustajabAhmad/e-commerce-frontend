@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const ProfileMenu = ({ logout }) => {
   const links = [
     { href: "/myProfile", label: "My Profile" },
-    { href: "/signin", label: "Log Out", onClick: logout },
+    { href: "/signin", label: "Log Out", onClick: async ()=> {await logout} },
     { href: "/orderHistory", label: "Order History" },
   ];
 

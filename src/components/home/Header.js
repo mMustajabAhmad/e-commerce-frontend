@@ -17,6 +17,10 @@ import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import { fetchCategories } from "../../utils/APIs/Category_APIs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
+const API_BASE_URL = 'http://localhost:3001'
+
 
 const Header = () => {
   const queryClient = useQueryClient();
@@ -71,8 +75,12 @@ const Header = () => {
       queryClient.invalidateQueries(["cart", user_id]);
     },
   });
-  if (categoriesLoading || cartIsLoading) return <div>Loading...</div>;
-  if (categoriesError || cartError) return <div>Error...</div>;
+  if (categoriesLoading ) return <div>Loading Cart...</div>;
+  if (categoriesError ) return <div>Categories Error</div>;
+
+
+  if (cartIsLoading) return <div>Loading Cart...</div>
+  if(cartError) return <div>Cart Error</div>;
 
   const cart = cartData.cart_products;
   const parentCategories = getParentCategories(categories);
@@ -95,8 +103,17 @@ const Header = () => {
     }
   }
 
-  function logout() {
-    localStorage.removeItem("expirationTime");
+  const logout = async() => {
+    const token = localStorage.getItem('token');
+    console.log("I;m jeje")
+    await axios.get(
+      `${API_BASE_URL}/logout`,
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
     localStorage.removeItem("token");
   }
 

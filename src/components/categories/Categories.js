@@ -20,7 +20,7 @@ function Categories() {
   });
 
   if (loadingCategories) return <div>Loading...</div>;
-  if (categoriesError) return <div>Error...</div>;
+  if (categoriesError) return <div>Categories Error</div>;
 
   const parentCategories = getParentCategories(categories);
   const rows = [];

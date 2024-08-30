@@ -17,7 +17,7 @@ export default function Signin() {
 
     try {
       const { token, expiration_time } = await login(email, password);
-      localStorage.setItem("token", token); 
+      localStorage.setItem("token", `Bearer ${token}`); 
       localStorage.setItem("expirationTime", expiration_time)
       navigate(from); //redirect to previous route
     } catch (err) {

@@ -6,3 +6,8 @@ export function getCurrentUserId(){
     const user_id = decoded_token.user_id;
     return user_id;
 }
+
+export function getToken(){
+    const token = localStorage.getItem('token');
+    return token;
+}

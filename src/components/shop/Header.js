@@ -67,10 +67,13 @@ function Header() {
     },
   });
 
-  if(categoriesLoading || cartIsLoading) return <div>Loading...</div>
-  if(categoriesError || cartError) return <div>Error...</div>
+  if (categoriesLoading ) return <div>Loading Cart...</div>;
+  if (categoriesError ) return <div>Categories Error</div>;
 
-  
+
+  if (cartIsLoading) return <div>Loading Cart...</div>
+  if(cartError) return <div>Cart Error</div>;
+
 
   const cart = cartData.cart_products
   const parentCategories = getParentCategories(categories);
