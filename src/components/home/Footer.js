@@ -1,3 +1,10 @@
+import { GrFacebookOption } from "react-icons/gr";
+import { GoDash } from "react-icons/go";
+import { FaInstagram } from "react-icons/fa6";
+import { FaPinterestP } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa6";
+import { FaLinkedin } from "react-icons/fa";
+
 function Footer() {
   return (
     <>
@@ -16,33 +23,42 @@ function Footer() {
             <span>ut labore et dolore magna aliqua. Ut enim ad minim</span>
           </p>
           <div className="flex justify-center mt-6">
-            <i
-              className="fab fa-facebook-f text-white text-[24px]"
-            ></i>
-            <i
-              class="fas fa-minus pl-2 text-gray-400 text-[24px]"
-            ></i>
-            <i
-              className="fab fa-instagram pl-2 text-white text-[24px]"
-            ></i>
-            <i
-              class="fas fa-minus pl-2 text-gray-400 text-[24px]"
-            ></i>
-            <i
-              className="fab fa-pinterest-p pl-2 text-white text-[24px]"
-            ></i>
-            <i
-              class="fas fa-minus pl-2 text-gray-400 text-[24px]"
-            ></i>
-            <i
-              className="fab fa-twitter pl-2 text-white text-[24px]"
-            ></i>
-            <i
-              class="fas fa-minus pl-2 text-gray-400 text-[24px]"
-            ></i>
-            <i
-              className="fab fa-linkedin pl-2 text-white text-[24px]"
-            ></i>
+            <GrFacebookOption 
+            className="text-white"
+            size={"1.5em"}
+            />
+            <GoDash 
+            className="text-gray-400"
+            size={"1.5em"}
+            />
+            <FaInstagram 
+            className="text-white"
+            size={"1.5em"}
+            />
+            <GoDash 
+            className="text-gray-400"
+            size={"1.5em"}
+            />
+            <FaPinterestP
+            className="text-white"
+            size={"1.5em"}
+            />
+            <GoDash 
+            className="text-gray-400"
+            size={"1.5em"}
+            />
+            <FaTwitter
+            className="text-white"
+            size={"1.5em"}
+            />
+            <GoDash 
+            className="text-gray-400"
+            size={"1.5em"}
+            />
+            <FaLinkedin
+            className="text-white"
+            size={"1.5em"}
+            />
           </div>
           <hr className="w-[80%] ml-[10%] mt-[5%]"/>
           <p className="text-white flex justify-center mt-2 mb-2">

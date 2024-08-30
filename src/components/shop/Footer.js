@@ -74,7 +74,7 @@ function Footer() {
             </span>
             <span className="mt-1"> and special offers.</span>
             <input
-              className="mt-2 py-2"
+              className="mt-2 py-2 rounded-md"
               type="email"
               placeholder="   Enter Your Email Address..."
             ></input>

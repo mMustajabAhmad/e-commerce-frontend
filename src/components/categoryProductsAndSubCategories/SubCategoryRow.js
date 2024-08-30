@@ -1,5 +1,6 @@
 import SubCategory from "./SubCategory";
 import { useEffect, useState } from "react";
+import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 
 function SubCategoryRow(props) {
   const subCategories = props.data || [];
@@ -43,18 +44,19 @@ function SubCategoryRow(props) {
 
   return (
     <>
-      <div className="mt-[13%]" onClick={() => moveLeft()}>
-        <i className="fa fa-angle-double-left text-2xl hover:text-purple-700"></i>
-      </div>
+      <FaAnglesLeft
+        size={"1.5em"}
+        className="mt-[13%]"
+        onClick={() => moveLeft()}
+      />
 
       {categoryRow}
 
-      <div
+      <FaAnglesRight
+        size={"1.5em"}
         className="ml-4 mt-[13%]"
         onClick={() => moveRight()}
-      >
-        <i className="fa fa-angle-double-right text-2xl hover:text-purple-700"></i>
-      </div>
+      />
     </>
   );
 }

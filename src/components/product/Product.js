@@ -6,6 +6,7 @@ import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import { fetchProductSizes, fetchProduct, fetchProductSizeId } from "../../utils/APIs/Product_APIs";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addProductToCart } from "../../utils/APIs/Cart_APIs";
+import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 
 function Product() {
   const { id } = useParams();
@@ -158,14 +159,21 @@ function Product() {
             <div className="flex flex-col">
               <div className="flex flex-row">
                 <button onClick={() => changeImageLeft()} className="mt-2 mr-2">
-                  <i className="fa fa-angle-double-left text-3xl"></i>
+                <FaAnglesLeft
+                  size={"1.5em"}
+                  className="mt-2 mr-2"
+                  onClick={() => changeImageLeft()}
+                />
                 </button>
                 <img src={`${imageURL}`} className="w-[80em] h-[550px] object-cover rounded-xl"></img>
                 <button
                   onClick={() => changeImageRight()}
                   className="mt-2 ml-2"
                 >
-                  <i className="fa fa-angle-double-right text-3xl"></i>
+                <FaAnglesRight
+                  size={"1.5em"}
+                  onClick={() => changeImageRight()}
+                />
                 </button>
               </div>
               <div className="flex flex-row mt-2 ml-9">

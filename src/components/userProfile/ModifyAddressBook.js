@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AddressBookEntryForModification from "./AddressBookEntryForModification";
 import NewAddressBookEntry from "./NewAddressBookEntry";
+import { FaPlus } from "react-icons/fa";
 
 function ModifyAddressBook(props) {
   const addresses = props.data;
@@ -27,10 +28,10 @@ function ModifyAddressBook(props) {
         <div className="flex flex-row mt-2 p-6">
           <span className="text-[20px]">Address Book Entries</span>
           <div
-            className="bg-black p-2 hover:bg-purple-700 ml-[70%] rounded-[26px] w-[40px]"
+            className="bg-black p-2 hover:bg-purple-700 ml-[70%] rounded-[26px] w-[40px] h-[40px] flex justify-center items-center"
             onClick={addEntry}
           >
-            <i className="fa fa-plus text-white ml-1"></i>
+            <FaPlus className="text-white"/>
           </div>
         </div>
         <hr className="mb-4 mx-6" />

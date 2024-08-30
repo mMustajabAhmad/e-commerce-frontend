@@ -7,6 +7,7 @@ import ModifyAddressBook from "./ModifyAddressBook";
 import { fetchUser } from "../../utils/APIs/User_APIs";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAddresses } from "../../utils/APIs/Address_APIs";
+import { FaAngleDown } from "react-icons/fa6";
 
 function MyProfile() {
   const [editAccountInfo, setEditAccountInfo] = useState(false);
@@ -62,9 +63,7 @@ function MyProfile() {
                 <span className="ml-4">EDIT YOUR ACCOUNT INFORMATION</span>
               </div>
               <div className="flex flex-col">
-                <i
-                  className="fa fa-angle-down mt-1 text-2xl ml-[340px]"
-                ></i>
+                <FaAngleDown className="mt-1 text-2xl ml-[340px]"/>
               </div>
             </div>
           </div>
@@ -83,9 +82,8 @@ function MyProfile() {
                 <span className="ml-4">CHANGE YOUR PASSWORD</span>
               </div>
               <div className="flex flex-col">
-                <i
-                  className="fa fa-angle-down mt-1 text-2xl ml-[440px]"
-                ></i>
+                <FaAngleDown className="mt-1 text-2xl ml-[440px]"/>
+                
               </div>
             </div>
           </div>
@@ -106,9 +104,7 @@ function MyProfile() {
                 </span>
               </div>
               <div className="flex flex-col">
-                <i
-                  className="fa fa-angle-down mt-1 text-2xl ml-[295px]"
-                ></i>
+                <FaAngleDown className="mt-1 text-2xl ml-[295px]"/>
               </div>
             </div>
           </div>

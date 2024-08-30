@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaRegEye } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
 
 function ProductOptions(props) {
   return (
@@ -14,19 +16,15 @@ function ProductOptions(props) {
       <div className="flex justify-center mt-2 opacity-100">
         <Link to={`/products/${props.data.id}`}>
           <button
-            className="bg-purple-600 text-white hover:bg-fuchsia-500 opacity-100 w-[50px] h-[50px] rounded-[25px]"
+            className="flex justify-center items-center bg-purple-600 text-white hover:bg-fuchsia-500 opacity-100 w-[50px] h-[50px] rounded-[25px]"
           >
-            <i
-              className="fas fa-shopping-cart text-white font-[20px]"
-            ></i>
+            <FaCartShopping size={"1.5em"}/>
           </button>
         </Link>
         <button
-          className="bg-purple-600 text-white ml-2 hover:bg-fuchsia-500 opacity-100 w-[50px] h-[50px] rounded-[25px]"
+          className="flex justify-center items-center bg-purple-600 text-white ml-2 hover:bg-fuchsia-500 opacity-100 w-[50px] h-[50px] rounded-[25px]"
         >
-          <i
-            className="fas fa-eye text-white font-[20px]"
-          ></i>
+          <FaRegEye size={"1.5em"} />
         </button>
       </div>
     </div>

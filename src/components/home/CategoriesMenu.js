@@ -1,6 +1,7 @@
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { getChildCategories } from "../../utils/CategoryUtils";
+import { FaAngleDown } from "react-icons/fa6";
 
 const CategoriesMenu = ({ categories, parentCategories }) => {
   return (
@@ -8,7 +9,7 @@ const CategoriesMenu = ({ categories, parentCategories }) => {
       <Menu>
         <MenuButton className="font-medium inline-flex items-center gap-2 rounded-md px-3 text-white">
           <Link to="/categories">Categories</Link>
-          <i className="fa fa-angle-down"></i>
+          <FaAngleDown />
         </MenuButton>
         <MenuItems
           transition

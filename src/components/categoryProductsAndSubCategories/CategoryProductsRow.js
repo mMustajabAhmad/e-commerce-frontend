@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CategoryProduct from "./CategoryProduct";
+import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
 
 function CategoryProductRow(props) {
   const products = props.data || [];
@@ -43,18 +44,17 @@ function CategoryProductRow(props) {
 
   return (
     <>
-      <div className="mt-[10%]" onClick={() => moveLeft()}>
-        <i className="fa fa-angle-double-left text-2xl hover:text-purple-700"></i>
-      </div>
-
+      <FaAnglesLeft
+        size={"1.5em"}
+        className="mt-[10%]"
+        onClick={() => moveLeft()}
+      />
       {productRow}
-
-      <div
+      <FaAnglesRight
+        size={"1.5em"}
         className="ml-4 mt-[10%]"
         onClick={() => moveRight()}
-      >
-        <i className="fa fa-angle-double-right text-2xl hover:text-purple-700"></i>
-      </div>
+      />
     </>
   );
 }
