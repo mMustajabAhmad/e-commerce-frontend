@@ -17,9 +17,7 @@ import { getCurrentUserId } from "../../utils/JWT_TokenDecoder";
 import { fetchCategories } from "../../utils/APIs/Category_APIs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3001'
 
 
 const Header = () => {
@@ -82,39 +80,26 @@ const Header = () => {
   if (cartIsLoading) return <div>Loading Cart...</div>
   if(cartError) return <div>Cart Error</div>;
 
-  const cart = cartData.cart_products;
+  console.log("cart in header", cartData);
+
   const parentCategories = getParentCategories(categories);
   const cartProducts = [];
-
-  for (let i = 0; i < cart.length; i++) {
-    if (i == cart.length - 1) {
+  console.log("one cart product", cartData.cart[0])
+  for (let i = 0; i < cartData.cart.length; i++) {
+    if (i == cartData.cart.length - 1) {
       cartProducts.push(
         <>
-          <CartProduct data={cart[i]} />
+          <CartProduct data={cartData.cart[i]} />
         </>
       );
     } else {
       cartProducts.push(
         <>
-          <CartProduct data={cart[i]} />
+          <CartProduct data={cartData.cart[i]} />
           <hr className="mx-6 my-2" />
         </>
       );
     }
-  }
-
-  const logout = async() => {
-    const token = localStorage.getItem('token');
-    console.log("I;m jeje")
-    await axios.get(
-      `${API_BASE_URL}/logout`,
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
-    );
-    localStorage.removeItem("token");
   }
 
   return (
@@ -165,9 +150,9 @@ const Header = () => {
                 <CgSearch className="text-white" size={"1.5em"} onClick={()=>{setSearch(true); search && navigate(`/searchedProducts/${searchQuery}`);}}/>
               </div>
 
-              <ProfileMenu logout={logout} />
+              <ProfileMenu />
               <div className="flex flex-col items-center">
-                <span className="absolute bg-purple-500 text-white text-xs rounded-xl w-5 h-5 flex justify-center items-center translate-x-2 -translate-y-1.5">{cart.length}</span>
+                <span className="absolute bg-purple-500 text-white text-xs rounded-xl w-5 h-5 flex justify-center items-center translate-x-2 -translate-y-1.5">{cartData.cart.length}</span>
                 <CiShoppingCart
                   strokeWidth={0.5}
                   className="text-white cursor-pointer"
@@ -188,7 +173,7 @@ const Header = () => {
                 <div className="flex flex-row gap-2 ml-2">
                   <span>Cart Preview</span>
                   <div className="bg-purple-300 rounded-xl w-6 h-6 flex justify-center">
-                    {cart.length}
+                    {cartData.cart.length}
                   </div>
                 </div>
                 <IoCloseOutline className="text-2xl" onClick={handleClose} />

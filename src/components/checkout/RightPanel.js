@@ -16,7 +16,7 @@ const RightPanel = (props) => {
   const [voucher, setVoucher] = useState(null);
   const [billingAddress, setBillingAddress] = useState(null);
   const [shippingAddress, setShippingAddress] = useState(null);
-  const [shippingMethod, setShippingMethod] = useState("COD")
+  const [shippingMethod, setShippingMethod] = useState("")
 
   const {
     data: fetchedAddresses,

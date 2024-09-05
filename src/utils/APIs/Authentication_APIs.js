@@ -6,7 +6,7 @@ const token = localStorage.getItem('token');
 
 
 export const deleteSession = async ()=>{
-  
+  console.log("I'm here")
     try{
         const response = await axios.get(
             `${API_BASE_URL}/logout`,

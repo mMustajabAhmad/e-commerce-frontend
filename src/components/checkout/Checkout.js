@@ -20,7 +20,7 @@ const Checkout = () => {
   if (cartIsLoading) return <div>Cart is Loading...</div>;
   if (cartError) return <div>Error in Loading Cart</div>;
 
-  const cart = cartData.cart_products;
+  const cart = cartData.cart;
   const bill = cartData.total;
 
   return (

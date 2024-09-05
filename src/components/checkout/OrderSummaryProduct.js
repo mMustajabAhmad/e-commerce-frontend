@@ -7,9 +7,6 @@ import {
   removeProductVoucher,
 } from "../../utils/APIs/Voucher_APIs";
 import {
-  fetchProductSizes,
-  fetchProduct,
-  fetchSize,
   addOneToCartProductQuantity,
   subtractOneFromCartProductQuantity,
   removeProductFromCart,
@@ -19,9 +16,14 @@ import { IoCloseOutline } from "react-icons/io5";
 
 const OrderSummaryProduct = (props) => {
   const orderSummaryProduct = props.cartProduct;
+  console.log("Order Summary Product", orderSummaryProduct)
+  const product_size = Object.keys(orderSummaryProduct)[0];
+  const product = orderSummaryProduct[product_size]
   const user_id = getCurrentUserId();
   const queryClient = useQueryClient();
   const [voucherCode, setVoucherCode] = useState("");
+
+  console.log("product size lp", product)
 
   const handlevoucherCodeChange = (event) => {
     setVoucherCode(event.target.value);
@@ -37,45 +39,16 @@ const OrderSummaryProduct = (props) => {
   });
 
   const {
-    data: productSize,
-    error: productSizeError,
-    isLoading: productSizeLoading,
-  } = useQuery({
-    queryKey: ["productSize", orderSummaryProduct.product_size_id],
-    queryFn: () => fetchProductSizes(orderSummaryProduct.product_size_id),
-  });
-
-  const {
-    data: product,
-    error: productError,
-    isLoading: productIsLoading,
-  } = useQuery({
-    queryKey: ["product", productSize?.product_id],
-    queryFn: () => fetchProduct(productSize?.product_id),
-    enabled: !!productSize?.product_id,
-  });
-
-  const {
-    data: size,
-    error: sizeError,
-    isLoading: sizeIsLoading,
-  } = useQuery({
-    queryKey: ["size", productSize?.size_id],
-    queryFn: () => fetchSize(productSize?.size_id),
-    enabled: !!productSize?.size_id,
-  });
-
-  const {
     data: appliedVoucher,
     error: appliedVoucherError,
     isLoading: appliedVoucherIsLoading,
   } = useQuery({
-    queryKey: ["appliedVoucher", orderSummaryProduct.voucher_id],
-    queryFn: () => getVoucher(orderSummaryProduct.voucher_id),
+    queryKey: ["appliedVoucher", product.voucher_code],
+    queryFn: () => getVoucher(product.voucher_code),
   });
 
   const addOneToQuantity = useMutation({
-    mutationFn: () => addOneToCartProductQuantity(orderSummaryProduct.id),
+    mutationFn: () => addOneToCartProductQuantity(product_size),
     onSuccess: () => {
       queryClient.invalidateQueries(["cart", user_id]);
     },
@@ -83,23 +56,22 @@ const OrderSummaryProduct = (props) => {
 
   const subtractOneFromQuantity = useMutation({
     mutationFn: () =>
-      subtractOneFromCartProductQuantity(orderSummaryProduct.id),
+      subtractOneFromCartProductQuantity(product_size),
     onSuccess: () => {
       queryClient.invalidateQueries(["cart", user_id]);
     },
   });
 
   const removeProduct = useMutation({
-    mutationFn: () => removeProductFromCart(orderSummaryProduct.id),
+    mutationFn: () => removeProductFromCart(product_size),
     onSuccess: () => {
       queryClient.invalidateQueries(["cart", user_id]);
     },
   });
 
   const applyVoucher = useMutation({
-    mutationFn: () => applyProductVoucher(orderSummaryProduct.id, voucher.id),
+    mutationFn: () => applyProductVoucher(product_size, voucher.voucher_code),
     onSuccess: () => {
-      queryClient.invalidateQueries(["productVouchers", user_id]);
       queryClient.invalidateQueries(["productVouchers", user_id]);
     },
   });
@@ -107,24 +79,14 @@ const OrderSummaryProduct = (props) => {
   const removeVoucher = useMutation({
     mutationFn: () =>
       removeProductVoucher(
-        orderSummaryProduct.id,
-        orderSummaryProduct.voucher_id
+        product_size,
+        product.voucher_code
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries(["productVouchers", user_id]);
       queryClient.invalidateQueries(["productVouchers", user_id]);
       setVoucherCode("");
     },
   });
-
-  if (productSizeLoading) return <div>Loading product size...</div>;
-  if (productSizeError) return <div>Error loading product size!</div>;
-
-  if (productIsLoading) return <div>Loading product...</div>;
-  if (productError) return <div>Error loading product!</div>;
-
-  if (sizeIsLoading) return <div>Loading size...</div>;
-  if (sizeError) return <div>Error loading size!</div>;
 
   if (loadingProductVouchers) return <div>Loading Product Vouchers...</div>;
   if (voucherError) return <div>Error in Loading Vouchers</div>;
@@ -132,10 +94,7 @@ const OrderSummaryProduct = (props) => {
   if (appliedVoucherIsLoading) return <div>Applied voucher is Loading...</div>;
   if (appliedVoucherError) return <div>Error in Loading Applied Voucher</div>;
 
-  const imageURL =
-    product?.product_images.length > 0
-      ? `http://localhost:3001/${product.product_images[0].url}`
-      : "/images/watch1.png";
+  const imageURL = `http://localhost:3001${product.product_image}`;
   const isVoucherValid = productVouchers?.some(
     (voucher) => voucher.voucher_code == voucherCode
   );
@@ -152,8 +111,8 @@ const OrderSummaryProduct = (props) => {
         <div className="flex flex-row gap-4">
           <img src={imageURL} className="h-[6.5em] w-[8em] rounded"></img>
           <div className="flex flex-col gap-y-1">
-            <span>{product.title}</span>
-            <span className="text-sm">{size.name}</span>
+            <span>{product.product_name}</span>
+            <span className="text-sm">{product.size}</span>
             <button
               className="text-xs text-gray-500 flex justify-start"
               onClick={() => removeProduct.mutate()}
@@ -162,12 +121,12 @@ const OrderSummaryProduct = (props) => {
             </button>
             {!isVoucherValid &&
               voucherCode != "" &&
-              !orderSummaryProduct.voucher_id && (
+              !product.voucher_code && (
                 <span className="text-xs text-red-500">
                   Invalid Voucher Code!
                 </span>
               )}
-            {orderSummaryProduct.voucher_id ? (
+            {product.voucher_code ? (
               <>
                 <div className="flex flex-row gap-2 bg-slate-200 items-center p-1 rounded">
                   <span className="text-xs">{appliedVoucher.voucher_code}</span>
@@ -202,7 +161,7 @@ const OrderSummaryProduct = (props) => {
         </div>
         <div className="flex flex-col gap-y-10 justify-center items-center">
           <span>
-            ${orderSummaryProduct.price * orderSummaryProduct.quantity}
+            ${product.price * product.quantity}
           </span>
           <div className="flex flex-row justify-between items-center">
             <span
@@ -211,7 +170,7 @@ const OrderSummaryProduct = (props) => {
             >
               -
             </span>
-            <span className="mx-2">{orderSummaryProduct.quantity}</span>
+            <span className="mx-2">{product.quantity}</span>
             <span
               className="bg-slate-200 rounded h-7 w-7 flex justify-center"
               onClick={() => addOneToQuantity.mutate()}

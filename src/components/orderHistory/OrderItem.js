@@ -44,17 +44,17 @@ const OrderItem = (props) => {
     enabled: !!productVoucher
   })
   
-  if(loadingProductSize) return <div>Loading...</div>
-  if (productSizeError) return <div>Error</div>
+  if(loadingProductSize) return <div>Loading product size ...</div>
+  if (productSizeError) return <div>product size Error</div>
 
-  if(productIsLoading) return <div>Loading..</div>
-  if(productError) return <div>Error</div>
+  if(productIsLoading) return <div>Loading product..</div>
+  if(productError) return <div>Error product</div>
 
-  if (loadingProductVoucher) return <div>Loading...</div>
-  if (productVoucherError) return <div>Error</div>
+  if (loadingProductVoucher) return <div>Loading Product Voucher...</div>
+  if (productVoucherError) return <div>Error Product Voucher</div>
 
-  if(voucherIsLoading) return <div>Loading...</div>
-  if(voucherError) return <div>Error</div>
+  if(voucherIsLoading) return <div>Loading voucher...</div>
+  if(voucherError) return <div>Error voucher</div>
 
   console.log("Product Voucher", voucher);
 

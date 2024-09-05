@@ -14,8 +14,8 @@ const OrderItems = (props) => {
     queryFn: ()=> fetchOrderDetails(orderId)
   })
   
-  if(loadingOrderDetails) return <div>Loading...</div>
-  if(orderDetailsError) return <div>Error</div>
+  if(loadingOrderDetails) return <div>Loading order detail...</div>
+  if(orderDetailsError) return <div>Error order detail</div>
 
   const orderItems = [];
   for(let i=0; i<orderDetails.length; i++){

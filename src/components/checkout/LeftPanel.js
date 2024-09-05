@@ -2,7 +2,6 @@ import OrderSummaryProduct from "./OrderSummaryProduct";
 
 const LeftPanel = (props) => {
   const cart = props.data;
-
   const orderSummaryProducts = [];
   for (let i = 0; i < cart.length; i++) {
     if (i == cart.length - 1) {

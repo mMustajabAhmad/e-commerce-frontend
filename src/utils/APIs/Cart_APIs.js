@@ -14,7 +14,10 @@ export const fetchCart = async ()=>{
         },
       }
     );
-    return response.data;
+    console.log("CART DATA ----", JSON.parse(response.data.cart))
+    const cartData = JSON.parse(response.data.cart);
+    console.log("CART DATA", cartData)
+    return cartData;
   }catch(error){
     console.log("Error", error)
   }
@@ -72,9 +75,9 @@ export  const fetchSize = async (size_id) => {
   }
 };
 
-export const addOneToCartProductQuantity = async(cartProductId) =>{
+export const addOneToCartProductQuantity = async(product_size_id) =>{
   return await axios.patch(
-      `${API_BASE_URL}/cart/carts_products/${cartProductId}/add_one_to_quantity`,
+      `${API_BASE_URL}/cart/carts_products/${product_size_id}/add_one_to_quantity`,{},
       {
         headers: {
           Authorization: `${token}`,
@@ -83,9 +86,9 @@ export const addOneToCartProductQuantity = async(cartProductId) =>{
     );
 }
 
-export const subtractOneFromCartProductQuantity = async(cartProductId) =>{
+export const subtractOneFromCartProductQuantity = async(product_size_id) =>{
   return await axios.patch(
-    `${API_BASE_URL}/cart/carts_products/${cartProductId}/subtract_one_from_qantity`,
+    `${API_BASE_URL}/cart/carts_products/${product_size_id}/subtract_one_from_qantity`, {},
     {
       headers: {
         Authorization: `${token}`,

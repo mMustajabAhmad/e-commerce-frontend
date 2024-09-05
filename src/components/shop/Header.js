@@ -74,32 +74,25 @@ function Header() {
   if (cartIsLoading) return <div>Loading Cart...</div>
   if(cartError) return <div>Cart Error</div>;
 
-
-  const cart = cartData.cart_products
   const parentCategories = getParentCategories(categories);
   const cartProducts = [];
 
-  for (let i = 0; i < cart.length; i++) {
-    if(i==cart.length - 1){
+  for (let i = 0; i < cartData.cart.length; i++) {
+    if(i==cartData.cart.length - 1){
       cartProducts.push(
         <>
-          <CartProduct data={cart[i]} />
+          <CartProduct data={cartData.cart[i]} />
         </>
         );
     }else{
       cartProducts.push(
         <>
-          <CartProduct data={cart[i]} />
+          <CartProduct data={cartData.cart[i]} />
           <hr className="mx-6 my-2"/>
         </>
         );
     }
     
-  }
-
-  function logout() {
-    localStorage.removeItem("expirationTime");
-    localStorage.removeItem("token");
   }
 
   return (
@@ -148,7 +141,7 @@ function Header() {
               <ProfileMenu />
               <div className="flex flex-col items-center">
               <span className="absolute rounded-xl w-5 h-5 flex justify-center items-center translate-x-2 -translate-y-1.5 bg-purple-700 text-white text-xs">
-                  {cart.length}
+                  {cartData.cart.length}
                 </span>
                 <CiShoppingCart
                   strokeWidth={0.5}
@@ -170,7 +163,7 @@ function Header() {
                 <div className="flex flex-row gap-2 ml-2">
                   <span>Cart Preview</span>
                   <div className="bg-purple-300 rounded-xl w-6 h-6 flex justify-center">
-                    {cart.length}
+                    {cartData.cart.length}
                   </div>
                 </div>
                 <IoCloseOutline className="text-2xl" onClick={handleClose} />
