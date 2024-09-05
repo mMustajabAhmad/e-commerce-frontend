@@ -1,8 +1,6 @@
 import axios from "axios";
-import { getCurrentUserId } from "../JWT_TokenDecoder";
 
 const API_BASE_URL = "http://localhost:3001";
-const user_id = getCurrentUserId();
 const token = localStorage.getItem("token");
 
 export const postOrderData = async (
@@ -84,7 +82,7 @@ export const fetchOrder = async (order_id) => {
 
 export const cancelOrder = async (order_id) => {
   return await axios.patch(
-    `${API_BASE_URL}/users/${user_id}/orders/${order_id}`,
+    `${API_BASE_URL}/orders/${order_id}`,
     {
       headers: {
         Authorization: `${token}`,

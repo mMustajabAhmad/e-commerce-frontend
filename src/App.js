@@ -18,6 +18,7 @@ import OrderHistory from "./components/orderHistory/OrderHistory";
 import { fetchCart } from "./utils/APIs/Cart_APIs";
 import { useQuery } from "@tanstack/react-query";
 import { fetchOrderDetails } from "./utils/APIs/Order_APIs";
+import { getPaymentInfo } from "./utils/APIs/Payment_APIs";
 
 const ConditionalRedirectForCheckout = () => {
   const {
@@ -48,10 +49,22 @@ const ConditionalRedirectForPayment = () => {
     queryFn: fetchOrderDetails(order_id)
   })
 
+  const {
+    data: paymentInfo,
+    error: paymentError,
+    isLoading: paymnetIsLoading
+  } = useQuery({
+    queryKey: ["payment", order_id],
+    queryFn: getPaymentInfo(order_id)
+  })
+
   if(orderIsLoading) return <div>Loading order...</div>
   if(orderError) return <Navigate to= "/orderHistory"/>
 
-  if(order && order.payment_method == 'stripe'){
+  if(paymnetIsLoading) return <div>Loading payment...</div>
+  if(paymentError) return <Navigate to= "/orderHistory"/>
+
+  if((order && order.payment_method == 'stripe' && (paymentInfo && paymentInfo.payment_status == 'pending')) ){
     return <StripeWrapper />
   }
   else{
