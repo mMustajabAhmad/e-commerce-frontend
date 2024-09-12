@@ -1,0 +1,82 @@
+import { useQuery } from "@tanstack/react-query";
+import { fetchProductSize, fetchProduct } from "../../utils/APIs/Product_APIs";
+import { fetchProductVoucher, getVoucher } from "../../utils/APIs/Voucher_APIs";
+
+const OrderItem = (props) => {
+  const itemDetail = props.data;
+  const {
+    data: productSize,
+    error: productSizeError,
+    isLoading: loadingProductSize
+  } = useQuery({
+    queryKey: ["productSize", itemDetail.product_size_id],
+    queryFn: ()=> fetchProductSize(itemDetail.product_size_id)
+  })
+
+  const productId = productSize ? productSize.product_id : null;
+
+  const {
+    data: product,
+    error: productError,
+    isLoading: productIsLoading
+  } = useQuery({
+    queryKey: ["product", productId],
+    queryFn: () => fetchProduct(productId),
+    enabled: !!productId
+  })
+
+  const {
+    data: productVoucher,
+    error: productVoucherError,
+    isLoading: loadingProductVoucher
+  } = useQuery({
+    queryKey: ["productVoucher", itemDetail.id],
+    queryFn: () =>fetchProductVoucher(itemDetail.id)
+  })
+
+  const {
+    data: voucher,
+    error: voucherError,
+    isLoading: voucherIsLoading
+  } = useQuery({
+    queryKey: ["productVoucher", productVoucher?.voucher_id],
+    queryFn: () => getVoucher(productVoucher?.voucher_id),
+    enabled: !!productVoucher
+  })
+  
+  if(loadingProductSize) return <div>Loading product size ...</div>
+  if (productSizeError) return <div>product size Error</div>
+
+  if(productIsLoading) return <div>Loading product..</div>
+  if(productError) return <div>Error product</div>
+
+  if (loadingProductVoucher) return <div>Loading Product Voucher...</div>
+  if (productVoucherError) return <div>Error Product Voucher</div>
+
+  if(voucherIsLoading) return <div>Loading voucher...</div>
+  if(voucherError) return <div>Error voucher</div>
+
+  console.log("Product Voucher", voucher);
+
+
+  return (
+    <>
+      <div className="flex flex-row gap-5 my-2">
+        <div className="flex flex-col ml-6 ">
+          <img src={`http://localhost:3001/${product.product_images[0].url}`} alt='image' className="h-28 w-28 rounded"/>
+        </div>
+        <div className="flex flex-col gap-0.5">
+          <span className="font-medium">{product.title}</span>
+          <span className="text-sm">$ {itemDetail.price}</span>
+          <span className="text-sm">Size : <span className="text-red-700">{itemDetail.size}</span></span>
+          <span className="text-sm">Quantity: {itemDetail.quantity}</span>
+          {productVoucher &&
+            <span className="bg-gray-300 flex flex-row justify-center text-sm rounded">{voucher.voucher_code}</span>
+          }
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default OrderItem;
