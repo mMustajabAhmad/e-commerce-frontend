@@ -7,13 +7,15 @@ export const postOrderData = async (
   billingAddress,
   shippingAddress,
   voucherCode,
-  shippingMethod
+  shippingMethod,
+  redeemPoints
 ) => {
   const payload = {
     billing_address: billingAddress,
     shipping_address: shippingAddress,
     voucher_code: voucherCode,
     payment_method: shippingMethod,
+    points: redeemPoints
   };
   const response = await axios.post(`${API_BASE_URL}/orders`, payload, {
     headers: {
@@ -61,6 +63,7 @@ export const fetchOrderDetails = async (order_id) => {
         },
       }
     );
+    
     return response.data;
   } catch (error) {
     console.log("ERROR", error);
@@ -74,6 +77,7 @@ export const fetchOrder = async (order_id) => {
         Authorization: `${token}`,
       },
     });
+    console.log("payment method", response.data)
     return response.data;
   } catch (error) {
     console.log("ERROR", error);

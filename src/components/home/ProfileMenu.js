@@ -7,7 +7,6 @@ const API_BASE_URL = 'http://localhost:3001'
 
 const logout = async() => {
   const token = localStorage.getItem('token');
-  console.log("I;m jeje")
   await axios.get(
     `${API_BASE_URL}/logout`,
     {

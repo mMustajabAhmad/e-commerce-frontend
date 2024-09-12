@@ -17,8 +17,9 @@ import StripeWrapper from "./components/checkout/Stripe";
 import OrderHistory from "./components/orderHistory/OrderHistory";
 import { fetchCart } from "./utils/APIs/Cart_APIs";
 import { useQuery } from "@tanstack/react-query";
-import { fetchOrderDetails } from "./utils/APIs/Order_APIs";
+import { fetchOrder } from "./utils/APIs/Order_APIs";
 import { getPaymentInfo } from "./utils/APIs/Payment_APIs";
+import ResetPassword from "./components/ResetPassword";
 
 const ConditionalRedirectForCheckout = () => {
   const {
@@ -40,34 +41,39 @@ const ConditionalRedirectForCheckout = () => {
 
 const ConditionalRedirectForPayment = () => {
   const { order_id } = useParams();
+  console.log("ORDER ID: ",order_id)
   const {
     data: order,
     error: orderError,
     isLoading: orderIsLoading
   } = useQuery({
     queryKey: ["order", order_id],
-    queryFn: fetchOrderDetails(order_id)
+    queryFn: () => fetchOrder(order_id)
   })
 
   const {
     data: paymentInfo,
     error: paymentError,
-    isLoading: paymnetIsLoading
+    isLoading: paymentIsLoading
   } = useQuery({
     queryKey: ["payment", order_id],
-    queryFn: getPaymentInfo(order_id)
+    queryFn: () => getPaymentInfo(order_id)
   })
 
   if(orderIsLoading) return <div>Loading order...</div>
-  if(orderError) return <Navigate to= "/orderHistory"/>
+  if(orderError) return <Navigate to="/orderHistory" />;
 
-  if(paymnetIsLoading) return <div>Loading payment...</div>
-  if(paymentError) return <Navigate to= "/orderHistory"/>
+  if(paymentIsLoading) return <div>Loading payment...</div>
+  if(paymentError) return <Navigate to="/orderHistory" />;
 
-  if((order && order.payment_method == 'stripe' && (paymentInfo && paymentInfo.payment_status == 'pending')) ){
+  console.log("ORDER: ", order)
+
+  if(order.payment_method == 'stripe' || paymentInfo.payment_status == 'pending' ){
+    console.log("I'm inside if")
     return <StripeWrapper />
   }
   else{
+    console.log("I'm outside if")
     return <Navigate to="/orderHistory"/>
   }
 }
@@ -80,6 +86,7 @@ function App() {
       <Routes>
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/resetPassword" element={<ResetPassword/>}/>
         {isTokenValid() ? (
           <>
             <Route path="/" element={<HomePage />} />

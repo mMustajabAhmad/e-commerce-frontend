@@ -1,11 +1,33 @@
 import { RiUser6Line } from "react-icons/ri";
 import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
-import { Link } from "react-router-dom";
+import axios from 'axios';
+import { Link, useNavigate } from "react-router-dom";
+
+const API_BASE_URL = 'http://localhost:3001'
+
+const logout = async() => {
+  const token = localStorage.getItem('token');
+  await axios.get(
+    `${API_BASE_URL}/logout`,
+    {
+      headers: {
+        Authorization: `${token}`,
+      },
+    }
+  );
+}
 
 const ProfileMenu = ({ logout }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/signin');
+  };
+
     const links = [
       { href: "/myProfile", label: "My Profile" },
-      { href: "/signin", label: "Log Out", onClick: logout },
+      { href: "/signin", label: "Log Out", onClick: handleLogout },
       { href: "/orderHistory", label: "Order History", onClick: logout },
     ];
   

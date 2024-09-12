@@ -25,6 +25,7 @@ export const getPaymentInfo = async (order_id) => {
         },
       }
     );
+    console.log("payment status", response.data)
     return response.data;
   } catch (error) {
     console.log("ERROR", error);

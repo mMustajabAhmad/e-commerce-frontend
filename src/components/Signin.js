@@ -17,8 +17,7 @@ export default function Signin() {
 
     try {
       const { token, expiration_time } = await login(email, password);
-      localStorage.setItem("token", `Bearer ${token}`); 
-      localStorage.setItem("expirationTime", expiration_time)
+      localStorage.setItem("token", `Bearer ${token}`);
       navigate(from); //redirect to previous route
     } catch (err) {
       setError("Invalid email or password.");
