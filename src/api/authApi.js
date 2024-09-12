@@ -20,14 +20,14 @@ apiClient.interceptors.request.use((config) => {
 });
 
 export const login = async (email, password) => {
-  const response = await apiClient.post('/auth/login', { user: { email, password } });
+  const response = await apiClient.post('api/v1/auth/login', { user: { email, password } });
   const { token } = response.data;
   localStorage.setItem('token', token);
   return response.data;
 };
 
 export const signup = async ({ name, email, phone_number, password, password_confirmation }) => {
-  const response = await apiClient.post('/signup', {
+  const response = await apiClient.post('api/v1/signup', {
     user: { name, email, phone_number, password, password_confirmation }
   });
   return response.data;
